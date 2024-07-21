@@ -22,11 +22,11 @@ $dbConnection = getConnection($dbConfig);
 // condition pour affiché les messages de succès ou d'échec
 if (addUser($email, $hashedPassword, $idRole, $dbConnection)) {  // Apel de la fonction addUser avec les 4 arguments  
     $_SESSION['success'] = 'Inscription réussie.<br>Vous pouvez maintenant vous connecter.'; // le message sera stocké dans la variable de session "succes" 
-    header('Location: /ctrl/login/display.php');
+    header('Location: /ctrl/login/login-display.php');
     exit(); // ca arrete l'execution du script ici
 } else {
     $_SESSION['error'] = 'Erreur lors de l\'inscription.<br> Veuillez réessayer.';
-    header('Location: /ctrl/login/display.php');
+    header('Location: /ctrl/login/login-display.php');
     exit();
 }
 
