@@ -16,7 +16,7 @@ function addUser($email, $password, $idRole, $db)
 function getUser(string $email, string $password, PDO $db)
 {
     // - Prépare la requête
-    $query = 'SELECT user.email, user.password';
+    $query = 'SELECT user.name, user.email, user.password, user.idRole, user.id';
     $query .= ' FROM user';
     $query .= ' WHERE user.email = :email ';
     $statement = $db->prepare($query);

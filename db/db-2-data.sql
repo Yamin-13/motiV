@@ -3,6 +3,9 @@ USE `motiv_db`;
 
 INSERT INTO role (id, code, label ) VALUES
      (10, 'ADM', 'Admin')
-     ,(20, 'C', 'contributor')
-    ,(30, 'SA', 'sampleUser')
+     ,(20, 'EE', 'educational_establishment')
+    ,(30, 'CH', 'city_hall')
+    ,(40, 'P', 'partner')
+    ,(50, 'ASSO', 'association')
+    ,(60, 'YNG', 'young')
 ;
