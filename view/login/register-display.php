@@ -11,7 +11,7 @@
               </div>
               <button class="submit-form" type="submit">Inscription</button>
               <div class="sign-link">
-                  <p>Déjà Inscrits? <a href="#" onclick="loginActive()">S'Identifier</a></p>
+                  <p>Déjà Inscrits? <a href="/ctrl/login/login-display.php">S'Identifier</a></p>
               </div>
           </form>
       </div>
