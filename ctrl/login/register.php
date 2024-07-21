@@ -14,7 +14,7 @@ $password = htmlspecialchars($_POST['password']);
 // ...et hache le mot de passe
 $hashedPassword = password_hash($password, PASSWORD_BCRYPT); // PASSWORD_BCRYPT ca utilise l'algorithme Blowfish qui est plus sécurisé (survole de la documentation...)
 
-$idRole = 30; // ca donne un role pour les nouveaux utilisateurs (sampleUser)
+$idRole = 60; // ca donne un role pour les nouveaux utilisateurs (sampleUser)
 
 // se connecte à la base de données
 $dbConnection = getConnection($dbConfig);
