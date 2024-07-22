@@ -28,6 +28,7 @@ CREATE TABLE user (
     registration_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_connexion timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     idRole bigint(20)
+
 );
 
 
@@ -66,16 +67,29 @@ CREATE TABLE transaction (
 CREATE TABLE category (
     id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY
     ,name varchar(50) NOT NULL
-    ,image_filename varchar(255) NOT NULL
+    ,image_filename varchar(255)
+)
+;
+
+CREATE TABLE city_hall (
+    id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY
+    ,name varchar(50) NOT NULL
+    ,email varchar(50) NOT NULL UNIQUE
+    ,phone_number varchar(50)
+    ,address varchar(100) 
+    ,image_filename varchar(255)
+    ,idUser bigint(20) NOT NULL
 )
 ;
 
 CREATE TABLE educational_establishment (
     id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY
     ,name varchar(50) NOT NULL
+    ,email varchar(50) NOT NULL UNIQUE
+    ,phone_number varchar(50)
     ,address varchar(100) NOT NULL
     ,NIE_number varchar(100) NOT NULL
-    ,image_filename varchar(255) NOT NULL
+    ,image_filename varchar(255)
     ,idUser bigint(20) NOT NULL
 )
 ;
@@ -83,22 +97,25 @@ CREATE TABLE educational_establishment (
 CREATE TABLE partner (
     id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY
     ,name varchar(50) NOT NULL
-    ,address varchar(100) NOT NULL
+    ,email varchar(50) UNIQUE
+    ,address varchar(100)
     ,siret_number varchar(100) NOT NULL
-    ,image_filename varchar(255) NOT NULL
+    ,image_filename varchar(255)
     ,idUser bigint(20) NOT NULL
+    ,status ENUM('pending', 'approved', 'rejected') NOT NULL DEFAULT 'pending'
 )
 ;
 
 CREATE TABLE association (
     id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY
     ,name varchar(50) NOT NULL
-    ,email varchar(50) NOT NULL
-    ,description varchar(1500) NOT NULL
-    ,phone_number varchar(50) NOT NULL
-    ,address varchar(100) NOT NULL
+    ,email varchar(50) NOT NULL UNIQUE
+    ,description varchar(1500)
+    ,phone_number varchar(50)
+    ,address varchar(100)
     ,RNE_number varchar(100) NOT NULL
-    ,image_filename varchar(255) NOT NULL
+    ,image_filename varchar(255)
+    ,status ENUM('pending', 'approved', 'rejected') NOT NULL DEFAULT 'pending'
 )
 ;
 
@@ -110,7 +127,7 @@ CREATE TABLE mission (
     ,point_award varchar(50) NOT NULL
     ,start_date_mission varchar(50) NOT NULL
     ,end_date_mission varchar(50) NOT NULL
-    ,image_filename varchar(255) NOT NULL
+    ,image_filename varchar(255)
     ,idUser bigint(20) NOT NULL
     ,idAssociation bigint(20) NOT NULL
 )
@@ -153,6 +170,11 @@ ALTER TABLE comment
 ALTER TABLE transaction
     ADD CONSTRAINT `fk_transaction_reward` FOREIGN KEY(idReward) REFERENCES reward(id)
     ,ADD CONSTRAINT `fk_transaction_user` FOREIGN KEY(IdUser) REFERENCES user(id)
+;
+
+ALTER TABLE city_hall
+    ADD CONSTRAINT `u_city_hall_name` UNIQUE(name)
+    ,ADD CONSTRAINT `fk_city_hall_user` FOREIGN KEY(IdUser) REFERENCES user(id)
 ;
 
 ALTER TABLE educational_establishment

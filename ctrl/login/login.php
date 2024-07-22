@@ -28,11 +28,20 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
 
         $_SESSION['user'] = $userData;  // <=======CEST ICI QUE LE STOCKAGE DE LUTILISATEUR SE FAIT DANS SESSION 
 
-        if ($userData['idRole'] == 20) {
-            header('Location: /ctrl/educational-establishment.php/profile.php');
-        } else {
-
-            header('Location: /ctrl/home/test.php'); // redirecion
+        switch ($userData['idRole']) {
+            case '10':
+                header('Location: /ctrl/admin/profile.php');
+                break;
+            case '20':
+                header('Location: /ctrl/educational-establishment.php/profile.php');
+                break;
+            case '30':
+                header('Location: /ctrl/city-hall/profile.php');
+                break;
+            
+            default:
+                header('Location: /ctrl/home/test.php'); // redirecion
+                break;
         }
         exit();
     } else {
