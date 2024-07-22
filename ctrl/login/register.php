@@ -17,6 +17,7 @@ $hashedPassword = password_hash($password, PASSWORD_BCRYPT); // PASSWORD_BCRYPT 
 $idRole = 60; // ca donne un role pour les nouveaux utilisateurs (sampleUser)
 
 // se connecte à la base de données
+
 $dbConnection = getConnection($dbConfig);
 
 // condition pour affiché les messages de succès ou d'échec
