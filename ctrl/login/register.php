@@ -30,6 +30,3 @@ if (addUser($email, $hashedPassword, $idRole, $dbConnection)) {  // Apel de la f
     header('Location: /ctrl/login/login-display.php');
     exit();
 }
-
-
-

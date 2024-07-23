@@ -38,7 +38,15 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
             case '30':
                 header('Location: /ctrl/city-hall/profile.php');
                 break;
-            
+            case '40':
+                header('Location: /ctrl/partner/profile.php');
+                break;
+            case '50':
+                header('Location: /ctrl/association/profile.php');
+                break;
+            case '60':
+                header('Location: /ctrl/young/profile.php');
+                break;
             default:
                 header('Location: /ctrl/home/test.php'); // redirecion
                 break;

@@ -116,6 +116,7 @@ CREATE TABLE association (
     ,RNE_number varchar(100) NOT NULL
     ,image_filename varchar(255)
     ,status ENUM('pending', 'approved', 'rejected') NOT NULL DEFAULT 'pending'
+    ,idUser bigint(20) NOT NULL
 )
 ;
 
@@ -195,6 +196,7 @@ ALTER TABLE mission
 ALTER TABLE association
     ADD CONSTRAINT `u_association_name` UNIQUE(name)
    ,ADD CONSTRAINT `u_association_email` UNIQUE(email)
+    ,ADD CONSTRAINT `fk_association_user` FOREIGN KEY(IdUser) REFERENCES user(id)
 ;
 
 ALTER TABLE point
