@@ -122,9 +122,8 @@ CREATE TABLE association (
 CREATE TABLE association_user (
     id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY
     ,association_id bigint(20) NOT NULL
-    ,user_id bigint(20) NOT NULL
-    ,role ENUM('admin', 'member') NOT NULL
     ,idUser bigint(20) NOT NULL
+    ,role ENUM('admin', 'member') NOT NULL
     ,idAssociation bigint(20) NOT NULL
 )
 ;
@@ -153,11 +152,22 @@ CREATE TABLE point(
 ;
 
 CREATE TABLE rejections (
-    id BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    entity_id BIGINT(20) NOT NULL,
-    entity_type ENUM('association', 'partner') NOT NULL,
-    reason TEXT NOT NULL
+    id BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY
+    ,entity_type ENUM('association', 'partner') NOT NULL
+    ,reason TEXT NOT NULL
+    ,entity_id BIGINT(20) NOT NULL
+)
+;
+
+CREATE TABLE message (
+    id BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY
+    ,subject VARCHAR(255) NOT NULL
+    ,body TEXT NOT NULL
+    ,sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ,idUser bigint(20) NOT NULL
+
 );
+
 
 -- ----------
 -- CONTRAINT
@@ -220,12 +230,11 @@ ALTER TABLE point
     ADD CONSTRAINT `fk_point_user` FOREIGN KEY(IdUser) REFERENCES user(id)
 ;
 
-ALTER TABLE rejections
-    ADD CONSTRAINT fk_rejection_association FOREIGN KEY (association_id) REFERENCES association(id) ON DELETE CASCADE
-    ,ADD CONSTRAINT fk_rejection_partner FOREIGN KEY (partner_id) REFERENCES partner(id) ON DELETE CASCADE
-;
-
 ALTER TABLE association_user
     ADD CONSTRAINT `fk_association_user_user` FOREIGN KEY(IdUser) REFERENCES user(id)
     ,ADD CONSTRAINT `fk_association_user_association` FOREIGN key(idAssociation) REFERENCES association(id)
+;
+
+ALTER TABLE message
+    ADD CONSTRAINT `fk_message_user` FOREIGN KEY(IdUser) REFERENCES user(id)
 ;
