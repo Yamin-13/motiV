@@ -16,11 +16,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (addAssociation($name, $description, $phone_number, $address, $idUser, $email, $dbConnection)) {
         $_SESSION['success'] = 'Inscription de l\'association réussie.';
-        header('Location: /ctrl/association/profile.php');
+        header('Location: /ctrl/profile/display.php');
         exit();
     } else {
         $_SESSION['error'] = 'Erreur lors de l\'inscription de l\'association.<br> Veuillez réessayer.';
-        header('Location: /view/register/display-register-association.php');
+        header('Location: /ctrl/register/display-association-partner.php');
         exit();
     }
 }
