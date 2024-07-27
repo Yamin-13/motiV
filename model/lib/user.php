@@ -1,14 +1,16 @@
 <?php
 
 // Fonction pour ajouter un utilisateur à la bases de données
-function addUser($email, $password, $idRole, $db)
+function addUser($email, $name, $firstName, $password, $idRole, $db)
 {
-    $query = 'INSERT INTO user ( email, password, idRole) VALUES (:email, :password, :idRole)'; // requete SQL avec les parametres pour insérer un nouvel utilisateur dans la table...
+    $query = 'INSERT INTO user ( email, password, name, first_name, idRole) VALUES (:email, :password, :name, :first_name, :idRole)'; // requete SQL avec les parametres pour insérer un nouvel utilisateur dans la table...
     $statement = $db->prepare($query);   // prepare la requete SQL ele retourne un objet PDOstatement                               // ...user avec les 3 collones 
-    $statement->bindParam(':idRole', $idRole);       //  <----------------------------- // ca lie la valeeur de $idRole au parametre ":idRole" dans la requête SQL ($idRole = :idRole ) 
-    $statement->bindParam(':email', $email);        // methode PDOStatement::bindParam // (sécurisé)
+    $statement->bindParam(':email', $email);        // methode PDOStatement::bindParam // 
     $statement->bindParam(':password', $password); //                                 //
-
+    $statement->bindParam(':name', $name);
+    $statement->bindParam(':first_name', $firstName); //                                 //
+    $statement->bindParam(':idRole', $idRole);       //  <----------------------------- // ca lie la valeeur de $idRole au parametre ":idRole" dans la requête SQL ($idRole = :idRole ) 
+                                                            
     return $statement->execute();  // PDOStatement::execute (ca execute les requetes et retourne true ou false pour l'insert to) 
 
 }
@@ -16,7 +18,7 @@ function addUser($email, $password, $idRole, $db)
 function getUser(string $email, string $password, PDO $db)
 {
     // - Prépare la requête
-    $query = 'SELECT user.name, user.email, user.password, user.idRole, user.id';
+    $query = 'SELECT user.name, user.email, user.first_name, user.password, user.idRole, user.id';
     $query .= ' FROM user';
     $query .= ' WHERE user.email = :email ';
     $statement = $db->prepare($query);

@@ -31,7 +31,6 @@ CREATE TABLE user (
 
 );
 
-
 CREATE TABLE reward (
     
     id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY
@@ -120,6 +119,16 @@ CREATE TABLE association (
 )
 ;
 
+CREATE TABLE association_user (
+    id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    association_id bigint(20) NOT NULL,
+    user_id bigint(20) NOT NULL,
+    role ENUM('admin', 'member') NOT NULL,
+    FOREIGN KEY (association_id) REFERENCES association(id),
+    FOREIGN KEY (user_id) REFERENCES user(id)
+)
+;
+
 CREATE TABLE mission (
     id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY
     ,title varchar(100) NOT NULL
@@ -194,6 +203,13 @@ ALTER TABLE mission
 ;
 
 ALTER TABLE association
+    ADD CONSTRAINT `u_association_name` UNIQUE(name)
+   ,ADD CONSTRAINT `u_association_email` UNIQUE(email)
+    ,ADD CONSTRAINT `fk_association_user` FOREIGN KEY(IdUser) REFERENCES user(id)
+;
+
+ALTER TABLE educational_establishment
+
     ADD CONSTRAINT `u_association_name` UNIQUE(name)
    ,ADD CONSTRAINT `u_association_email` UNIQUE(email)
     ,ADD CONSTRAINT `fk_association_user` FOREIGN KEY(IdUser) REFERENCES user(id)

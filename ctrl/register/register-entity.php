@@ -12,18 +12,37 @@ if (isset($_GET['role'])) {
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $email = htmlspecialchars($_POST['email']);
+        $name = htmlspecialchars($_POST['name']);
+        $firstName = htmlspecialchars($_POST['first_name']);
         $password = htmlspecialchars($_POST['password']);
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
         $dbConnection = getConnection($dbConfig);
 
-        if (addUser($email, $hashedPassword, $idRole, $dbConnection)) {
-            $_SESSION['success'] = 'Inscription réussie.<br>Vous pouvez maintenant vous connecter.';
-            header('Location: /ctrl/login/login-display.php');
-            exit();
+        if ($dbConnection) {
+            if (addUser($email, $name, $firstName, $hashedPassword, $idRole, $dbConnection)) {
+                $user = getUser($email, $password, $dbConnection);
+                if ($user) {
+                    $_SESSION['user'] = $user;
+                    if ($role == 'partner') {
+                        header('Location: /ctrl/register/display-register-partner.php');
+                    } else {
+                        header('Location: /ctrl/register/display-register-association.php');
+                    }
+                    exit();
+                } else {
+                    $_SESSION['error'] = 'Erreur lors de la récupération de l\'utilisateur.';
+                    header('Location: /view/register/register-entity.php?role=' . $role);
+                    exit();
+                }
+            } else {
+                $_SESSION['error'] = 'Erreur lors de l\'inscription.<br> Veuillez réessayer.';
+                header('Location: /view/register/register-entity.php?role=' . $role);
+                exit();
+            }
         } else {
-            $_SESSION['error'] = 'Erreur lors de l\'inscription.<br> Veuillez réessayer.';
-            header('Location: /ctrl/login/login-display.php');
+            $_SESSION['error'] = 'Erreur de connexion à la base de données.';
+            header('Location: /view/register/register-entity.php?role=' . $role);
             exit();
         }
     } else {
@@ -34,4 +53,3 @@ if (isset($_GET['role'])) {
 } else {
     echo "Rôle non défini.";
 }
-

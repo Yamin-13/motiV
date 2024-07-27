@@ -13,3 +13,13 @@ function addAssociation($name, $description, $phone_number, $address, $idUser, $
     return $statement->execute();
 }
 
+function getAssociationByUserId($idUser, $db)
+{
+    $query = 'SELECT name, description, phone_number, address, email, idUser 
+    FROM association 
+    WHERE idUser = :idUser';
+    $statement = $db->prepare($query);
+    $statement->bindParam(':idUser', $idUser);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+}
