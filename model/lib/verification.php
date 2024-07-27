@@ -25,3 +25,24 @@ function updateAssociationStatus($id, $status, $dbConnection) {
     $stmt->bindParam(':id', $id);
     $stmt->execute();
 }
+
+function deleteAssociation($id, $dbConnection) {
+    $stmt = $dbConnection->prepare("DELETE FROM association WHERE id = :id");
+    $stmt->bindParam(':id', $id);
+    $stmt->execute();
+}
+
+function deletePartner($id, $dbConnection) {
+    $stmt = $dbConnection->prepare("DELETE FROM partner WHERE id = :id");
+    $stmt->bindParam(':id', $id);
+    $stmt->execute();
+}
+
+function getRejectionReason($entityId, $entityType, $dbConnection) {
+    $stmt = $dbConnection->prepare("SELECT reason FROM rejections WHERE entity_id = :entity_id AND entity_type = :entity_type");
+    $stmt->bindParam(':entity_id', $entityId);
+    $stmt->bindParam(':entity_type', $entityType);
+    $stmt->execute();
+    return $stmt->fetchColumn();
+}
+

@@ -15,7 +15,7 @@ function addAssociation($name, $description, $phone_number, $address, $idUser, $
 
 function getAssociationByUserId($idUser, $db)
 {
-    $query = 'SELECT name, description, phone_number, address, email, idUser 
+    $query = 'SELECT id, name, description, phone_number, address, email, status, idUser 
     FROM association 
     WHERE idUser = :idUser';
     $statement = $db->prepare($query);
