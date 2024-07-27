@@ -1,5 +1,5 @@
 <h2>Inscription Association</h2>
-<form action="/ctrl/register-association.php" method="POST">
+<form action="/ctrl/register/register-association.php" method="POST">
         <input type="hidden" name="user_id" value="<?=($_SESSION['user']['id']) ?>">
         <label for="name">Nom de l'association:</label>
         <input type="text" id="name" name="name" required><br>
