@@ -24,9 +24,9 @@ $association = null;
 $partner = null;
 
 if ($idRole == 50) {
-    $association = getAssociationByUserId($user['id'], $dbConnection);
+    $association = getAssociationByidUser($user['id'], $dbConnection);
 } elseif ($idRole == 40) {
-    $partner = getPartnerByUserId($user['id'], $dbConnection);
+    $partner = getPartnerByidUser($user['id'], $dbConnection);
 }
 
 include $_SERVER['DOCUMENT_ROOT'] . '/view/partial/header.php';
