@@ -31,6 +31,25 @@ function getAssociationById($id, $db)
     return $statement->fetch(PDO::FETCH_ASSOC);
 }
 
+function updateAssociation($id, $name, $description, $phoneNumber, $address, $email, $dbConnection) {
+    $query = "UPDATE association SET name = :name, description = :description, phone_number = :phone_number, address = :address, email = :email WHERE id = :id";
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':id', $id);
+    $statement->bindParam(':name', $name);
+    $statement->bindParam(':description', $description);
+    $statement->bindParam(':phone_number', $phoneNumber);
+    $statement->bindParam(':address', $address);
+    $statement->bindParam(':email', $email);
+    return $statement->execute();
+}
+
+function deleteAssociationById($id, $dbConnection) {
+    $query = "DELETE FROM association WHERE id = :id";
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':id', $id);
+    return $statement->execute();
+}
+
 function getAssociationsWithPresidents($dbConnection)
 {
     $query = "

@@ -13,6 +13,17 @@ function addPartner($name, $email, $siret, $address, $idUser, $status, $db)
     return $statement->execute();
 }
 
+function updatePartner($id, $name, $siretNumber, $address, $email, $dbConnection) {
+    $query = "UPDATE partner SET name = :name, siret_number = :siret_number, address = :address, email = :email WHERE id = :id";
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':id', $id);
+    $statement->bindParam(':name', $name);
+    $statement->bindParam(':siret_number', $siretNumber);
+    $statement->bindParam(':address', $address);
+    $statement->bindParam(':email', $email);
+    return $statement->execute();
+}
+
 function getPartnerByidUser($idUser, $db)
 {
     $query = 'SELECT id, name, email, siret_number, address, status FROM partner WHERE idUser = :idUser';
@@ -29,6 +40,13 @@ function getPartnerById($id, $db)
     $statement->bindParam(':id', $id);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
+}
+
+function deletePartnerById($id, $dbConnection) {
+    $query = "DELETE FROM partner WHERE id = :id";
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':id', $id);
+    return $statement->execute();
 }
 
 function getPartnersWithDetails($dbConnection) {

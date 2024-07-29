@@ -18,9 +18,14 @@
     <?php elseif ($association['status'] == 'approved') : ?>
         <p>Votre association a été acceptée.</p>
     <?php elseif ($association['status'] == 'rejected') : ?>
-        <p>Votre association a été rejetée. Raison: <?=getRejectionReason($association['id'], 'association', $dbConnection) ?></p>
+        <p>Votre association a été rejetée. Raison: <?= getRejectionReason($association['id'], 'association', $dbConnection) ?></p>
     <?php endif; ?>
+    <a href="/ctrl/association/delete-association.php?id=<?= $association['id'] ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette association ?');">
+        <button>Supprimer l'Association</button>
+    </a>
+    <a href="/ctrl/association/update-display.php?id=<?=($association['id']) ?>"><button>Modifier l'Association</button></a>
 <?php endif; ?>
+
 
 <?php if ($partner && is_array($partner)) : ?>
     <h2>Informations sur l'Entreprise</h2>
@@ -36,7 +41,12 @@
     <?php elseif ($partner['status'] == 'rejected') : ?>
         <p>Votre entreprise a été rejetée. Raison: <?= (getRejectionReason($partner['id'], 'partner', $dbConnection)) ?></p>
     <?php endif; ?>
+    <a href="/ctrl/partner/delete.php?id=<?= $partner['id'] ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette entreprise ?');">
+        <button>Supprimer l'Entreprise</button>
+    </a>
+    <a href="/ctrl/partner/update-display.php?id=<?=($partner['id']) ?>"><button>Modifier l'Entreprise</button></a>
 <?php endif; ?>
+
 
 <?php if (($association && is_array($association) && $association['status'] == 'rejected' && $user['idRole'] == 50) || (!$association && $user['idRole'] == 50)) : ?>
     <h2>Ajouter une Nouvelle Association</h2>
