@@ -1,0 +1,10 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.success-message {
+    color: green;
+    font-weight: bold;
+    margin-bottom: 10px;
+}

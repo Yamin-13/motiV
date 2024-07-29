@@ -30,3 +30,20 @@ function getAssociationById($id, $db)
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
 }
+
+function getAssociationsWithPresidents($dbConnection)
+{
+    $query = "
+    SELECT 
+        a.id, 
+        a.name AS association_name, 
+        u.name AS president_name, 
+        u.first_name AS president_first_name, 
+        u.email AS president_email
+    FROM association a
+    JOIN user u ON a.idUser = u.id
+";
+    $statement = $dbConnection->prepare($query);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
