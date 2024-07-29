@@ -52,3 +52,6 @@
         </tr>
     <?php endforeach; ?>
 </table>
+<a href="/ctrl/association/list.php">Liste des associations</a><br>
+<a href="/ctrl/partner/list.php">Liste des partenaires</a><br>
+<a href="/ctrl/admin/list.php">Liste des utilisateurs</a>

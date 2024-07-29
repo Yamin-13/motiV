@@ -10,7 +10,7 @@ function addUser($email, $name, $firstName, $password, $idRole, $db)
     $statement->bindParam(':name', $name);
     $statement->bindParam(':first_name', $firstName); //                                 //
     $statement->bindParam(':idRole', $idRole);       //  <----------------------------- // ca lie la valeeur de $idRole au parametre ":idRole" dans la requête SQL ($idRole = :idRole ) 
-                                                            
+
     return $statement->execute();  // PDOStatement::execute (ca execute les requetes et retourne true ou false pour l'insert to) 
 
 }
@@ -38,4 +38,43 @@ function getUser(string $email, string $password, PDO $db)
         // Ca retourne null si les conditios sont false
         return null;
     }
+}
+
+// fonction pour récupérer les utilisateurs par rôle
+function getUsersByRole($dbConnection)
+{
+    $query = "
+        SELECT 
+            u.id, 
+            u.name, 
+            u.first_name, 
+            u.email, 
+            r.label AS role
+        FROM user u
+        JOIN role r ON u.idRole = r.id
+        ORDER BY r.label
+    ";
+    $statement = $dbConnection->prepare($query);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getUserById($id, $dbConnection)
+{
+    $query = "
+        SELECT id, name, first_name, email, date_of_birth, address, password, avatar_filename, registration_date, last_connexion, idRole
+        FROM user
+        WHERE id = :id
+    ";
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':id', $id);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+}
+
+function deleteUserById($id, $dbConnection) {
+    $query = "DELETE FROM user WHERE id = :id";
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':id', $id);
+    return $statement->execute();
 }
