@@ -1,5 +1,5 @@
 <h2>Mettre à jour l'Association</h2>
-<form action="/ctrl/association/update-association.php" method="POST">
+<form action="/ctrl/association/update.php" method="POST">
     <input type="hidden" name="id" value="<?= $association['id'] ?>">
     <label for="name">Nom de l'Association:</label>
     <input type="text" id="name" name="name" value="<?= $association['name'] ?>" required><br>

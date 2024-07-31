@@ -20,6 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['error'] = 'Erreur lors de la mise à jour de l\'association.';
     }
 
-    header('Location: /ctrl/association/profile.php?id=' . $id);
+    header('Location: /ctrl/profile/display.php?id=' . $id);
     exit();
 }

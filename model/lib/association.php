@@ -15,7 +15,9 @@ function addAssociation($name, $description, $phone_number, $address, $idUser, $
 
 function getAssociationByidUser($idUser, $db)
 {
-    $query = 'SELECT id, name, description, phone_number, address, email, status FROM association WHERE idUser = :idUser';
+    $query = 'SELECT id, name, description, phone_number, address, email, status 
+    FROM association 
+    WHERE idUser = :idUser';
     $statement = $db->prepare($query);
     $statement->bindParam(':idUser', $idUser);
     $statement->execute();
@@ -24,7 +26,9 @@ function getAssociationByidUser($idUser, $db)
 
 function getAssociationById($id, $db)
 {
-    $query = 'SELECT id, name, description, phone_number, address, email, status, idUser FROM association WHERE id = :id';
+    $query = 'SELECT id, name, description, phone_number, address, email, status, idUser 
+    FROM association 
+    WHERE id = :id';
     $statement = $db->prepare($query);
     $statement->bindParam(':id', $id);
     $statement->execute();

@@ -13,8 +13,10 @@ function addPartner($name, $email, $siret, $address, $idUser, $status, $db)
     return $statement->execute();
 }
 
-function updatePartner($id, $name, $siretNumber, $address, $email, $dbConnection) {
-    $query = "UPDATE partner SET name = :name, siret_number = :siret_number, address = :address, email = :email WHERE id = :id";
+function updatePartner($id, $name, $siretNumber, $address, $email, $dbConnection)
+{
+    $query = "UPDATE partner SET name = :name, siret_number = :siret_number, address = :address, email = :email 
+    WHERE id = :id";
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':id', $id);
     $statement->bindParam(':name', $name);
@@ -26,7 +28,9 @@ function updatePartner($id, $name, $siretNumber, $address, $email, $dbConnection
 
 function getPartnerByidUser($idUser, $db)
 {
-    $query = 'SELECT id, name, email, siret_number, address, status FROM partner WHERE idUser = :idUser';
+    $query = 'SELECT id, name, email, siret_number, address, status 
+    FROM partner 
+    WHERE idUser = :idUser';
     $statement = $db->prepare($query);
     $statement->bindParam(':idUser', $idUser);
     $statement->execute();
@@ -35,21 +39,25 @@ function getPartnerByidUser($idUser, $db)
 
 function getPartnerById($id, $db)
 {
-    $query = 'SELECT id, name, email, siret_number, address, status, idUser FROM partner WHERE id = :id';
+    $query = 'SELECT id, name, email, siret_number, address, status, idUser 
+    FROM partner 
+    WHERE id = :id';
     $statement = $db->prepare($query);
     $statement->bindParam(':id', $id);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
 }
 
-function deletePartnerById($id, $dbConnection) {
+function deletePartnerById($id, $dbConnection)
+{
     $query = "DELETE FROM partner WHERE id = :id";
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':id', $id);
     return $statement->execute();
 }
 
-function getPartnersWithDetails($dbConnection) {
+function getPartnersWithDetails($dbConnection)
+{
     $query = "
         SELECT 
             p.id, 

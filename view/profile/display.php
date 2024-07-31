@@ -23,7 +23,9 @@
     <a href="/ctrl/association/delete-association.php?id=<?= $association['id'] ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette association ?');">
         <button>Supprimer l'Association</button>
     </a>
-    <a href="/ctrl/association/update-display.php?id=<?=($association['id']) ?>"><button>Modifier l'Association</button></a>
+    <a href="/ctrl/association/update-display.php?id=<?= ($association['id']) ?>"><button>Modifier l'Association</button></a>
+    <a href="/view/invitation/send-invitation-form.php?entity_type=association&entity_id=<?= $association['id'] ?>"><button>Inviter un Membre</button></a>
+
 <?php endif; ?>
 
 
@@ -44,7 +46,8 @@
     <a href="/ctrl/partner/delete.php?id=<?= $partner['id'] ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette entreprise ?');">
         <button>Supprimer l'Entreprise</button>
     </a>
-    <a href="/ctrl/partner/update-display.php?id=<?=($partner['id']) ?>"><button>Modifier l'Entreprise</button></a>
+    <a href="/ctrl/partner/update-display.php?id=<?= ($partner['id']) ?>"><button>Modifier l'Entreprise</button></a>
+    <a href="/view/invitation/send-invitation-form.php?entity_type=partner&entity_id=<?= $partner['id'] ?>"><button>Inviter un Membre</button></a>
 <?php endif; ?>
 
 
@@ -76,6 +79,20 @@
         <input type="text" id="partner_address" name="partner_address" required><br>
         <button type="submit">Ajouter le Partenaire</button>
     </form>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['success'])) : ?>
+    <div class="success-message">
+        <?= ($_SESSION['success']) ?>
+        <?php unset($_SESSION['success']); ?>
+    </div>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['error'])) : ?>
+    <div class="error-message">
+        <?= ($_SESSION['error']) ?>
+        <?php unset($_SESSION['error']); ?>
+    </div>
 <?php endif; ?>
 
 <h2>Messages</h2>
