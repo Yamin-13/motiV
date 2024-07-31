@@ -16,7 +16,9 @@ function sendMessage($userId, $subject, $body, $dbConnection)
 
 function getMessagesByidUser($idUser, $dbConnection)
 {
-    $query = "SELECT subject, body, sent_at FROM message WHERE idUser = :idUser ORDER BY sent_at DESC";
+    $query = "SELECT subject, body, sent_at 
+    FROM message 
+    WHERE idUser = :idUser ORDER BY sent_at DESC";
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':idUser', $idUser);
     $statement->execute();

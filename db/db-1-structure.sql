@@ -10,7 +10,8 @@ CREATE TABLE role (
     id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     code varchar(50) NOT NULL,
     label varchar(50) NOT NULL
-);
+)
+;
 
 CREATE TABLE user (
     id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -24,7 +25,8 @@ CREATE TABLE user (
     registration_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_connexion timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     idRole bigint(20)
-);
+)
+;
 
 CREATE TABLE reward (
     id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -36,7 +38,8 @@ CREATE TABLE reward (
     image_filename varchar(255),
     idUser bigint(20) NOT NULL,
     idCategory bigint(20) NOT NULL
-);
+)
+;
 
 CREATE TABLE comment (
     id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -44,7 +47,8 @@ CREATE TABLE comment (
     date timestamp NOT NULL,
     idReward bigint(20) NOT NULL,
     idUser bigint(20) NOT NULL
-);
+)
+;
 
 CREATE TABLE transaction (
     id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -52,13 +56,15 @@ CREATE TABLE transaction (
     number_of_points varchar(50) NOT NULL,
     idReward bigint(20) NOT NULL,
     idUser bigint(20) NOT NULL
-);
+)
+;
 
 CREATE TABLE category (
     id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name varchar(50) NOT NULL,
     image_filename varchar(255)
-);
+)
+;
 
 CREATE TABLE city_hall (
     id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -68,7 +74,8 @@ CREATE TABLE city_hall (
     address varchar(100),
     image_filename varchar(255),
     idUser bigint(20) NOT NULL
-);
+)
+;
 
 CREATE TABLE educational_establishment (
     id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -79,7 +86,8 @@ CREATE TABLE educational_establishment (
     NIE_number varchar(100) NOT NULL,
     image_filename varchar(255),
     idUser bigint(20) NOT NULL
-);
+)
+;
 
 CREATE TABLE partner (
     id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -90,7 +98,8 @@ CREATE TABLE partner (
     image_filename varchar(255),
     idUser bigint(20) NOT NULL,
     status ENUM('pending', 'approved', 'rejected') NOT NULL DEFAULT 'pending'
-);
+)
+;
 
 CREATE TABLE association (
     id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -103,15 +112,16 @@ CREATE TABLE association (
     image_filename varchar(255),
     status ENUM('pending', 'approved', 'rejected') NOT NULL DEFAULT 'pending',
     idUser bigint(20) NOT NULL
-);
+)
+;
 
 CREATE TABLE association_user (
     id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    association_id bigint(20) NOT NULL,
     idUser bigint(20) NOT NULL,
     role ENUM('admin', 'member') NOT NULL,
     idAssociation bigint(20) NOT NULL
-);
+)
+;
 
 CREATE TABLE mission (
     id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -124,7 +134,8 @@ CREATE TABLE mission (
     image_filename varchar(255),
     idUser bigint(20) NOT NULL,
     idAssociation bigint(20) NOT NULL
-);
+)
+;
 
 CREATE TABLE point (
     id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -132,14 +143,16 @@ CREATE TABLE point (
     reason varchar(1500) NOT NULL,
     date_of_grant timestamp NOT NULL,
     idUser bigint(20) NOT NULL
-);
+)
+;
 
 CREATE TABLE rejections (
     id BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     entity_type ENUM('association', 'partner') NOT NULL,
     reason TEXT NOT NULL,
     entity_id BIGINT(20) NOT NULL
-);
+)
+;
 
 CREATE TABLE message (
     id BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -147,7 +160,19 @@ CREATE TABLE message (
     body TEXT NOT NULL,
     sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     idUser bigint(20) NOT NULL
-);
+)
+;
+
+CREATE TABLE invitation (
+     id BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY
+    ,email VARCHAR(50) NOT NULL
+    ,token VARCHAR(32) NOT NULL
+    ,expiry TIMESTAMP NOT NULL
+    ,idAssociation BIGINT(20) DEFAULT NULL
+    ,idPartner BIGINT(20) DEFAULT NULL
+    ,entity_type ENUM('association', 'partner') NOT NULL
+)
+;
 
 -- ----------
 -- CONTRAINT
@@ -222,4 +247,9 @@ ALTER TABLE message
 ALTER TABLE rejections
     ADD CONSTRAINT `fk_rejection_association` FOREIGN KEY (entity_id) REFERENCES association(id) ON DELETE CASCADE
     ,ADD CONSTRAINT `fk_rejection_partner` FOREIGN KEY (entity_id) REFERENCES partner(id) ON DELETE CASCADE
+;
+
+ALTER TABLE invitation
+     ADD CONSTRAINT `fk_invitation_association` FOREIGN KEY (idAssociation) REFERENCES association(id) ON DELETE CASCADE
+    ,ADD CONSTRAINT `fk_invitation_partner` FOREIGN KEY (idPartner) REFERENCES partner(id) ON DELETE CASCADE
 ;
