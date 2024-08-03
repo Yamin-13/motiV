@@ -1,4 +1,5 @@
 <?php
+
 function addPartner($name, $email, $siret, $address, $idUser, $status, $db)
 {
     $query = 'INSERT INTO partner (name, email, siret_number, address, idUser, status) VALUES (:name, :email, :siret, :address, :idUser, :status)';
@@ -15,8 +16,7 @@ function addPartner($name, $email, $siret, $address, $idUser, $status, $db)
 
 function updatePartner($id, $name, $siretNumber, $address, $email, $dbConnection)
 {
-    $query = "UPDATE partner SET name = :name, siret_number = :siret_number, address = :address, email = :email 
-    WHERE id = :id";
+    $query = "UPDATE partner SET name = :name, siret_number = :siret_number, address = :address, email = :email WHERE id = :id";
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':id', $id);
     $statement->bindParam(':name', $name);
@@ -28,9 +28,10 @@ function updatePartner($id, $name, $siretNumber, $address, $email, $dbConnection
 
 function getPartnerByidUser($idUser, $db)
 {
-    $query = 'SELECT id, name, email, siret_number, address, status 
-    FROM partner 
-    WHERE idUser = :idUser';
+    $query = 'SELECT p.id, p.name, p.email, p.siret_number, p.address, p.status, u.name AS president_name, u.first_name AS president_first_name
+              FROM partner p
+              JOIN user u ON p.idUser = u.id
+              WHERE p.idUser = :idUser';
     $statement = $db->prepare($query);
     $statement->bindParam(':idUser', $idUser);
     $statement->execute();
@@ -71,4 +72,29 @@ function getPartnersWithDetails($dbConnection)
     $statement = $dbConnection->prepare($query);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getMembersByPartnerId($partnerId, $db)
+{
+    $query = 'SELECT u.id, u.name, u.first_name, u.email
+              FROM user u
+              JOIN partner_user pu ON u.id = pu.idUser
+              WHERE pu.idPartner = :partnerId';
+    $statement = $db->prepare($query);
+    $statement->bindParam(':partnerId', $partnerId);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getPartnerByidMember($idUser, $db)
+{
+    $query = 'SELECT p.id, p.name, p.email, p.siret_number, p.address, p.status, u.name AS president_name, u.first_name AS president_first_name
+              FROM partner p
+              JOIN partner_user pu ON p.id = pu.idPartner
+              JOIN user u ON p.idUser = u.id
+              WHERE pu.idUser = :idUser';
+    $statement = $db->prepare($query);
+    $statement->bindParam(':idUser', $idUser);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
 }

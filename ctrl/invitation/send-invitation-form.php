@@ -4,7 +4,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/cfg/db-dev.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/db.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/association.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/partner.php';
-
+$titrePage = "motiV";
 $dbConnection = getConnection($dbConfig);
 
 $user = $_SESSION['user'];

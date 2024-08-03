@@ -1,24 +1,11 @@
 <?php
+session_start();
 include $_SERVER['DOCUMENT_ROOT'] . '/cfg/db-dev.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/db.php';
-include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/user.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/invitation.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/user.php';
 
 $dbConnection = getConnection($dbConfig);
-
-if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['token'])) {
-    $token = $_GET['token'];
-    $invitation = getInvitationByToken($token, $dbConnection);
-
-    if (!$invitation) {
-        die('Invitation invalide ou expirée.');
-    }
-
-    // Stocker l'invitation dans la session pour l'utiliser lors de l'inscription
-    $_SESSION['invitation'] = $invitation;
-    header('Location: /ctrl/invitation/register-form.php');
-    exit();
-}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!isset($_SESSION['invitation'])) {
@@ -30,25 +17,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
     $firstName = $_POST['first_name'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    $idRole = 30; // Role de membre
-    $associationId = $invitation['association_id'];
+    $idRole = $invitation['idRole'];
+    $associationId = $invitation['idAssociation'];
+    $partnerId = $invitation['idPartner'];
 
     if (addUser($email, $name, $firstName, $password, $idRole, $dbConnection)) {
         $userId = $dbConnection->lastInsertId();
 
-        // Ajouter l'utilisateur à l'association
-        $query = 'INSERT INTO association_user (association_id, idUser, role) VALUES (:association_id, :idUser, :role)';
-        $statement = $dbConnection->prepare($query);
-        $statement->bindParam(':association_id', $associationId);
+        // Lier l'utilisateur à l'association ou au partenaire
+        if ($associationId) {
+            $query = 'INSERT INTO association_user (idAssociation, idUser, role) VALUES (:idAssociation, :idUser, "member")';
+            $statement = $dbConnection->prepare($query);
+            $statement->bindParam(':idAssociation', $associationId);
+        } else {
+            $query = 'INSERT INTO partner_user (idPartner, idUser, role) VALUES (:idPartner, :idUser, "member")';
+            $statement = $dbConnection->prepare($query);
+            $statement->bindParam(':idPartner', $partnerId);
+        }
         $statement->bindParam(':idUser', $userId);
-        $statement->bindParam(':role', $idRole);
         $statement->execute();
 
         deleteInvitation($invitation['id'], $dbConnection);
         unset($_SESSION['invitation']);
 
         $_SESSION['success'] = "Inscription réussie. Vous pouvez maintenant vous connecter.";
-        header('Location: /ctrl/login/login.php');
+        header('Location: /ctrl/login/login-display.php');
         exit();
     } else {
         $_SESSION['error'] = "Erreur lors de l'inscription.";
