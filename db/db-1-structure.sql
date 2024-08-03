@@ -101,6 +101,14 @@ CREATE TABLE partner (
 )
 ;
 
+CREATE TABLE partner_user (
+    id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    idUser bigint(20) NOT NULL,
+    role ENUM('partner', 'member') NOT NULL,
+    idPartner bigint(20) NOT NULL
+)
+;
+
 CREATE TABLE association (
     id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name varchar(50) NOT NULL,
@@ -168,8 +176,9 @@ CREATE TABLE invitation (
     ,email VARCHAR(50) NOT NULL
     ,token VARCHAR(32) NOT NULL
     ,expiry TIMESTAMP NOT NULL
-    ,idAssociation BIGINT(20) DEFAULT NULL
-    ,idPartner BIGINT(20) DEFAULT NULL
+    ,idAssociation BIGINT(20) NULL
+    ,idPartner BIGINT(20) NULL
+    ,idRole BIGINT(20) NOT NULL
     ,entity_type ENUM('association', 'partner') NOT NULL
 )
 ;
@@ -220,6 +229,11 @@ ALTER TABLE partner
     ,ADD CONSTRAINT `fk_partner_user` FOREIGN KEY(idUser) REFERENCES user(id) ON DELETE CASCADE
 ;
 
+ALTER TABLE partner_user
+    ADD CONSTRAINT `fk_partner_user_user` FOREIGN KEY(idUser) REFERENCES user(id) ON DELETE CASCADE
+    ,ADD CONSTRAINT `fk_partner_user_partner` FOREIGN KEY(idPartner) REFERENCES partner(id)
+;
+
 ALTER TABLE mission
     ADD CONSTRAINT `fk_mission_user` FOREIGN KEY(idUser) REFERENCES user(id) ON DELETE CASCADE
     ,ADD CONSTRAINT `fk_mission_association` FOREIGN KEY(idAssociation) REFERENCES association(id)
@@ -252,4 +266,5 @@ ALTER TABLE rejections
 ALTER TABLE invitation
      ADD CONSTRAINT `fk_invitation_association` FOREIGN KEY (idAssociation) REFERENCES association(id) ON DELETE CASCADE
     ,ADD CONSTRAINT `fk_invitation_partner` FOREIGN KEY (idPartner) REFERENCES partner(id) ON DELETE CASCADE
+    ,ADD CONSTRAINT `fk_invitation_role` FOREIGN KEY(idRole) REFERENCES role(id) ON DELETE CASCADE
 ;

@@ -7,6 +7,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/model/lib/invitation.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/phpmailer/phpmailer/src/Exception.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/phpmailer/phpmailer/src/PHPMailer.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/phpmailer/phpmailer/src/SMTP.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -20,11 +21,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $token = bin2hex(random_bytes(16));
     $expiry = date('Y-m-d H:i:s', strtotime('+1 day'));
 
+    $invitation = $_SESSION['invitation'] ?? null;
     $associationId = $entityType === 'association' ? $entityId : null;
     $partnerId = $entityType === 'partner' ? $entityId : null;
+    $idRole = ($entityType === 'association') ? 55 : 45; // 55 pour MB_ASSO, 45 pour MB_P
 
-    if (createInvitation($email, $token, $expiry, $associationId, $partnerId, $entityType, $dbConnection)) {
-        $mail = new PHPMailer(true);
+    if (createInvitation($email, $token, $expiry, $associationId, $partnerId, $entityType, $idRole, $dbConnection)) {
+        $subject = 'Invitation à rejoindre motiV';
+        $message = "Cliquez sur le lien pour vous inscrire : http://localhost:61381/ctrl/invitation/register-form.php?token=$token";
+
+        $mail = new PHPMailer(true); // objet PHPMailer
 
         try {
             $mail->isSMTP();
@@ -35,12 +41,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
 
-            $mail->setFrom('noreply-motiv@gmail.com', 'motiV');
+            $mail->setFrom('noreply.motiv@gmail.com', 'motiV');
             $mail->addAddress($email);
 
             $mail->isHTML(true);
-            $mail->Subject = 'Invitation à rejoindre motiV';
-            $mail->Body    = "Cliquez sur le lien pour vous inscrire : http://localhost/ctrl/invitation/register-form.php?token=$token";
+            $mail->Subject = $subject;
+            $mail->Body    = $message;
 
             $mail->send();
             $_SESSION['success'] = 'Invitation envoyée avec succès.';
