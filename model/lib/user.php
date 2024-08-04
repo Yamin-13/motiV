@@ -1,15 +1,19 @@
 <?php
 
 // Fonction pour ajouter un utilisateur à la bases de données
-function addUser($email, $name, $firstName, $password, $idRole, $db)
+function addUser($email, $name, $firstName, $password, $idRole, $fileName, $dateOfBirth, $address, $db)
 {
-    $query = 'INSERT INTO user ( email, password, name, first_name, idRole) VALUES (:email, :password, :name, :first_name, :idRole)'; // requete SQL avec les parametres pour insérer un nouvel utilisateur dans la table...
+    $query = 'INSERT INTO user ( email, password, name, first_name, idRole, avatar_filename, date_of_birth, address) VALUES (:email, :password, :name, :first_name, :idRole, :avatar_filename, :date_of_birth, :address)'; // requete SQL avec les parametres pour insérer un nouvel utilisateur dans la table...
     $statement = $db->prepare($query);   // prepare la requete SQL ele retourne un objet PDOstatement                               // ...user avec les 3 collones 
     $statement->bindParam(':email', $email);        // methode PDOStatement::bindParam // 
     $statement->bindParam(':password', $password); //                                 //
     $statement->bindParam(':name', $name);
     $statement->bindParam(':first_name', $firstName); //                                 //
     $statement->bindParam(':idRole', $idRole);       //  <----------------------------- // ca lie la valeeur de $idRole au parametre ":idRole" dans la requête SQL ($idRole = :idRole ) 
+    $avatarFilename = basename($fileName);// Assignation à une variable
+    $statement->bindParam(':avatar_filename', $avatarFilename, PDO::PARAM_STR);
+    $statement->bindParam(':date_of_birth', $dateOfBirth);
+    $statement->bindParam(':address', $address);
 
     return $statement->execute();  // PDOStatement::execute (ca execute les requetes et retourne true ou false pour l'insert to) 
 
@@ -18,7 +22,7 @@ function addUser($email, $name, $firstName, $password, $idRole, $db)
 function getUser(string $email, string $password, PDO $db)
 {
     // - Prépare la requête
-    $query = 'SELECT user.name, user.email, user.first_name, user.password, user.idRole, user.id';
+    $query = 'SELECT user.name, user.email, user.first_name, user.password, user.idRole, user.id, user.registration_date, user.address, user.avatar_filename, user.date_of_birth';
     $query .= ' FROM user';
     $query .= ' WHERE user.email = :email ';
     $statement = $db->prepare($query);
@@ -39,6 +43,23 @@ function getUser(string $email, string $password, PDO $db)
         return null;
     }
 }
+
+function updateUserProfile($name, $idUser, $email, $avatarFilename, $firstName, $password, $idRole, $address, $dateOfBirth, $dbConnection)
+{
+    $query = 'UPDATE user SET name = :name, email = :email, avatar_filename = :avatar_filename, first_name = :first_name, password = :password, idRole = :idRole, address = :address, date_of_birth = :date_of_birth WHERE id = :id';
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':name', $name);
+    $statement->bindParam(':email', $email);
+    $statement->bindParam(':avatar_filename', $avatarFilename);
+    $statement->bindParam(':first_name', $firstName);
+    $statement->bindParam(':password', $password);
+    $statement->bindParam(':idRole', $idRole);
+    $statement->bindParam(':address', $address);
+    $statement->bindParam(':date_of_birth', $dateOfBirth);
+    $statement->bindParam(':id', $idUser);
+    return $statement->execute();
+}
+
 
 // fonction pour récupérer les utilisateurs par rôle
 function getUsersByRole($dbConnection)
@@ -72,7 +93,8 @@ function getUserById($id, $dbConnection)
     return $statement->fetch(PDO::FETCH_ASSOC);
 }
 
-function deleteUserById($id, $dbConnection) {
+function deleteUserById($id, $dbConnection)
+{
     $query = "DELETE FROM user WHERE id = :id";
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':id', $id);

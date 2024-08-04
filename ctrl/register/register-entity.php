@@ -16,11 +16,25 @@ if (isset($_GET['role'])) {
         $firstName = htmlspecialchars($_POST['first_name']);
         $password = htmlspecialchars($_POST['password']);
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+        $dateOfBirth = htmlspecialchars($_POST['date_of_birth'] ?? '');
+        $address = htmlspecialchars($_POST['address'] ?? ''); 
+
+        // Traitement de l'upload du nouvel avatar
+        $fileName = ''; // initialise la variable $fileName
+        if (!empty($_FILES['avatar']['name'])) {
+            $uploadDirectory = $_SERVER['DOCUMENT_ROOT'] . '/upload/';
+            $fileName = basename($_FILES['avatar']['name']);
+            $uploadPath = $uploadDirectory . $fileName;
+
+            if (!move_uploaded_file($_FILES['avatar']['tmp_name'], $uploadPath)) {
+                die('Erreur lors de l\'upload de l\'avatar.');
+            }
+        }
 
         $dbConnection = getConnection($dbConfig);
 
         if ($dbConnection) {
-            if (addUser($email, $name, $firstName, $hashedPassword, $idRole, $dbConnection)) {
+            if (addUser($email, $name, $firstName, $hashedPassword, $idRole, $fileName, $dateOfBirth, $address, $dbConnection)) {
                 $user = getUser($email, $password, $dbConnection);
                 if ($user) {
                     $_SESSION['user'] = $user;

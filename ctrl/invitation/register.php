@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $associationId = $invitation['idAssociation'];
     $partnerId = $invitation['idPartner'];
 
-    if (addUser($email, $name, $firstName, $password, $idRole, $dbConnection)) {
+    if (addUser($email, $name, $firstName, $password, $idRole, $fileName, $dateOfBirth, $address, $dbConnection)) {
         $userId = $dbConnection->lastInsertId();
 
         // Lier l'utilisateur à l'association ou au partenaire

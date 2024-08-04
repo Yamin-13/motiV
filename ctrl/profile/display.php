@@ -20,16 +20,16 @@ if (!in_array($idRole, [10, 40, 45, 50, 55])) {
 $dbConnection = getConnection($dbConfig);
 $user = $_SESSION['user'];
 
+include $_SERVER['DOCUMENT_ROOT'] . '/view/partial/header.php';
+
 if ($idRole == 50 || $idRole == 55) {
     $association = ($idRole == 50) ? getAssociationByidUser($user['id'], $dbConnection) : getAssociationByidMember($user['id'], $dbConnection);
-    $members = getMembersByAssociationId($association['id'], $dbConnection);
-    include $_SERVER['DOCUMENT_ROOT'] . '/view/partial/header.php';
+    $members = $association ? getMembersByAssociationId($association['id'], $dbConnection) : null;
     include $_SERVER['DOCUMENT_ROOT'] . '/view/profile/association-display.php';
-    include $_SERVER['DOCUMENT_ROOT'] . '/view/partial/footer.php';
 } elseif ($idRole == 40 || $idRole == 45) {
     $partner = ($idRole == 40) ? getPartnerByidUser($user['id'], $dbConnection) : getPartnerByidMember($user['id'], $dbConnection);
-    $members = getMembersByPartnerId($partner['id'], $dbConnection);
-    include $_SERVER['DOCUMENT_ROOT'] . '/view/partial/header.php';
+    $members = $partner ? getMembersByPartnerId($partner['id'], $dbConnection) : null;
     include $_SERVER['DOCUMENT_ROOT'] . '/view/profile/partner-display.php';
-    include $_SERVER['DOCUMENT_ROOT'] . '/view/partial/footer.php';
 }
+
+include $_SERVER['DOCUMENT_ROOT'] . '/view/partial/footer.php';
