@@ -23,7 +23,7 @@
     <?php endif; ?>
     <?php if ($user['idRole'] == 50) : 
     ?>
-        <a href="/ctrl/association/delete-association.php?id=<?= $association['id'] ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette association ?');">
+        <a href="/ctrl/association/delete.php?id=<?= $association['id'] ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette association ?');">
             <button>Supprimer l'Association</button>
         </a>
         <a href="/ctrl/association/update-display.php?id=<?= ($association['id']) ?>"><button>Modifier l'Association</button></a>

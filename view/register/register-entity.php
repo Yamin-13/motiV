@@ -1,4 +1,4 @@
-<h2>Inscription</h2>
+<h2>Inscription de l'utilisateur</h2>
 <form action="" method="post">
     <input type="hidden" name="role" value="<?= ($_GET['role']) ?>">
     <label for="email">Email:</label>
