@@ -13,7 +13,7 @@
         <input type="password" name="password" id="label" placeholder="Mot De Passe" required>
     </div>
     <div class="forgot-pass">
-        <a href="#">Mot de passe oublié?</a>
+        <a href="/ctrl/password/display-forgot-password.php">Mot de passe oublié?</a>
     </div>
     <button class="submit-form" type="submit">S'Identifier</button>
     <div class="sign-link">
