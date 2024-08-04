@@ -44,9 +44,18 @@ function getUser(string $email, string $password, PDO $db)
     }
 }
 
-function updateUserProfile($name, $idUser, $email, $avatarFilename, $firstName, $password, $idRole, $address, $dateOfBirth, $dbConnection)
-{
-    $query = 'UPDATE user SET name = :name, email = :email, avatar_filename = :avatar_filename, first_name = :first_name, password = :password, idRole = :idRole, address = :address, date_of_birth = :date_of_birth WHERE id = :id';
+function updateUserProfile($name, $idUser, $email, $avatarFilename, $firstName, $password, $idRole, $address = null, $dateOfBirth = null, $dbConnection) {
+    $query = 'UPDATE user SET name = :name, email = :email, avatar_filename = :avatar_filename, first_name = :first_name, password = :password, idRole = :idRole';
+    
+    // champs optionnels uniquement s'ils sont fournis
+    if ($address !== null) {
+        $query .= ', address = :address';
+    }
+    if ($dateOfBirth !== null) {
+        $query .= ', date_of_birth = :date_of_birth';
+    }
+    
+    $query .= ' WHERE id = :id';
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':name', $name);
     $statement->bindParam(':email', $email);
@@ -54,11 +63,18 @@ function updateUserProfile($name, $idUser, $email, $avatarFilename, $firstName, 
     $statement->bindParam(':first_name', $firstName);
     $statement->bindParam(':password', $password);
     $statement->bindParam(':idRole', $idRole);
-    $statement->bindParam(':address', $address);
-    $statement->bindParam(':date_of_birth', $dateOfBirth);
+    
+    if ($address !== null) {
+        $statement->bindParam(':address', $address);
+    }
+    if ($dateOfBirth !== null) {
+        $statement->bindParam(':date_of_birth', $dateOfBirth);
+    }
+    
     $statement->bindParam(':id', $idUser);
     return $statement->execute();
 }
+
 
 
 // fonction pour récupérer les utilisateurs par rôle

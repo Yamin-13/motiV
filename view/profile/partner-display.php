@@ -1,4 +1,5 @@
 <h1>Profil de <?= ($user['first_name']) . ' ' . ($user['name']) ?></h1>
+<p><img src="/upload/<?= $_SESSION['user']['avatar_filename'] ?? 'default-avatar.png' ?>" alt="Avatar de l'utilisateur"></p>
 <p>Email: <?= ($user['email']) ?></p>
 <?php if (isset($user['first_name'])) : ?>
     <p>Prénom: <?= ($user['first_name']) ?></p>
@@ -29,7 +30,7 @@
         <a href="/ctrl/invitation/send-invitation-form.php?entity_type=partner&entity_id=<?= $partner['id'] ?>"><button>Inviter un Membre</button></a>
     <?php endif; ?>
 
-    <?php if ($user['idRole'] == 40 || $user['idRole'] == 45) : 
+    <?php if ($user['idRole'] == 40 || $user['idRole'] == 45) :
     ?>
         <h2>Liste des membres</h2>
         <ul>
@@ -95,4 +96,27 @@ else :
     ?>
     <p>Vous n'avez aucun message.</p>
 <?php endif; ?>
+<section>
+    <h2>Mettre à jour le profil</h2>
+    <form action="/ctrl/profile/update-association-user.php" method="post" enctype="multipart/form-data">
+        <div>
+            <label for="email">Nouvel Email :</label>
+            <input type="text" id="email" name="email" value="<?= $_SESSION['user']['email'] ?>">
+        </div>
+        <div>
+            <label for="name">Nouveau Nom :</label>
+            <input type="text" id="name" name="name" value="<?= $_SESSION['user']['name'] ?>">
+        </div>
+        <div>
+            <label for="first_name">Nouveau Prénom :</label>
+            <input type="text" id="first_name" name="first_name" value="<?= $_SESSION['user']['first_name'] ?>">
+        </div>
+
+        <div>
+            <label for="avatar">Nouveau Avatar :</label>
+            <input type="file" id="avatar" name="avatar">
+        </div>
+        <button type="submit" class="update-button">Mettre à jour</button>
+    </form>
+</section>
 <a href="/ctrl/login/logout.php">Se déconnecter</a>
