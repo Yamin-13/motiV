@@ -21,12 +21,12 @@ if (isset($_GET['role'])) {
 
         // Traitement de l'upload du nouvel avatar
         $fileName = ''; // initialise la variable $fileName
-        if (!empty($_FILES['avatar']['name'])) {
+        if (!empty($_FILES['file']['name'])) {
             $uploadDirectory = $_SERVER['DOCUMENT_ROOT'] . '/upload/';
-            $fileName = basename($_FILES['avatar']['name']);
+            $fileName = basename($_FILES['file']['name']);
             $uploadPath = $uploadDirectory . $fileName;
 
-            if (!move_uploaded_file($_FILES['avatar']['tmp_name'], $uploadPath)) {
+            if (!move_uploaded_file($_FILES['file']['tmp_name'], $uploadPath)) {
                 die('Erreur lors de l\'upload de l\'avatar.');
             }
         }
@@ -46,17 +46,17 @@ if (isset($_GET['role'])) {
                     exit();
                 } else {
                     $_SESSION['error'] = 'Erreur lors de la récupération de l\'utilisateur.';
-                    header('Location: /view/register/register-entity.php?role=' . $role);
+                    header('Location: /view/register/register-display.php?role=' . $role);
                     exit();
                 }
             } else {
                 $_SESSION['error'] = 'Erreur lors de l\'inscription.<br> Veuillez réessayer.';
-                header('Location: /view/register/register-entity.php?role=' . $role);
+                header('Location: /view/register/register-display.php?role=' . $role);
                 exit();
             }
         } else {
             $_SESSION['error'] = 'Erreur de connexion à la base de données.';
-            header('Location: /view/register/register-entity.php?role=' . $role);
+            header('Location: /view/register/register-display.php?role=' . $role);
             exit();
         }
     } else {
