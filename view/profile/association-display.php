@@ -118,6 +118,14 @@ else :
             <label for="avatar">Nouveau Avatar :</label>
             <input type="file" id="avatar" name="avatar">
         </div>
+        <div>
+            <label for="password">Nouveau mot de passe :</label>
+            <input type="password" id="password" name="password">
+        </div>
+        <div>
+            <label for="confirm_password">Confirmer le mot de passe :</label>
+            <input type="password" id="confirm_password" name="confirm_password">
+        </div>
         <button type="submit" class="update-button">Mettre à jour</button>
     </form>
 </section>

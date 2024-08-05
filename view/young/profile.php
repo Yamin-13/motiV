@@ -31,6 +31,14 @@
             <input type="text" id="address" name="address" value="<?= $_SESSION['user']['address'] ?? '' ?>">
         </div>
         <div>
+            <label for="password">Nouveau mot de passe :</label>
+            <input type="password" id="password" name="password">
+        </div>
+        <div>
+            <label for="confirm_password">Confirmer le mot de passe :</label>
+            <input type="password" id="confirm_password" name="confirm_password">
+        </div>
+        <div>
             <label for="avatar">Nouveau Avatar :</label>
             <input type="file" id="avatar" name="avatar">
         </div>
@@ -44,5 +52,10 @@
         <?php unset($_SESSION['success']); ?>
     </div>
 <?php endif; ?>
-
+<?php if (isset($_SESSION['error'])) : ?>
+    <div class="error-message">
+        <?= $_SESSION['error'] ?>
+        <?php unset($_SESSION['error']); ?>
+    </div>
+<?php endif; ?>
 <a href="/ctrl/login/logout.php">Se déconnecter</a>
