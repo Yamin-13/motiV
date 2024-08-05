@@ -24,9 +24,19 @@ if (!empty($_FILES['avatar']['name'])) {
     }
 }
 
+// Vérification et hachage du nouveau mot de passe s'il est fourni
+$newPassword = $_SESSION['user']['password'];
+if (!empty($_POST['password']) && $_POST['password'] === $_POST['confirm_password']) {
+    $newPassword = password_hash($_POST['password'], PASSWORD_BCRYPT);
+} elseif (!empty($_POST['password']) && $_POST['password'] !== $_POST['confirm_password']) {
+    $_SESSION['error'] = 'Les mots de passe ne correspondent pas.';
+    header('Location: /ctrl/young/profile.php');
+    exit();
+}
+
 // Mise à jour de l'utilisateur dans la base de données
 $dbConnection = getConnection($dbConfig);
-updateUserProfile($newName, $idUser, $newEmail, $avatarFilename, $newFirstName, $_SESSION['user']['password'], $_SESSION['user']['idRole'], $newAddress, $newDateOfBirth, $dbConnection);
+updateUserProfile($newName, $idUser, $newEmail, $avatarFilename, $newFirstName, $newPassword, $_SESSION['user']['idRole'], $newAddress, $newDateOfBirth, $dbConnection);
 
 // Mise à jour des informations de session
 $_SESSION['user']['name'] = $newName;
@@ -35,6 +45,7 @@ $_SESSION['user']['first_name'] = $newFirstName;
 $_SESSION['user']['avatar_filename'] = $avatarFilename;
 $_SESSION['user']['date_of_birth'] = $newDateOfBirth;
 $_SESSION['user']['address'] = $newAddress;
+$_SESSION['user']['password'] = $newPassword;
 
 // Ajout d'un message de confirmation
 $_SESSION['success'] = "Votre profil a été mis à jour avec succès.";

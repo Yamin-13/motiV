@@ -22,9 +22,19 @@ if (!empty($_FILES['avatar']['name'])) {
     }
 }
 
+// Vérification et hachage du nouveau mot de passe s'il est fourni
+$newPassword = $_SESSION['user']['password'];
+if (!empty($_POST['password']) && $_POST['password'] === $_POST['confirm_password']) {
+    $newPassword = password_hash($_POST['password'], PASSWORD_BCRYPT);
+} elseif (!empty($_POST['password']) && $_POST['password'] !== $_POST['confirm_password']) {
+    $_SESSION['error'] = 'Les mots de passe ne correspondent pas.';
+    header('Location: /ctrl/profile/display.php');
+    exit();
+}
+
 // Mise à jour de l'utilisateur dans la base de données
 $dbConnection = getConnection($dbConfig);
-updateUserProfile($newName, $idUser, $newEmail, $avatarFilename, $newFirstName, $_SESSION['user']['password'], $_SESSION['user']['idRole'], null, null, $dbConnection);
+updateUserProfile($newName, $idUser, $newEmail, $avatarFilename, $newFirstName, $newPassword, $_SESSION['user']['idRole'], null, null, $dbConnection);
 
 // Mise à jour des informations de session
 $_SESSION['user']['name'] = $newName;
