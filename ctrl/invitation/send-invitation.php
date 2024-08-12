@@ -21,16 +21,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $token = bin2hex(random_bytes(16));
     $expiry = date('Y-m-d H:i:s', strtotime('+1 day'));
 
-    $invitation = $_SESSION['invitation'] ?? null;
     $associationId = $entityType === 'association' ? $entityId : null;
     $partnerId = $entityType === 'partner' ? $entityId : null;
-    $idRole = ($entityType === 'association') ? 55 : 45; // 55 pour MB_ASSO, 45 pour MB_P
+    $educationalEstablishmentId = $entityType === 'educational_establishment' ? $entityId : null;
+    $cityHallId = $entityType === 'city_hall' ? $entityId : null;
 
-    if (createInvitation($email, $token, $expiry, $associationId, $partnerId, $entityType, $idRole, $dbConnection)) {
+    // Définir le rôle en fonction du type d'entité
+    if ($entityType === 'association') {
+        $idRole = 55; // MB_ASSO
+    } elseif ($entityType === 'partner') {
+        $idRole = 45; // MB_P
+    } elseif ($entityType === 'educational_establishment') {
+        $idRole = 25; // Admin de l'établissement scolaire
+    } elseif ($entityType === 'city_hall') {
+        $idRole = 35; // Admin de la mairie
+    }
+
+    if (createInvitation($email, $token, $expiry, $associationId, $partnerId, $educationalEstablishmentId, $cityHallId, $entityType, $idRole, $dbConnection)) {
         $subject = 'Invitation à rejoindre motiV';
-        $message = "Cliquez sur le lien pour vous inscrire : http://localhost:61381/ctrl/invitation/register-form.php?token=$token";
+        $message = "Cliquez sur le lien pour vous inscrire : http://localhost:50052/ctrl/invitation/register-form.php?token=$token";
 
-        $mail = new PHPMailer(true); // objet PHPMailer
+        $mail = new PHPMailer(true);
 
         try {
             $mail->isSMTP();

@@ -69,22 +69,3 @@ function addRejectionReason($entityId, $entityType, $reason, $dbConnection)
     $stmt->bindParam(':reason', $reason);
     $stmt->execute();
 }
-
-function sendMessage($idUser, $subject, $body, $dbConnection)
-{
-    $stmt = $dbConnection->prepare("INSERT INTO message (idUser, subject, body) VALUES (:idUser, :subject, :body)");
-    $stmt->bindParam(':idUser', $idUser);
-    $stmt->bindParam(':subject', $subject);
-    $stmt->bindParam(':body', $body);
-    $stmt->execute();
-}
-
-function getMessagesByidUser($idUser, $dbConnection)
-{
-    $stmt = $dbConnection->prepare("SELECT subject, body, sent_at 
-    FROM message 
-    WHERE idUser = :idUser ORDER BY sent_at DESC");
-    $stmt->bindParam(':idUser', $idUser);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}

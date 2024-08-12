@@ -4,17 +4,18 @@
 <p>Prénom: <?= ($user['first_name']) ?></p>
 <p>Nom: <?= ($user['name']) ?></p>
 
-<?php if ($cityHall && is_array($cityHall)) : ?>
-    <h2>Informations sur la Mairie</h2>
-    <p>Nom de la mairie: <?= ($cityHall['name']) ?></p>
-    <p>Numéro de téléphone: <?= ($cityHall['phone_number']) ?></p>
-    <p>Adresse: <?= ($cityHall['address']) ?></p>
-    <p>Email de la mairie: <?= ($cityHall['email']) ?></p>
-    <p>Administrateur: <?= ($admin['first_name'] . ' ' . $admin['name']) ?></p>
+<?php if ($educationalEstablishment && is_array($educationalEstablishment)) : ?>
+    <h2>Informations sur l'Établissement Scolaire</h2>
+    <p>Nom de l'établissement: <?= ($educationalEstablishment['name']) ?></p>
+    <p>Numéro NIE: <?= ($educationalEstablishment['NIE_number']) ?></p>
+    <p>Numéro de téléphone: <?= ($educationalEstablishment['phone_number']) ?></p>
+    <p>Adresse: <?= ($educationalEstablishment['address']) ?></p>
+    <p>Email de l'établissement: <?= ($educationalEstablishment['email']) ?></p>
+    <p>Administrateur: <?= ($educationalEstablishment['admin_first_name'] . ' ' . $educationalEstablishment['admin_name']) ?></p>
 
-    <?php if ($user['idRole'] == 30) : ?>
-        <a href="/ctrl/city-hall/update-display.php?id=<?= ($cityHall['id']) ?>"><button>Modifier la Mairie</button></a>
-        <a href="/ctrl/invitation/send-invitation-form.php?entity_type=city-hall&entity_id=<?= ($cityHall['id']) ?>"><button>Inviter un Membre</button></a>
+    <?php if ($user['idRole'] == 20) : ?>
+        <a href="/ctrl/educational-establishment/update-display.php?id=<?= ($educationalEstablishment['id']) ?>"><button>Modifier l'Établissement</button></a>
+        <a href="/ctrl/invitation/send-invitation-form.php?entity_type=educational&entity_id=<?= ($educationalEstablishment['id']) ?>"><button>Inviter un Membre</button></a>
     <?php endif; ?>
 
     <?php if (is_array($members) && count($members) > 0) : ?>
@@ -23,7 +24,7 @@
             <?php foreach ($members as $member) : ?>
                 <li>
                     <?= ($member['first_name'] . ' ' . $member['name'] . ' (' . $member['email'] . ')') ?>
-                    <?php if (in_array($_SESSION['user']['idRole'], [30])) : ?>
+                    <?php if (in_array($_SESSION['user']['idRole'], [20])) : ?>
                         <form action="/ctrl/profile/delete-user.php" method="POST" style="display:inline;">
                             <input type="hidden" name="idUser" value="<?= ($member['id']) ?>">
                             <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce membre ?');">Supprimer</button>
@@ -95,5 +96,4 @@ if ($messages) :
         <button type="submit" class="update-button">Mettre à jour</button>
     </form>
 </section>
-
 <a href="/ctrl/login/logout.php">Se déconnecter</a>

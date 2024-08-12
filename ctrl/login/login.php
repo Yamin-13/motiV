@@ -33,10 +33,16 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
                 header('Location: /ctrl/admin/profile.php');
                 break;
             case '20':
-                header('Location: /ctrl/educational-establishment.php/profile.php');
+                header('Location: /ctrl/profile/display.php');
+                break;
+            case '25':
+                header('Location: /ctrl/profile/display.php');
                 break;
             case '30':
-                header('Location: /ctrl/city-hall/profile.php');
+                header('Location: /ctrl/profile/display.php');
+                break;
+            case '35':
+                header('Location: /ctrl/profile/display.php');
                 break;
             case '40':
                 header('Location: /ctrl/profile/display.php');

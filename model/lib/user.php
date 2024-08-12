@@ -75,8 +75,6 @@ function updateUserProfile($name, $idUser, $email, $avatarFilename, $firstName, 
     return $statement->execute();
 }
 
-
-
 // fonction pour récupérer les utilisateurs par rôle
 function getUsersByRole($dbConnection)
 {
@@ -115,4 +113,12 @@ function deleteUserById($id, $dbConnection)
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':id', $id);
     return $statement->execute();
+}
+
+function getUserByEmail($email, $dbConnection) {
+    $query = 'SELECT * FROM user WHERE email = :email';
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':email', $email);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
 }

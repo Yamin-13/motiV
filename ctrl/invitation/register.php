@@ -20,22 +20,45 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $idRole = $invitation['idRole'];
     $associationId = $invitation['idAssociation'];
     $partnerId = $invitation['idPartner'];
+    $educationalEstablishmentId = $invitation['idEducationalEstablishment'] ?? null;
+    $cityHallId = $invitation['idCityHall'] ?? null;
 
-    if (addUser($email, $name, $firstName, $password, $idRole, $fileName, $dateOfBirth, $address, $dbConnection)) {
+    var_dump($associationId, $partnerId, $educationalEstablishmentId, $cityHallId);
+
+    if (addUser($email, $name, $firstName, $password, $idRole, '', '', '', $dbConnection)) {
         $userId = $dbConnection->lastInsertId();
 
-        // Lier l'utilisateur à l'association ou au partenaire
+        // Lier l'utilisateur à l'entité appropriée
+        $query = null;
+
         if ($associationId) {
             $query = 'INSERT INTO association_user (idAssociation, idUser, role) VALUES (:idAssociation, :idUser, "member")';
             $statement = $dbConnection->prepare($query);
             $statement->bindParam(':idAssociation', $associationId);
-        } else {
+        } elseif ($partnerId) {
             $query = 'INSERT INTO partner_user (idPartner, idUser, role) VALUES (:idPartner, :idUser, "member")';
             $statement = $dbConnection->prepare($query);
             $statement->bindParam(':idPartner', $partnerId);
+        } elseif ($educationalEstablishmentId) {
+            $query = 'INSERT INTO educational_establishment_user (idEducationalEstablishment, idUser, role) VALUES (:idEducationalEstablishment, :idUser, "member")';
+            $statement = $dbConnection->prepare($query);
+            $statement->bindParam(':idEducationalEstablishment', $educationalEstablishmentId);
+        } elseif ($cityHallId) {
+            $query = 'INSERT INTO city_hall_user (idCityHall, idUser, role) VALUES (:idCityHall, :idUser, "member")';
+            $statement = $dbConnection->prepare($query);
+            $statement->bindParam(':idCityHall', $cityHallId);
         }
-        $statement->bindParam(':idUser', $userId);
-        $statement->execute();
+
+        // Si la requête a été définie, on exécute l'insertion
+        if (isset($statement)) {
+            $statement->bindParam(':idUser', $userId);
+            $statement->execute();
+        } else {
+            // Si aucune condition n'est remplie, afficher une erreur
+            $_SESSION['error'] = "Erreur : aucune entité valide pour l'utilisateur.";
+            header('Location: /ctrl/invitation/register-form.php');
+            exit();
+        }
 
         deleteInvitation($invitation['id'], $dbConnection);
         unset($_SESSION['invitation']);

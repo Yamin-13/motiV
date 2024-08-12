@@ -3,7 +3,11 @@ session_start();
 
 include $_SERVER['DOCUMENT_ROOT'] . '/cfg/db-dev.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/db.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/association.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/partner.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/verification.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/city-hall.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/educational-establishment.php';
 
 $titrePage = "motiV";
 
@@ -15,9 +19,13 @@ if ($idRole != 10) {
     exit();
 }
 
+// données nécessaires
 $dbConnection = getConnection($dbConfig);
 $pendingAssociations = getPendingAssociations($dbConnection);
 $pendingPartners = getPendingPartners($dbConnection);
+$associations = getAssociationsWithPresidents($dbConnection);
+$cityHalls = getCityHallsWithAdmins($dbConnection);
+$educationalEstablishments = getEducationalEstablishmentsWithAdmins($dbConnection);
 
 include $_SERVER['DOCUMENT_ROOT'] . '/view/partial/header.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/view/admin/profile.php';

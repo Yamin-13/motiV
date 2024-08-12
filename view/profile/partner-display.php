@@ -30,8 +30,8 @@
         <a href="/ctrl/invitation/send-invitation-form.php?entity_type=partner&entity_id=<?= $partner['id'] ?>"><button>Inviter un Membre</button></a>
     <?php endif; ?>
 
-    <?php if ($user['idRole'] == 40 || $user['idRole'] == 45) :
-    ?>
+    <?php //if ($user['idRole'] == 40 || $user['idRole'] == 45) :?>
+    <?php if (is_array($members) && count($members) > 0) : ?>
         <h2>Liste des membres</h2>
         <ul>
             <?php foreach ($members as $member) : ?>
@@ -39,7 +39,7 @@
                     <?= $member['first_name'] . ' ' . $member['name'] . ' (' . $member['email'] . ')' ?>
                     <?php if ($user['idRole'] == 40) :
                     ?>
-                        <form action="/ctrl/partner/delete-member.php" method="POST" style="display:inline;">
+                        <form action="/ctrl/profile/delete-user.php" method="POST" style="display:inline;">
                             <input type="hidden" name="idUser" value="<?= $member['id'] ?>">
                             <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce membre ?');">Supprimer</button>
                         </form>
@@ -98,7 +98,7 @@ else :
 <?php endif; ?>
 <section>
     <h2>Mettre à jour le profil</h2>
-    <form action="/ctrl/profile/update-association-user.php" method="post" enctype="multipart/form-data">
+    <form action="/ctrl/profile/update-user.php" method="post" enctype="multipart/form-data">
         <div>
             <label for="email">Nouvel Email :</label>
             <input type="text" id="email" name="email" value="<?= $_SESSION['user']['email'] ?>">

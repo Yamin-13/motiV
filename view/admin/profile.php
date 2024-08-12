@@ -54,4 +54,7 @@
 </table>
 <a href="/ctrl/association/list.php">Liste des associations</a><br>
 <a href="/ctrl/partner/list.php">Liste des partenaires</a><br>
-<a href="/ctrl/admin/list.php">Liste des utilisateurs</a>
+<a href="/ctrl/admin/list.php">Liste des utilisateurs</a><br>
+<a href="/ctrl/city-hall/list.php">Liste des Mairies</a><br>
+<a href="/ctrl/educational-establishment/list.php">Liste des Etablissements Scolaires</a><br>
+<a href="/ctrl//invitation/admin-invitation-form.php">Inviter une Mairie ou un établissement scolaire</a>
