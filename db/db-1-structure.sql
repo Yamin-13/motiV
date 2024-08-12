@@ -77,6 +77,14 @@ CREATE TABLE city_hall (
 )
 ;
 
+CREATE TABLE city_hall_user (
+    id BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    idUser BIGINT(20) NOT NULL,
+    role ENUM('admin', 'member') NOT NULL,
+    idCityHall BIGINT(20) NOT NULL
+)
+;
+
 CREATE TABLE educational_establishment (
     id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name varchar(50) NOT NULL,
@@ -88,6 +96,15 @@ CREATE TABLE educational_establishment (
     idUser bigint(20) NOT NULL
 )
 ;
+
+CREATE TABLE educational_establishment_user (
+    id BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    idUser BIGINT(20) NOT NULL,
+    role ENUM('admin', 'member') NOT NULL,
+    idEducationalEstablishment BIGINT(20) NOT NULL
+)
+;
+
 
 CREATE TABLE partner (
     id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -178,8 +195,10 @@ CREATE TABLE invitation (
     ,expiry TIMESTAMP NOT NULL
     ,idAssociation BIGINT(20) NULL
     ,idPartner BIGINT(20) NULL
+    ,idEducationalEstablishment BIGINT(20) NULL  
+    ,idCityHall BIGINT(20) NULL  
     ,idRole BIGINT(20) NOT NULL
-    ,entity_type ENUM('association', 'partner') NOT NULL
+    ,entity_type ENUM('association', 'partner', 'educational', 'city_hall') NOT NULL  
 )
 ;
 
@@ -225,10 +244,20 @@ ALTER TABLE city_hall
     ,ADD CONSTRAINT `fk_city_hall_user` FOREIGN KEY(idUser) REFERENCES user(id) ON DELETE CASCADE
 ;
 
+ALTER TABLE city_hall_user
+    ADD CONSTRAINT `fk_city_hall_user_user` FOREIGN KEY(idUser) REFERENCES user(id) ON DELETE CASCADE
+    ,ADD CONSTRAINT `fk_city_hall_user_city_hall` FOREIGN KEY(idCityHall) REFERENCES city_hall(id) ON DELETE CASCADE
+;
+
 ALTER TABLE educational_establishment
     ADD CONSTRAINT `u_educational_establishment_name` UNIQUE(name)
     ,ADD CONSTRAINT `u_educational_establishment_email` UNIQUE(email)
     ,ADD CONSTRAINT `fk_educational_establishment_user` FOREIGN KEY(idUser) REFERENCES user(id) ON DELETE CASCADE
+;
+
+ALTER TABLE educational_establishment_user
+    ADD CONSTRAINT `fk_educational_establishment_user_user` FOREIGN KEY(idUser) REFERENCES user(id) ON DELETE CASCADE
+    ,ADD CONSTRAINT `fk_educational_establishment_user_educational_establishment` FOREIGN KEY(idEducationalEstablishment) REFERENCES educational_establishment(id) ON DELETE CASCADE
 ;
 
 ALTER TABLE partner
@@ -273,5 +302,7 @@ ALTER TABLE rejections
 ALTER TABLE invitation
      ADD CONSTRAINT `fk_invitation_association` FOREIGN KEY (idAssociation) REFERENCES association(id) ON DELETE CASCADE
     ,ADD CONSTRAINT `fk_invitation_partner` FOREIGN KEY (idPartner) REFERENCES partner(id) ON DELETE CASCADE
+    ,ADD CONSTRAINT `fk_invitation_educational_establishment` FOREIGN KEY (idEducationalEstablishment) REFERENCES educational_establishment(id) ON DELETE CASCADE
+    ,ADD CONSTRAINT `fk_invitation_city_hall` FOREIGN KEY (idCityHall) REFERENCES city_hall(id) ON DELETE CASCADE 
     ,ADD CONSTRAINT `fk_invitation_role` FOREIGN KEY(idRole) REFERENCES role(id) ON DELETE CASCADE
 ;

@@ -1,15 +1,13 @@
-<h1>Profil de <?= ($user['first_name']) . ' ' . ($user['name']) ?></h1>
-<p><img src="/upload/<?= $_SESSION['user']['avatar_filename'] ?? 'default-avatar.png' ?>" alt="Avatar de l'utilisateur"></p>
+<h1>Profil de <?= ($user['first_name'] . ' ' . $user['name']) ?></h1>
+<p><img src="/upload/<?= ($_SESSION['user']['avatar_filename'] ?? 'default-avatar.png') ?>" alt="Avatar de l'utilisateur"></p>
 <p>Email: <?= ($user['email']) ?></p>
-<?php if (isset($user['first_name'])) : ?>
-    <p>Prénom: <?= ($user['first_name']) ?></p>
-<?php endif; ?>
+<p>Prénom: <?= ($user['first_name']) ?></p>
 <p>Nom: <?= ($user['name']) ?></p>
 
 <?php if ($association && is_array($association)) : ?>
     <h2>Informations sur l'Association</h2>
     <p>Nom de l'association: <?= ($association['name']) ?></p>
-    <p>Président: <?= ($association['president_first_name']) . ' ' . ($association['president_name']) ?></p>
+    <p>Président: <?= ($association['president_first_name'] . ' ' . $association['president_name']) ?></p>
     <p>Description: <?= ($association['description']) ?></p>
     <p>Numéro de téléphone: <?= ($association['phone_number']) ?></p>
     <p>Adresse: <?= ($association['address']) ?></p>
@@ -22,25 +20,22 @@
     <?php elseif ($association['status'] == 'rejected') : ?>
         <p>Votre association a été rejetée. Raison: <?= (getRejectionReason($association['id'], 'association', $dbConnection)) ?></p>
     <?php endif; ?>
-    <?php if ($user['idRole'] == 50) :
-    ?>
+    <?php if ($user['idRole'] == 50) : ?>
         <a href="/ctrl/association/delete.php?id=<?= $association['id'] ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette association ?');">
             <button>Supprimer l'Association</button>
         </a>
-        <a href="/ctrl/association/update-display.php?id=<?= ($association['id']) ?>"><button>Modifier l'Association</button></a>
+        <a href="/ctrl/association/update-display.php?id=<?= $association['id'] ?>"><button>Modifier l'Association</button></a>
         <a href="/ctrl/invitation/send-invitation-form.php?entity_type=association&entity_id=<?= $association['id'] ?>"><button>Inviter un Membre</button></a>
     <?php endif; ?>
 
-    <?php if ($user['idRole'] == 50 || $user['idRole'] == 55) :
-    ?>
+    <?php if (is_array($members) && count($members) > 0) : ?>
         <h2>Liste des membres</h2>
         <ul>
             <?php foreach ($members as $member) : ?>
                 <li>
-                    <?= $member['first_name'] . ' ' . $member['name'] . ' (' . $member['email'] . ')' ?>
-                    <?php if ($user['idRole'] == 50) :
-                    ?>
-                        <form action="/ctrl/association/delete-member.php" method="POST" style="display:inline;">
+                    <?= ($member['first_name'] . ' ' . $member['name'] . ' (' . $member['email'] . ')') ?>
+                    <?php if ($user['idRole'] == 50) : ?>
+                        <form action="/ctrl/profile/delete-user.php" method="POST" style="display:inline;">
                             <input type="hidden" name="idUser" value="<?= $member['id'] ?>">
                             <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce membre ?');">Supprimer</button>
                         </form>
@@ -91,29 +86,26 @@ if ($messages) :
             <p><?= ($message['body']) ?></p>
             <small><?= ($message['sent_at']) ?></small>
         </div>
-    <?php
-    endforeach;
-else :
-    ?>
+    <?php endforeach; ?>
+<?php else : ?>
     <p>Vous n'avez aucun message.</p>
 <?php endif; ?>
 
 <section>
     <h2>Mettre à jour le profil</h2>
-    <form action="/ctrl/profile/update-association-user.php" method="post" enctype="multipart/form-data">
+    <form action="/ctrl/profile/update-user.php" method="post" enctype="multipart/form-data">
         <div>
             <label for="email">Nouvel Email :</label>
-            <input type="text" id="email" name="email" value="<?= $_SESSION['user']['email'] ?>">
+            <input type="text" id="email" name="email" value="<?= ($_SESSION['user']['email']) ?>">
         </div>
         <div>
             <label for="name">Nouveau Nom :</label>
-            <input type="text" id="name" name="name" value="<?= $_SESSION['user']['name'] ?>">
+            <input type="text" id="name" name="name" value="<?= ($_SESSION['user']['name']) ?>">
         </div>
         <div>
             <label for="first_name">Nouveau Prénom :</label>
-            <input type="text" id="first_name" name="first_name" value="<?= $_SESSION['user']['first_name'] ?>">
+            <input type="text" id="first_name" name="first_name" value="<?= ($_SESSION['user']['first_name']) ?>">
         </div>
-        
         <div>
             <label for="avatar">Nouveau Avatar :</label>
             <input type="file" id="avatar" name="avatar">
@@ -129,4 +121,5 @@ else :
         <button type="submit" class="update-button">Mettre à jour</button>
     </form>
 </section>
+
 <a href="/ctrl/login/logout.php">Se déconnecter</a>
