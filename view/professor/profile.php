@@ -52,7 +52,7 @@
                     <td><?= $student['ine_number'] ?></td>
                     <td><?= ucfirst($student['status']) ?></td>
                 </tr>
-           <?php endforeach; ?>
+            <?php endforeach; ?>
         </tbody>
     </table>
 <?php else : ?>

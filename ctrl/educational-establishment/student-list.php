@@ -9,6 +9,14 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/educational-establishment.php';
 $dbConnection = getConnection($dbConfig);
 $titrePage = "motiV";
 
+// Vérification du rôle de l'utilisateur
+$idRole = $_SESSION['user']['idRole'];
+if ($idRole != 20) {
+    // Si l'utilisateur n'est pas un admin, redirige vers la page de connexion
+    header('Location: /ctrl/login/login-display.php');
+    exit();
+}
+
 $idUser = $_SESSION['user']['id'];
 $educationalEstablishment = getEducationalEstablishmentByIdUser($idUser, $dbConnection);
 
