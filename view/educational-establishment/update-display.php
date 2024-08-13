@@ -9,7 +9,7 @@
     <input type="text" id="address" name="address" value="<?= $educationalEstablishment['address'] ?>" required><br>
     <label for="email">Email de l'Établissement:</label>
     <input type="email" id="email" name="email" value="<?= $educationalEstablishment['email'] ?>" required><br>
-    <label for="NIE_number">Numéro NIE:</label>
-    <input type="text" id="NIE_number" name="NIE_number" value="<?= $educationalEstablishment['NIE_number'] ?>" required><br>
+    <label for="RNE_number">Numéro RNE:</label>
+    <input type="text" id="RNE_number" name="RNE_number" value="<?= $educationalEstablishment['RNE_number'] ?>" required><br>
     <button type="submit">Mettre à jour l'Établissement</button>
 </form>

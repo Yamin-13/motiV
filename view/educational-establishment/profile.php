@@ -7,7 +7,7 @@
 <?php if ($educationalEstablishment && is_array($educationalEstablishment)) : ?>
     <h2>Informations sur l'Établissement Scolaire</h2>
     <p>Nom de l'établissement: <?= ($educationalEstablishment['name']) ?></p>
-    <p>Numéro NIE: <?= ($educationalEstablishment['NIE_number']) ?></p>
+    <p>Numéro RNE: <?= ($educationalEstablishment['RNE_number']) ?></p>
     <p>Numéro de téléphone: <?= ($educationalEstablishment['phone_number']) ?></p>
     <p>Adresse: <?= ($educationalEstablishment['address']) ?></p>
     <p>Email de l'établissement: <?= ($educationalEstablishment['email']) ?></p>
@@ -17,6 +17,10 @@
         <a href="/ctrl/educational-establishment/update-display.php?id=<?= ($educationalEstablishment['id']) ?>"><button>Modifier l'Établissement</button></a>
         <a href="/ctrl/invitation/send-invitation-form.php?entity_type=educational&entity_id=<?= ($educationalEstablishment['id']) ?>"><button>Inviter un Membre</button></a>
     <?php endif; ?>
+   
+    <?php if ($user['idRole'] == 20): ?>
+    <a href="/ctrl/educational-establishment/student-list.php"><button>Voir la Liste des Élèves</button></a>
+<?php endif; ?>
 
     <?php if (is_array($members) && count($members) > 0) : ?>
         <h2>Liste des membres</h2>

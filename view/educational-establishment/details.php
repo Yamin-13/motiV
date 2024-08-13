@@ -2,7 +2,7 @@
 <p>ID: <?= ($educationalEstablishment['id']) ?></p>
 <p>Nom: <?= ($educationalEstablishment['name']) ?></p>
 <p>Email: <?= ($educationalEstablishment['email']) ?></p>
-<p>Numéro NIE: <?= ($educationalEstablishment['NIE_number']) ?></p>
+<p>Numéro RNE: <?= ($educationalEstablishment['RNE_number']) ?></p>
 <p>Numéro de téléphone: <?= ($educationalEstablishment['phone_number']) ?></p>
 <p>Adresse: <?= ($educationalEstablishment['address']) ?></p>
 

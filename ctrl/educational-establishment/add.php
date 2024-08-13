@@ -11,10 +11,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = htmlspecialchars($_POST['email']);
     $phoneNumber = htmlspecialchars($_POST['phone_number']);
     $address = htmlspecialchars($_POST['address']);
-    $NIE_number = htmlspecialchars($_POST['NIE_number']);
+    $RNE_number = htmlspecialchars($_POST['RNE_number']);
     $idUser = $_SESSION['user']['id'];
 
-    if (addEducationalEstablishment($name, $email, $phoneNumber, $address, $NIE_number, $idUser, $dbConnection)) {
+    if (addEducationalEstablishment($name, $email, $phoneNumber, $address, $RNE_number, $idUser, $dbConnection)) {
         $_SESSION['success'] = 'Établissement scolaire ajouté avec succès.';
         header('Location: /ctrl/profile/display.php');
         exit();
