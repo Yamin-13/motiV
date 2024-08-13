@@ -1,23 +1,25 @@
 <?php
 
-function addEducationalEstablishment($name, $email, $phoneNumber, $address, $NIE_number, $idUser, $dbConnection)
+function addEducationalEstablishment($name, $email, $phoneNumber, $address, $RNE_number, $idUser, $dbConnection)
 {
-    $query = 'INSERT INTO educational_establishment (name, email, phone_number, address, NIE_number, idUser) 
-              VALUES (:name, :email, :phone_number, :address, :NIE_number, :idUser)';
+    $uniqueCode = generateUniqueCode();
+    $query = 'INSERT INTO educational_establishment (name, email, phone_number, address, RNE_number, idUser, unique_code) 
+              VALUES (:name, :email, :phone_number, :address, :RNE_number, :idUser, :unique_code)';
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':name', $name);
     $statement->bindParam(':email', $email);
     $statement->bindParam(':phone_number', $phoneNumber);
     $statement->bindParam(':address', $address);
-    $statement->bindParam(':NIE_number', $NIE_number);
+    $statement->bindParam(':RNE_number', $RNE_number);
     $statement->bindParam(':idUser', $idUser);
+    $statement->bindParam(':unique_code', $uniqueCode);
 
     return $statement->execute();
 }
 
 function getEducationalEstablishmentByIdUser($idUser, $dbConnection)
 {
-    $query = 'SELECT ee.id, ee.name, ee.email, ee.phone_number, ee.address, ee.NIE_number, u.name AS admin_name, u.first_name AS admin_first_name 
+    $query = 'SELECT ee.id, ee.name, ee.email, ee.phone_number, ee.address, ee.RNE_number, u.name AS admin_name, u.first_name AS admin_first_name 
               FROM educational_establishment ee
               JOIN user u ON ee.idUser = u.id
               WHERE ee.idUser = :idUser';
@@ -39,17 +41,17 @@ function getMembersByEducationalId($educationalId, $dbConnection)
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function updateEducationalEstablishment($id, $name, $phoneNumber, $address, $email, $NIE_number, $dbConnection)
+function updateEducationalEstablishment($id, $name, $phoneNumber, $address, $email, $RNE_number, $dbConnection)
 {
     $query = 'UPDATE educational_establishment 
-              SET name = :name, phone_number = :phone_number, address = :address, email = :email, NIE_number = :NIE_number
+              SET name = :name, phone_number = :phone_number, address = :address, email = :email, RNE_number = :RNE_number
               WHERE id = :id';
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':name', $name);
     $statement->bindParam(':phone_number', $phoneNumber);
     $statement->bindParam(':address', $address);
     $statement->bindParam(':email', $email);
-    $statement->bindParam(':NIE_number', $NIE_number);
+    $statement->bindParam(':RNE_number', $RNE_number);
     $statement->bindParam(':id', $id);
 
     return $statement->execute();
@@ -57,7 +59,7 @@ function updateEducationalEstablishment($id, $name, $phoneNumber, $address, $ema
 
 function getEducationalEstablishmentById($id, $dbConnection)
 {
-    $query = 'SELECT id, name, email, phone_number, address, NIE_number, idUser 
+    $query = 'SELECT id, name, email, phone_number, address, RNE_number, idUser 
               FROM educational_establishment 
               WHERE id = :id';
     $statement = $dbConnection->prepare($query);
@@ -68,7 +70,7 @@ function getEducationalEstablishmentById($id, $dbConnection)
 
 function getEducationalEstablishmentByIdMember($idUser, $dbConnection)
 {
-    $query = 'SELECT ee.id, ee.name, ee.email, ee.phone_number, ee.address, ee.NIE_number, u.name AS admin_name, u.first_name AS admin_first_name
+    $query = 'SELECT ee.id, ee.name, ee.email, ee.phone_number, ee.address, ee.RNE_number, u.name AS admin_name, u.first_name AS admin_first_name
               FROM educational_establishment ee
               JOIN educational_establishment_user eeu ON ee.id = eeu.idEducationalEstablishment
               JOIN user u ON ee.idUser = u.id
@@ -107,4 +109,79 @@ function getEducationalEstablishmentsWithDetails($dbConnection)
     $statement = $dbConnection->prepare($query);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function generateUniqueCode()
+{
+    $digits = mt_rand(10000000, 99999999);
+    $letters = chr(mt_rand(65, 90)) . chr(mt_rand(65, 90)); // Génère deux lettres aléatoires
+    return $digits . $letters;
+}
+
+function getEducationalEstablishment($rne, $uniqueCode, $dbConnection, $selectAll = false)
+{
+    // Sélection des colonnes en fonction du paramètre $selectAll
+    $columns = $selectAll ? 'id, name, email, phone_number, address, RNE_number, unique_code, idUser' : 'id';
+
+    $query = "SELECT $columns FROM educational_establishment WHERE RNE_number = :rne AND unique_code = :unique_code";
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':rne', $rne);
+    $statement->bindParam(':unique_code', $uniqueCode);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+}
+
+function getProfessorStudentsByEstablishment($idEducationalEstablishment, $dbConnection)
+{
+    $query = "
+        SELECT 
+            pu.id AS professor_id, 
+            pu.class_name, 
+            u.first_name AS professor_first_name, 
+            u.name AS professor_name, 
+            s.id AS student_id, 
+            s.ine_number, 
+            s.status
+        FROM professor_user pu
+        JOIN user u ON pu.idUser = u.id
+        LEFT JOIN student s ON s.idProfessor = pu.id
+        WHERE pu.idEducationalEstablishment = :idEducationalEstablishment
+        ORDER BY pu.class_name, u.name, s.ine_number
+    ";
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':idEducationalEstablishment', $idEducationalEstablishment);
+    $statement->execute();
+    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    // regroupement par professeur
+    $professorStudents = [];
+    foreach ($result as $row) {
+        $professorId = $row['professor_id'];
+        if (!isset($professorStudents[$professorId])) {
+            $professorStudents[$professorId] = [
+                'class_name' => $row['class_name'],
+                'professor_first_name' => $row['professor_first_name'],
+                'professor_name' => $row['professor_name'],
+                'students' => []
+            ];
+        }
+        if ($row['student_id']) {
+            $professorStudents[$professorId]['students'][] = [
+                'id' => $row['student_id'],
+                'ine_number' => $row['ine_number'],
+                'status' => $row['status']
+            ];
+        }
+    }
+
+    return array_values($professorStudents);
+}
+
+
+function validateStudent($studentId, $dbConnection)
+{
+    $query = 'UPDATE student SET status = "validated" WHERE id = :student_id';
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':student_id', $studentId);
+    return $statement->execute();
 }

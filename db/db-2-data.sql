@@ -5,6 +5,7 @@ INSERT INTO role (id, code, label ) VALUES
      (10, 'ADM', 'Admin')
     ,(20, 'EE', 'educational_establishment')
     ,(25, 'MB_EE', 'educational_establishment_member')
+    ,(27, 'PROF', 'professor')
     ,(30, 'CH', 'city_hall')
     ,(35, 'MB_CH', 'city_hall_member')
     ,(40, 'P', 'partner')

@@ -38,6 +38,9 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
             case '25':
                 header('Location: /ctrl/profile/display.php');
                 break;
+            case '27':
+                header('Location: /ctrl/profile/display.php');
+                break;
             case '30':
                 header('Location: /ctrl/profile/display.php');
                 break;

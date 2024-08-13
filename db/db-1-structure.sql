@@ -91,7 +91,8 @@ CREATE TABLE educational_establishment (
     email varchar(50) NOT NULL UNIQUE,
     phone_number varchar(50),
     address varchar(100) NOT NULL,
-    NIE_number varchar(100) NOT NULL,
+    RNE_number varchar(100) NOT NULL,
+    unique_code varchar(10) NOT NULL UNIQUE,
     image_filename varchar(255),
     idUser bigint(20) NOT NULL
 )
@@ -105,6 +106,22 @@ CREATE TABLE educational_establishment_user (
 )
 ;
 
+CREATE TABLE professor_user (
+    id BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    idUser BIGINT(20) NOT NULL,
+    idEducationalEstablishment BIGINT(20) NOT NULL,
+    class_name varchar(50) NOT NULL
+)
+;
+
+CREATE TABLE student (
+    id BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    ine_number varchar(20) NOT NULL,
+    idProfessor BIGINT(20) NOT NULL,
+    idEducationalEstablishment BIGINT(20) NOT NULL,
+    status ENUM('pending', 'validated') NOT NULL DEFAULT 'pending'
+)
+;
 
 CREATE TABLE partner (
     id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -305,4 +322,14 @@ ALTER TABLE invitation
     ,ADD CONSTRAINT `fk_invitation_educational_establishment` FOREIGN KEY (idEducationalEstablishment) REFERENCES educational_establishment(id) ON DELETE CASCADE
     ,ADD CONSTRAINT `fk_invitation_city_hall` FOREIGN KEY (idCityHall) REFERENCES city_hall(id) ON DELETE CASCADE 
     ,ADD CONSTRAINT `fk_invitation_role` FOREIGN KEY(idRole) REFERENCES role(id) ON DELETE CASCADE
+;
+
+ALTER TABLE professor_user
+    ADD CONSTRAINT `fk_professor_user_user` FOREIGN KEY (idUser) REFERENCES user(id) ON DELETE CASCADE
+    ,ADD CONSTRAINT `fk_professor_user_educational_establishment` FOREIGN KEY (idEducationalEstablishment) REFERENCES educational_establishment(id) ON DELETE CASCADE
+;
+
+ALTER TABLE student
+    ADD CONSTRAINT `fk_student_professor` FOREIGN KEY (idProfessor) REFERENCES professor_user(id) ON DELETE CASCADE
+    ,ADD CONSTRAINT `fk_student_educational_establishment` FOREIGN KEY (idEducationalEstablishment) REFERENCES educational_establishment(id) ON DELETE CASCADE
 ;

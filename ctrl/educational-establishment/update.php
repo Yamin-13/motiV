@@ -10,12 +10,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $phoneNumber = htmlspecialchars($_POST['phone_number']);
     $address = htmlspecialchars($_POST['address']);
     $email = htmlspecialchars($_POST['email']);
-    $NIE_number = htmlspecialchars($_POST['NIE_number']);
+    $RNE_number = htmlspecialchars($_POST['RNE_number']);
 
     $dbConnection = getConnection($dbConfig);
 
 
-    if (updateEducationalEstablishment($id, $name, $phoneNumber, $address, $email, $NIE_number, $dbConnection)) {
+    if (updateEducationalEstablishment($id, $name, $phoneNumber, $address, $email, $RNE_number, $dbConnection)) {
         $_SESSION['success'] = 'Établissement scolaire mis à jour avec succès.';
     } else {
         $_SESSION['error'] = 'Erreur lors de la mise à jour de l\'établissement scolaire.';

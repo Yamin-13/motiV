@@ -10,13 +10,16 @@ function addUser($email, $name, $firstName, $password, $idRole, $fileName, $date
     $statement->bindParam(':name', $name);
     $statement->bindParam(':first_name', $firstName); //                                 //
     $statement->bindParam(':idRole', $idRole);       //  <----------------------------- // ca lie la valeeur de $idRole au parametre ":idRole" dans la requête SQL ($idRole = :idRole ) 
-    $avatarFilename = basename($fileName);// Assignation à une variable
+    $avatarFilename = basename($fileName); // Assignation à une variable
     $statement->bindParam(':avatar_filename', $avatarFilename, PDO::PARAM_STR);
     $statement->bindParam(':date_of_birth', $dateOfBirth);
     $statement->bindParam(':address', $address);
 
-    return $statement->execute();  // PDOStatement::execute (ca execute les requetes et retourne true ou false pour l'insert to) 
-
+    if ($statement->execute()) {
+        return $db->lastInsertId();  // Retourne l'ID de l'utilisateur nouvellement inséré
+    } else {
+        return false;  // Retourne false si l'insertion échoue
+    }
 }
 
 function getUser(string $email, string $password, PDO $db)
@@ -44,9 +47,10 @@ function getUser(string $email, string $password, PDO $db)
     }
 }
 
-function updateUserProfile($name, $idUser, $email, $avatarFilename, $firstName, $password, $idRole, $address = null, $dateOfBirth = null, $dbConnection) {
+function updateUserProfile($name, $idUser, $email, $avatarFilename, $firstName, $password, $idRole, $address = null, $dateOfBirth = null, $dbConnection)
+{
     $query = 'UPDATE user SET name = :name, email = :email, avatar_filename = :avatar_filename, first_name = :first_name, password = :password, idRole = :idRole';
-    
+
     // champs optionnels uniquement s'ils sont fournis
     if ($address !== null) {
         $query .= ', address = :address';
@@ -54,7 +58,7 @@ function updateUserProfile($name, $idUser, $email, $avatarFilename, $firstName, 
     if ($dateOfBirth !== null) {
         $query .= ', date_of_birth = :date_of_birth';
     }
-    
+
     $query .= ' WHERE id = :id';
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':name', $name);
@@ -63,14 +67,14 @@ function updateUserProfile($name, $idUser, $email, $avatarFilename, $firstName, 
     $statement->bindParam(':first_name', $firstName);
     $statement->bindParam(':password', $password);
     $statement->bindParam(':idRole', $idRole);
-    
+
     if ($address !== null) {
         $statement->bindParam(':address', $address);
     }
     if ($dateOfBirth !== null) {
         $statement->bindParam(':date_of_birth', $dateOfBirth);
     }
-    
+
     $statement->bindParam(':id', $idUser);
     return $statement->execute();
 }
@@ -116,7 +120,9 @@ function deleteUserById($id, $dbConnection)
 }
 
 function getUserByEmail($email, $dbConnection) {
-    $query = 'SELECT * FROM user WHERE email = :email';
+    $query = 'SELECT id, name, first_name, email, date_of_birth, address, password, avatar_filename, registration_date, last_connexion, idRole 
+              FROM user 
+              WHERE email = :email';
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':email', $email);
     $statement->execute();

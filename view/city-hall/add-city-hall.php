@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajouter une Mairie</title>
-</head>
-<body>
-    <h2>Ajouter une Mairie</h2>
+   <h2>Ajouter une Mairie</h2>
     <?php if (isset($_SESSION['error'])) : ?>
         <div class="error-message">
             <?= $_SESSION['error'] ?>
@@ -28,5 +20,3 @@
         
         <button type="submit">Ajouter la mairie</button>
     </form>
-</body>
-</html>
