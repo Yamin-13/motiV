@@ -8,6 +8,7 @@
     <h2>Informations sur l'Établissement Scolaire</h2>
     <p>Nom de l'établissement: <?= ($educationalEstablishment['name']) ?></p>
     <p>Numéro RNE: <?= ($educationalEstablishment['RNE_number']) ?></p>
+    <p>Code unique de l'établissement : <?= ($educationalEstablishment['unique_code']) ?></p>
     <p>Numéro de téléphone: <?= ($educationalEstablishment['phone_number']) ?></p>
     <p>Adresse: <?= ($educationalEstablishment['address']) ?></p>
     <p>Email de l'établissement: <?= ($educationalEstablishment['email']) ?></p>

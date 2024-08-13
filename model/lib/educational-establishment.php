@@ -19,7 +19,7 @@ function addEducationalEstablishment($name, $email, $phoneNumber, $address, $RNE
 
 function getEducationalEstablishmentByIdUser($idUser, $dbConnection)
 {
-    $query = 'SELECT ee.id, ee.name, ee.email, ee.phone_number, ee.address, ee.RNE_number, u.name AS admin_name, u.first_name AS admin_first_name 
+    $query = 'SELECT ee.id, ee.name, ee.email, ee.phone_number, ee.address, ee.RNE_number, ee.unique_code, u.name AS admin_name, u.first_name AS admin_first_name 
               FROM educational_establishment ee
               JOIN user u ON ee.idUser = u.id
               WHERE ee.idUser = :idUser';
@@ -153,12 +153,13 @@ function getProfessorStudentsByEstablishment($idEducationalEstablishment, $dbCon
     $statement->execute();
     $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-    // regroupement par professeur
+    // Regroupement par professeur
     $professorStudents = [];
     foreach ($result as $row) {
         $professorId = $row['professor_id'];
         if (!isset($professorStudents[$professorId])) {
             $professorStudents[$professorId] = [
+                'id' => $professorId,
                 'class_name' => $row['class_name'],
                 'professor_first_name' => $row['professor_first_name'],
                 'professor_name' => $row['professor_name'],
