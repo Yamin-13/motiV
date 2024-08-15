@@ -11,4 +11,5 @@
 <body>
     <header>
         <a href="/ctrl/home/display.php">header</a>
+        <a href="/ctrl/home/welcome.php">Page welcome</a>
     </header>
