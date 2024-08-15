@@ -113,7 +113,7 @@ function getUsersByRole($dbConnection)
 function getUserById($id, $dbConnection)
 {
     $query = "
-        SELECT id, name, first_name, email, date_of_birth, address, password, avatar_filename, registration_date, last_connexion, idRole, profile_complete
+        SELECT id, name, first_name, email, ine_number, date_of_birth, address, password, avatar_filename, registration_date, last_connexion, idRole, profile_complete
         FROM user
         WHERE id = :id
     ";
@@ -137,6 +137,14 @@ function getUserByEmail($email, $dbConnection) {
               WHERE email = :email';
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':email', $email);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+}
+
+function getUserByIne($ineNumber, $dbConnection) {
+    $query = "SELECT id, name, first_name, email FROM user WHERE ine_number = :ine_number";
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':ine_number', $ineNumber);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
 }

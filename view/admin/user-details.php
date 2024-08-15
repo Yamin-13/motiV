@@ -3,6 +3,7 @@
 <p>Nom: <?= ($user['name']) ?></p>
 <p>Prénom: <?= ($user['first_name']) ?></p>
 <p>Email: <?= ($user['email']) ?></p>
+<p>Numéro INE: <?= ($user['ine_number']) ?></p>
 <p>Date de naissance: <?= ($user['date_of_birth']) ?></p>
 <p>Adresse: <?= ($user['address']) ?></p>
 <p>Avatar: <?= ($user['avatar_filename']) ?></p>
