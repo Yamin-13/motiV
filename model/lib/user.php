@@ -47,11 +47,14 @@ function getUser(string $email, string $password, PDO $db)
     }
 }
 
-function updateUserProfile($name, $idUser, $email, $avatarFilename, $firstName, $password, $idRole, $address = null, $dateOfBirth = null, $dbConnection)
+function updateUserProfile($idUser, $name, $email, $avatarFilename, $firstName, $password, $idRole, $ineNumber = null, $address = null, $dateOfBirth = null, $dbConnection)
 {
     $query = 'UPDATE user SET name = :name, email = :email, avatar_filename = :avatar_filename, first_name = :first_name, password = :password, idRole = :idRole';
 
-    // champs optionnels uniquement s'ils sont fournis
+    // Ajouter les champs optionnels
+    if ($ineNumber !== null) {
+        $query .= ', ine_number = :ine_number';
+    }
     if ($address !== null) {
         $query .= ', address = :address';
     }
@@ -59,7 +62,11 @@ function updateUserProfile($name, $idUser, $email, $avatarFilename, $firstName, 
         $query .= ', date_of_birth = :date_of_birth';
     }
 
+    // Marque le profil comme complet
+    $query .= ', profile_complete = 1';
+
     $query .= ' WHERE id = :id';
+    
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':name', $name);
     $statement->bindParam(':email', $email);
@@ -67,7 +74,11 @@ function updateUserProfile($name, $idUser, $email, $avatarFilename, $firstName, 
     $statement->bindParam(':first_name', $firstName);
     $statement->bindParam(':password', $password);
     $statement->bindParam(':idRole', $idRole);
+    $statement->bindParam(':id', $idUser);
 
+    if ($ineNumber !== null) {
+        $statement->bindParam(':ine_number', $ineNumber);
+    }
     if ($address !== null) {
         $statement->bindParam(':address', $address);
     }
@@ -75,9 +86,10 @@ function updateUserProfile($name, $idUser, $email, $avatarFilename, $firstName, 
         $statement->bindParam(':date_of_birth', $dateOfBirth);
     }
 
-    $statement->bindParam(':id', $idUser);
     return $statement->execute();
 }
+
+
 
 // fonction pour récupérer les utilisateurs par rôle
 function getUsersByRole($dbConnection)
@@ -101,7 +113,7 @@ function getUsersByRole($dbConnection)
 function getUserById($id, $dbConnection)
 {
     $query = "
-        SELECT id, name, first_name, email, date_of_birth, address, password, avatar_filename, registration_date, last_connexion, idRole
+        SELECT id, name, first_name, email, date_of_birth, address, password, avatar_filename, registration_date, last_connexion, idRole, profile_complete
         FROM user
         WHERE id = :id
     ";

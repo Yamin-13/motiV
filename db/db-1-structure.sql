@@ -22,8 +22,10 @@ CREATE TABLE user (
     address varchar(100),
     password varchar(100) NOT NULL,
     avatar_filename varchar(255),
+    ine_number varchar(20) NOT NULL,
     registration_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_connexion timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    profile_complete TINYINT(1) NOT NULL DEFAULT 0;
     idRole bigint(20)
 )
 ;
