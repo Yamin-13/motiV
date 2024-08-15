@@ -34,6 +34,9 @@ function getValidatedStudentsByEstablishment($dbConnection)
 {
   $query = 'SELECT 
                 s.ine_number, 
+                s.first_name AS student_first_name, 
+                s.name AS student_name, 
+                s.email AS student_email,
                 e.name AS establishment_name, 
                 p.class_name, 
                 u.first_name AS professor_first_name, 
@@ -92,8 +95,37 @@ function deleteStudent($id, $dbConnection)
 
 function validateClass($classId, $dbConnection)
 {
-    $query = 'UPDATE student SET status = "validated" WHERE idProfessor = :classId AND status = "pending"';
-    $statement = $dbConnection->prepare($query);
-    $statement->bindParam(':classId', $classId);
-    return $statement->execute();
+  $query = 'UPDATE student SET status = "validated" WHERE idProfessor = :classId AND status = "pending"';
+  $statement = $dbConnection->prepare($query);
+  $statement->bindParam(':classId', $classId);
+  return $statement->execute();
+}
+
+function getStudentByIne($ineNumber, $dbConnection)
+{
+  $query = "SELECT id, ine_number, name, first_name, email, status FROM student WHERE ine_number = :ine_number";
+  $statement = $dbConnection->prepare($query);
+  $statement->bindParam(':ine_number', $ineNumber);
+  $statement->execute();
+  return $statement->fetch(PDO::FETCH_ASSOC);
+}
+
+
+function updateStudentInfo($studentId, $name, $firstName, $email, $dbConnection)
+{
+  $query = "UPDATE student SET name = :name, first_name = :first_name, email = :email WHERE id = :id";
+  $statement = $dbConnection->prepare($query);
+  $statement->bindParam(':name', $name);
+  $statement->bindParam(':first_name', $firstName);
+  $statement->bindParam(':email', $email);
+  $statement->bindParam(':id', $studentId);
+  return $statement->execute();
+}
+
+function getStudentsByClassId($classId, $dbConnection) {
+  $query = "SELECT id, ine_number, status FROM student WHERE idProfessor = :classId AND status = 'pending'";
+  $statement = $dbConnection->prepare($query);
+  $statement->bindParam(':classId', $classId);
+  $statement->execute();
+  return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
