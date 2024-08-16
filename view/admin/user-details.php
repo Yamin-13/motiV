@@ -6,7 +6,7 @@
 <p>Numéro INE: <?= ($user['ine_number']) ?></p>
 <p>Date de naissance: <?= ($user['date_of_birth']) ?></p>
 <p>Adresse: <?= ($user['address']) ?></p>
-<p>Avatar: <?= ($user['avatar_filename']) ?></p>
+<p>Nombre de points: <?= ($user['points']) ?></p>
 <p>Date d'inscription: <?= ($user['registration_date']) ?></p>
 <p>Dernière connexion: <?= ($user['last_connexion']) ?></p>
 <p>Rôle: <?= ($user['idRole']) ?></p>

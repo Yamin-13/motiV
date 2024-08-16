@@ -1,34 +1,35 @@
 <?php
 session_start();
-require_once $_SERVER['DOCUMENT_ROOT'] . '/cfg/db-dev.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/model/lib/db.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/cfg/db-dev.php'; 
+require_once $_SERVER['DOCUMENT_ROOT'] . '/model/lib/db.php'; 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/model/lib/user.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/model/lib/student.php';
 
 $dbConnection = getConnection($dbConfig);
 
-// Récupére l'ID utilisateur de la session
+// Récupérer l'ID utilisateur de la session
 $userId = $_SESSION['user']['id'];
 
-// Récupére les données soumises
-$newFirstName = $_POST['first_name'];
-$newName = $_POST['name'];
-$newDateOfBirth = $_POST['date_of_birth'];
-$newAddress = $_POST['address'];
-$ineNumber = $_POST['ine_number'];
+// Récupérer les données soumises
+$newFirstName = $_POST['first_name'] ?? '';
+$newName = $_POST['name'] ?? '';
+$newDateOfBirth = $_POST['date_of_birth'] ?? '';
+$newAddress = $_POST['address'] ?? '';
+$ineNumber = $_POST['ine_number'] ?? '';
 
-// Connexion à la base de données
-$dbConnection = getConnection($dbConfig);
-
-// Vérifie si le numéro INE existe et est validé dans la table `student`
+// Vérifier si le numéro INE correspond à un numéro validé dans la table `student`
 $student = getStudentByIne($ineNumber, $dbConnection);
 
-if ($student) {
-    // Met à jour les informations de l'étudiant dans la table `student`
-    updateStudentInfo($student['id'], $newName, $newFirstName, $_SESSION['user']['email'], $dbConnection);
+if ($student && $student['status'] == 'validated') {
+    // Ajoute 1000 points si l'utilisateur n'a pas déjà reçu les points
+    if ($_SESSION['user']['points'] == 0) {
+        $newPoints = $_SESSION['user']['points'] + 1000;
+        updateUserPoints($userId, $newPoints, $dbConnection);
+        $_SESSION['user']['points'] = $newPoints;
+    }
 }
 
-// Met à jour le profil de l'utilisateur dans la table `user`
+// Mettre à jour le profil de l'utilisateur dans la table `user`
 updateUserProfile($userId, $newName, $_SESSION['user']['email'], $_SESSION['user']['avatar_filename'], $newFirstName, $_SESSION['user']['password'], $_SESSION['user']['idRole'], $ineNumber, $newAddress, $newDateOfBirth, $dbConnection);
 
 // Mise à jour des informations de session
@@ -43,6 +44,6 @@ if ($ineNumber !== '') {
 // Ajout d'un message de confirmation
 $_SESSION['success'] = "Votre profil a été mis à jour avec succès.";
 
-
+// Rediriger vers la page de profil
 header('Location: /view/home/welcome.php');
 exit();

@@ -186,3 +186,25 @@ function validateStudent($studentId, $dbConnection)
     $statement->bindParam(':student_id', $studentId);
     return $statement->execute();
 }
+
+function getYoungUsersByEstablishment($idEducationalEstablishment, $dbConnection) {
+    $query = "
+        SELECT 
+            u.id, 
+            u.name, 
+            u.first_name, 
+            u.email, 
+            u.points 
+        FROM 
+            user u 
+        JOIN 
+            student s ON u.ine_number = s.ine_number 
+        WHERE 
+            s.idEducationalEstablishment = :idEducationalEstablishment
+            AND u.idRole = 60
+    ";
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':idEducationalEstablishment', $idEducationalEstablishment);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}

@@ -10,6 +10,8 @@
     <p><strong>Date de Naissance :</strong> <?= $_SESSION['user']['date_of_birth'] ?? 'Non spécifiée' ?></p>
     <p><strong>Adresse :</strong> <?= $_SESSION['user']['address'] ?? 'Non spécifiée' ?></p>
     <p><strong>Membre depuis le :</strong> <?= $_SESSION['user']['registration_date'] ?></p>
+    <p><strong>Points :</strong> <?= isset($_SESSION['user']['points']) ? $_SESSION['user']['points'] : 0 ?></p>
+    <p><strong>Numéro INE :</strong><?= $_SESSION['user']['ine_number']?></p>
 </section>
 <section>
     <h2>Mettre à jour le profil</h2>

@@ -1,9 +1,9 @@
 <?php
 
 // Fonction pour ajouter un utilisateur à la bases de données
-function addUser($email, $name, $firstName, $password, $idRole, $fileName, $dateOfBirth, $address, $db)
+function addUser($email, $name, $firstName, $password, $idRole, $fileName, $dateOfBirth, $address, $points, $db)
 {
-    $query = 'INSERT INTO user ( email, password, name, first_name, idRole, avatar_filename, date_of_birth, address) VALUES (:email, :password, :name, :first_name, :idRole, :avatar_filename, :date_of_birth, :address)'; // requete SQL avec les parametres pour insérer un nouvel utilisateur dans la table...
+    $query = 'INSERT INTO user ( email, password, name, first_name, idRole, avatar_filename, date_of_birth, address, points) VALUES (:email, :password, :name, :first_name, :idRole, :avatar_filename, :date_of_birth, :address, :points)'; // requete SQL avec les parametres pour insérer un nouvel utilisateur dans la table...
     $statement = $db->prepare($query);   // prepare la requete SQL ele retourne un objet PDOstatement                               // ...user avec les 3 collones 
     $statement->bindParam(':email', $email);        // methode PDOStatement::bindParam // 
     $statement->bindParam(':password', $password); //                                 //
@@ -14,6 +14,7 @@ function addUser($email, $name, $firstName, $password, $idRole, $fileName, $date
     $statement->bindParam(':avatar_filename', $avatarFilename, PDO::PARAM_STR);
     $statement->bindParam(':date_of_birth', $dateOfBirth);
     $statement->bindParam(':address', $address);
+    $statement->bindParam(':points', $points);
 
     if ($statement->execute()) {
         return $db->lastInsertId();  // Retourne l'ID de l'utilisateur nouvellement inséré
@@ -99,7 +100,9 @@ function getUsersByRole($dbConnection)
             u.id, 
             u.name, 
             u.first_name, 
-            u.email, 
+            u.email,
+            u.points, 
+            u.idRole,
             r.label AS role
         FROM user u
         JOIN role r ON u.idRole = r.id
@@ -113,7 +116,7 @@ function getUsersByRole($dbConnection)
 function getUserById($id, $dbConnection)
 {
     $query = "
-        SELECT id, name, first_name, email, ine_number, date_of_birth, address, password, avatar_filename, registration_date, last_connexion, idRole, profile_complete
+        SELECT id, name, first_name, email, ine_number, date_of_birth, address, password, avatar_filename, registration_date, last_connexion, idRole, profile_complete, points
         FROM user
         WHERE id = :id
     ";
@@ -147,4 +150,12 @@ function getUserByIne($ineNumber, $dbConnection) {
     $statement->bindParam(':ine_number', $ineNumber);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
+}
+
+function updateUserPoints($idUser, $points, $dbConnection) {
+    $query = 'UPDATE user SET points = :points WHERE id = :id';
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':points', $points);
+    $statement->bindParam(':id', $idUser);
+    return $statement->execute();
 }

@@ -2,21 +2,20 @@
 session_start();
 include $_SERVER['DOCUMENT_ROOT'] . '/cfg/db-dev.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/db.php';
-include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/student.php';
-include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/professor.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/user.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/educational-establishment.php';
 
 $dbConnection = getConnection($dbConfig);
-$titrePage = "motiV";
+$titrePage = "Liste des Jeunes de l'Établissement";
 
 // Vérification du rôle de l'utilisateur
 $idRole = $_SESSION['user']['idRole'];
 if ($idRole != [20, 25]) {
-    // Si l'utilisateur n'est pas un admin, redirige vers la page de connexion
     header('Location: /ctrl/login/login-display.php');
     exit();
 }
 
+// Récupére l'ID de l'établissement scolaire auquel l'admin est associé
 $idUser = $_SESSION['user']['id'];
 $educationalEstablishment = getEducationalEstablishmentByIdUser($idUser, $dbConnection);
 
@@ -26,9 +25,9 @@ if (!$educationalEstablishment) {
     exit();
 }
 
-// Récupere la liste des professeurs et des étudiants par établissement
-$professorStudents = getProfessorStudentsByEstablishment($educationalEstablishment['id'], $dbConnection);
+// Récupére la liste des jeunes de cet établissement
+$youngUsers = getYoungUsersByEstablishment($educationalEstablishment['id'], $dbConnection);
 
 include $_SERVER['DOCUMENT_ROOT'] . '/view/partial/header.php';
-include $_SERVER['DOCUMENT_ROOT'] . '/view/educational-establishment/student-list.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/view/educational-establishment/list-young.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/view/partial/footer.php';

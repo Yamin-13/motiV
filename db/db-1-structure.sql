@@ -25,7 +25,8 @@ CREATE TABLE user (
     ine_number varchar(20) NOT NULL,
     registration_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_connexion timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    profile_complete TINYINT(1) NOT NULL DEFAULT 0;
+    profile_complete TINYINT(1) NOT NULL DEFAULT 0,
+    point varchar(20) DEFAULT 0,
     idRole bigint(20)
 )
 ;
