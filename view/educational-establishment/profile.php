@@ -20,8 +20,9 @@
     <?php endif; ?>
    
     <?php if ($user['idRole'] == 20): ?>
-    <a href="/ctrl/educational-establishment/student-list.php"><button>Voir la Liste des Élèves</button></a>
+    <a href="/ctrl/educational-establishment/student-list.php"><button>Listes soumises par les professeurs</button></a>
 <?php endif; ?>
+<a href="/ctrl/educational-establishment/list-young.php"><button>Listes des élèves inscris</button></a>
 
     <?php if (is_array($members) && count($members) > 0) : ?>
         <h2>Liste des membres</h2>

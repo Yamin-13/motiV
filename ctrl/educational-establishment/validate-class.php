@@ -21,6 +21,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($user) {
             // Mets à jour les informations de l'étudiant avec les informations de l'utilisateur existant
             updateStudentInfo($student['id'], $user['name'], $user['first_name'], $user['email'], $dbConnection);
+            
+            // Ajouter 1000 points à l'utilisateur si ce n'est pas déjà fait
+            if ($user['points'] == 0) {
+                $newPoints = $user['points'] + 1000;
+                updateUserPoints($user['id'], $newPoints, $dbConnection);
+        
+                // Mise à jour de la session si l'utilisateur est connecté
+                if ($_SESSION['user']['id'] == $user['id']) {
+                    $_SESSION['user']['points'] = $newPoints;
+                }
+            }
         }
 
         // Valide l'élève
