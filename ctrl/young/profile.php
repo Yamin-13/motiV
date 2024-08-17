@@ -3,6 +3,9 @@ session_start();
 include $_SERVER['DOCUMENT_ROOT'] . '/cfg/db-dev.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/db.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/user.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/message.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/point.php';
+
 $titrePage = "motiV";
 
 // connexion à la base de données
@@ -24,6 +27,8 @@ $_SESSION['user']['address'] = $user['address'];
 $_SESSION['user']['avatar_filename'] = $user['avatar_filename'];
 $_SESSION['user']['registration_date'] = $user['registration_date'];
 $_SESSION['user']['points'] = $user['points'];
+
+$pointLogs = getPointLogs($userId, $dbConnection);
 
 // Vérifie le rôle de l'utilisateur
 $idRole = $_SESSION['user']['idRole'];

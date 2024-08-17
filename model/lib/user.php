@@ -67,7 +67,7 @@ function updateUserProfile($idUser, $name, $email, $avatarFilename, $firstName, 
     $query .= ', profile_complete = 1';
 
     $query .= ' WHERE id = :id';
-    
+
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':name', $name);
     $statement->bindParam(':email', $email);
@@ -134,7 +134,8 @@ function deleteUserById($id, $dbConnection)
     return $statement->execute();
 }
 
-function getUserByEmail($email, $dbConnection) {
+function getUserByEmail($email, $dbConnection)
+{
     $query = 'SELECT id, name, first_name, email, date_of_birth, address, password, avatar_filename, registration_date, last_connexion, idRole 
               FROM user 
               WHERE email = :email';
@@ -144,15 +145,17 @@ function getUserByEmail($email, $dbConnection) {
     return $statement->fetch(PDO::FETCH_ASSOC);
 }
 
-function getUserByIne($ineNumber, $dbConnection) {
-    $query = "SELECT id, name, first_name, email FROM user WHERE ine_number = :ine_number";
+function getUserByIne($ineNumber, $dbConnection)
+{
+    $query = "SELECT id, name, first_name, email, points FROM user WHERE ine_number = :ine_number";
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':ine_number', $ineNumber);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
 }
 
-function updateUserPoints($idUser, $points, $dbConnection) {
+function updateUserPoints($idUser, $points, $dbConnection)
+{
     $query = 'UPDATE user SET points = :points WHERE id = :id';
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':points', $points);
