@@ -184,9 +184,9 @@ CREATE TABLE mission (
 
 CREATE TABLE point (
     id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    number_of_points varchar(20) NOT NULL,
+    number_of_points INT NOT NULL,
     reason varchar(1500) NOT NULL,
-    date_of_grant timestamp NOT NULL,
+    date_of_grant timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     idUser bigint(20) NOT NULL
 )
 ;

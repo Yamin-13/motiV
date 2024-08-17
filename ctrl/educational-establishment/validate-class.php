@@ -4,6 +4,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/cfg/db-dev.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/db.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/student.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/user.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/point.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/educational-establishment.php';
 
 $dbConnection = getConnection($dbConfig);
@@ -24,15 +25,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             
             // Ajouter 1000 points à l'utilisateur si ce n'est pas déjà fait
             if ($user['points'] == 0) {
-                $newPoints = $user['points'] + 1000;
-                updateUserPoints($user['id'], $newPoints, $dbConnection);
+                // Apel à la fonction awardPoints pour attribuer les points
+                awardPoints($user['id'], 1000, 'Tes efforts en classe sont récompensés !', $dbConnection);
         
                 // Mise à jour de la session si l'utilisateur est connecté
                 if ($_SESSION['user']['id'] == $user['id']) {
-                    $_SESSION['user']['points'] = $newPoints;
+                    $_SESSION['user']['points'] += 1000;
                 }
             }
         }
+        
 
         // Valide l'élève
         validateStudent($student['id'], $dbConnection);

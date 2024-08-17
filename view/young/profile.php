@@ -60,4 +60,30 @@
         <?php unset($_SESSION['error']); ?>
     </div>
 <?php endif; ?>
+
+<h2>Messages</h2>
+<?php
+$messages = getMessagesByidUser($user['id'], $dbConnection);
+if ($messages) :
+    foreach ($messages as $message) :
+?>
+        <div>
+            <h3><?= ($message['subject']) ?></h3>
+            <p><?= ($message['body']) ?></p>
+            <small><?= ($message['sent_at']) ?></small>
+        </div>
+    <?php endforeach; ?>
+<?php else : ?>
+    <p>Vous n'avez aucun message.</p>
+<?php endif; ?>
+
+<?php if ($pointLogs) : ?>
+        <ul>
+            <?php foreach ($pointLogs as $log) : ?>
+                <li><?= $log['date_of_grant'] ?>: Félicitations ! t'as reçu <?= $log['number_of_points'] ?> points. Raison: <?= $log['reason'] ?></li>
+            <?php endforeach; ?>
+        </ul>
+    <?php else : ?>
+        <p>Aucun message pour le moment.</p>
+    <?php endif; ?>
 <a href="/ctrl/login/logout.php">Se déconnecter</a>

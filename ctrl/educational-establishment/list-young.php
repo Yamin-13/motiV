@@ -10,7 +10,7 @@ $titrePage = "Liste des Jeunes de l'Établissement";
 
 // Vérification du rôle de l'utilisateur
 $idRole = $_SESSION['user']['idRole'];
-if ($idRole != [20, 25]) {
+if ($idRole != 20) {
     header('Location: /ctrl/login/login-display.php');
     exit();
 }

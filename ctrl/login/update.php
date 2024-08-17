@@ -12,6 +12,7 @@ $newFirstName = $_POST['first_name'] ?? $_SESSION['user']['first_name'];
 $newDateOfBirth = $_POST['date_of_birth'] ?? $_SESSION['user']['date_of_birth'];
 $newAddress = $_POST['address'] ?? $_SESSION['user']['address'];
 $avatarFilename = $_SESSION['user']['avatar_filename'];
+$ineNumber = $_POST['ine_number'] ?? $_SESSION['user']['ine_number'];
 
 // Traitement de l'upload du nouvel avatar
 if (!empty($_FILES['avatar']['name'])) {
@@ -36,7 +37,8 @@ if (!empty($_POST['password']) && $_POST['password'] === $_POST['confirm_passwor
 
 // Mise à jour de l'utilisateur dans la base de données
 $dbConnection = getConnection($dbConfig);
-updateUserProfile($newName, $idUser, $newEmail, $avatarFilename, $newFirstName, $newPassword, $_SESSION['user']['idRole'], $newAddress, $newDateOfBirth, $ineNumber, $dbConnection);
+updateUserProfile($idUser, $newName, $newEmail, $avatarFilename, $newFirstName, $newPassword, $_SESSION['user']['idRole'], $ineNumber, $newAddress, $newDateOfBirth, $dbConnection    
+);
 
 // Mise à jour des informations de session
 $_SESSION['user']['name'] = $newName;
@@ -46,6 +48,7 @@ $_SESSION['user']['avatar_filename'] = $avatarFilename;
 $_SESSION['user']['date_of_birth'] = $newDateOfBirth;
 $_SESSION['user']['address'] = $newAddress;
 $_SESSION['user']['password'] = $newPassword;
+$_SESSION['user']['ine_number'] = $ineNumber; 
 
 // Ajout d'un message de confirmation
 $_SESSION['success'] = "Votre profil a été mis à jour avec succès.";
