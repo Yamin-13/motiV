@@ -8,7 +8,7 @@ $titrePage = "motiV";
 
 if (isset($_GET['role'])) {
     $role = $_GET['role'];
-    $idRole = ($role == 'partner') ? 40 : 50; // 40 pour Partenaire, 50 pour Association
+    $idRole = ($role == 'partner') ? 40 : 50;
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $email = htmlspecialchars($_POST['email']);
@@ -18,6 +18,8 @@ if (isset($_GET['role'])) {
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
         $dateOfBirth = htmlspecialchars($_POST['date_of_birth'] ?? '');
         $address = htmlspecialchars($_POST['address'] ?? ''); 
+        $points = 0; 
+        $ine_number = htmlspecialchars($_POST['ine_number'] ?? ''); 
 
         // Traitement de l'upload du nouvel avatar
         $fileName = ''; // initialise la variable $fileName
@@ -34,7 +36,7 @@ if (isset($_GET['role'])) {
         $dbConnection = getConnection($dbConfig);
 
         if ($dbConnection) {
-            if (addUser($email, $name, $firstName, $hashedPassword, $idRole, $fileName, $dateOfBirth, $address, $dbConnection)) {
+            if (addUser($email, $name, $firstName, $hashedPassword, $idRole, $fileName, $dateOfBirth, $address, $points, $ine_number, $dbConnection)) {
                 $user = getUser($email, $password, $dbConnection);
                 if ($user) {
                     $_SESSION['user'] = $user;

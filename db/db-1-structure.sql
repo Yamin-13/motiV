@@ -174,11 +174,24 @@ CREATE TABLE mission (
     description varchar(1500) NOT NULL,
     date timestamp NOT NULL,
     point_award varchar(50) NOT NULL,
-    start_date_mission varchar(50) NOT NULL,
-    end_date_mission varchar(50) NOT NULL,
+    start_date_mission DATETIME NOT NULL,
+    end_date_mission DATETIME NOT NULL,
     image_filename varchar(255),
+    status ENUM('open', 'complete', 'accomplished') NOT NULL DEFAULT 'open',
+    number_of_places INT NOT NULL,
     idUser bigint(20) NOT NULL,
     idAssociation bigint(20) NOT NULL
+)
+;
+
+CREATE TABLE mission_registration (
+    id BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    idMission BIGINT(20) NOT NULL,
+    idUser BIGINT(20) NOT NULL,
+    registration_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    cancellation_reason VARCHAR(255) NULL,
+    marked_absent TINYINT(1) DEFAULT 0,
+    status ENUM('registered', 'canceled', 'completed') NOT NULL DEFAULT 'registered'
 )
 ;
 
@@ -188,6 +201,14 @@ CREATE TABLE point (
     reason varchar(1500) NOT NULL,
     date_of_grant timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     idUser bigint(20) NOT NULL
+)
+;
+
+CREATE TABLE site_configuration (
+    id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    key_name VARCHAR(50) UNIQUE NOT NULL,
+    key_value VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NULL 
 )
 ;
 
@@ -287,13 +308,19 @@ ALTER TABLE partner
 
 ALTER TABLE partner_user
     ADD CONSTRAINT `fk_partner_user_user` FOREIGN KEY(idUser) REFERENCES user(id) ON DELETE CASCADE
-    ,ADD CONSTRAINT `fk_partner_user_partner` FOREIGN KEY(idPartner) REFERENCES partner(id)
+    ,ADD CONSTRAINT `fk_partner_user_partner` FOREIGN KEY(idPartner) REFERENCES partner(id) ON DELETE CASCADE
 ;
 
 ALTER TABLE mission
     ADD CONSTRAINT `fk_mission_user` FOREIGN KEY(idUser) REFERENCES user(id) ON DELETE CASCADE
-    ,ADD CONSTRAINT `fk_mission_association` FOREIGN KEY(idAssociation) REFERENCES association(id)
+    ,ADD CONSTRAINT `fk_mission_association` FOREIGN KEY(idAssociation) REFERENCES association(id) ON DELETE CASCADE
 ;
+
+ALTER TABLE mission_registration
+    ADD CONSTRAINT `fk_mission_registration_mission` FOREIGN KEY (idMission) REFERENCES mission(id) ON DELETE CASCADE,
+    ADD CONSTRAINT `fk_mission_registration_user` FOREIGN KEY (idUser) REFERENCES user(id) ON DELETE CASCADE
+;
+
 
 ALTER TABLE association
     ADD CONSTRAINT `u_association_name` UNIQUE(name)

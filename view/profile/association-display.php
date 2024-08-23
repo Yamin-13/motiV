@@ -45,7 +45,8 @@
         </ul>
     <?php endif; ?>
 <?php endif; ?>
-
+<a href="/ctrl//mission/add-mission-display.php">Ajouter une mission</a>
+<a href="/ctrl/mission/mission-list.php">Liste des missions</a>
 <?php if (($association && is_array($association) && $association['status'] == 'rejected' && $user['idRole'] == 50) || (!$association && $user['idRole'] == 50)) : ?>
     <h2>Ajouter une Nouvelle Association</h2>
     <form action="/ctrl/association/add-association.php" method="POST">
@@ -121,5 +122,17 @@ if ($messages) :
         <button type="submit" class="update-button">Mettre à jour</button>
     </form>
 </section>
+
+<?php if ($mission && $young): ?>
+    <form action="/ctrl/association/mark-absent.php" method="POST">
+        <input type="hidden" name="idMission" value="<?= $mission['id'] ?>">
+        <input type="hidden" name="idUser" value="<?= $young['id'] ?>">
+        <label for="reason">Raison:</label>
+        <input type="text" name="reason" required>
+        <button type="submit">Marquer comme absent</button>
+    </form>
+<?php else: ?>
+    <p>Impossible d'afficher le formulaire : mission ou utilisateur introuvable.</p>
+<?php endif; ?>
 
 <a href="/ctrl/login/logout.php">Se déconnecter</a>

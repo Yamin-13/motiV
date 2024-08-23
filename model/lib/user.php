@@ -1,9 +1,9 @@
 <?php
 
 // Fonction pour ajouter un utilisateur à la bases de données
-function addUser($email, $name, $firstName, $password, $idRole, $fileName, $dateOfBirth, $address, $points, $db)
+function addUser($email, $name, $firstName, $password, $idRole, $fileName, $dateOfBirth, $address, $points, $ine_number, $db)
 {
-    $query = 'INSERT INTO user ( email, password, name, first_name, idRole, avatar_filename, date_of_birth, address, points) VALUES (:email, :password, :name, :first_name, :idRole, :avatar_filename, :date_of_birth, :address, :points)'; // requete SQL avec les parametres pour insérer un nouvel utilisateur dans la table...
+    $query = 'INSERT INTO user ( email, password, name, first_name, idRole, avatar_filename, date_of_birth, address, points, ine_number) VALUES (:email, :password, :name, :first_name, :idRole, :avatar_filename, :date_of_birth, :address, :points, :ine_number)'; // requete SQL avec les parametres pour insérer un nouvel utilisateur dans la table...
     $statement = $db->prepare($query);   // prepare la requete SQL ele retourne un objet PDOstatement                               // ...user avec les 3 collones 
     $statement->bindParam(':email', $email);        // methode PDOStatement::bindParam // 
     $statement->bindParam(':password', $password); //                                 //
@@ -15,6 +15,7 @@ function addUser($email, $name, $firstName, $password, $idRole, $fileName, $date
     $statement->bindParam(':date_of_birth', $dateOfBirth);
     $statement->bindParam(':address', $address);
     $statement->bindParam(':points', $points);
+    $statement->bindParam(':ine_number', $ine_number);
 
     if ($statement->execute()) {
         return $db->lastInsertId();  // Retourne l'ID de l'utilisateur nouvellement inséré
