@@ -12,7 +12,13 @@ $dbConnection = getConnection($dbConfig);
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $classId = $_POST['class_id'];
 
-    // Récupére les élèves de la classe en attente de validation
+    // Récupère la valeur des points de validation INE depuis la configuration du site
+    $query = "SELECT key_value FROM site_configuration WHERE key_name = 'ine_validation_points'";
+    $statement = $dbConnection->prepare($query);
+    $statement->execute();
+    $ineValidationPoints = $statement->fetchColumn();
+
+    // Récupère les élèves de la classe en attente de validation
     $students = getStudentsByClassId($classId, $dbConnection);
 
     foreach ($students as $student) {
@@ -23,18 +29,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Mets à jour les informations de l'étudiant avec les informations de l'utilisateur existant
             updateStudentInfo($student['id'], $user['name'], $user['first_name'], $user['email'], $dbConnection);
             
-            // Ajouter 1000 points à l'utilisateur si ce n'est pas déjà fait
+            // Ajoute les points de validation INE à l'utilisateur si c'est pas déjà fait
             if ($user['points'] == 0) {
                 // Apel à la fonction awardPoints pour attribuer les points
-                awardPoints($user['id'], 1000, 'Tes efforts en classe sont récompensés !', $dbConnection);
+                awardPoints($user['id'], $ineValidationPoints, 'Tes efforts en classe sont récompensés !', $dbConnection);
         
                 // Mise à jour de la session si l'utilisateur est connecté
                 if ($_SESSION['user']['id'] == $user['id']) {
-                    $_SESSION['user']['points'] += 1000;
+                    $_SESSION['user']['points'] += $ineValidationPoints;
                 }
             }
         }
-        
 
         // Valide l'élève
         validateStudent($student['id'], $dbConnection);

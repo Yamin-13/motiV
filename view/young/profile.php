@@ -86,4 +86,21 @@ if ($messages) :
     <?php else : ?>
         <p>Aucun message pour le moment.</p>
     <?php endif; ?>
+
+    <h2>Messages</h2>
+<?php
+$messages = getMessagesByidUser($user['id'], $dbConnection);
+if ($messages) :
+    foreach ($messages as $message) :
+?>
+        <div>
+            <h3><?= ($message['subject']) ?></h3>
+            <p><?= ($message['body']) ?></p>
+            <small><?= ($message['sent_at']) ?></small>
+        </div>
+    <?php endforeach; ?>
+<?php else : ?>
+    <p>Vous n'avez aucun message.</p>
+<?php endif; ?>
+
 <a href="/ctrl/login/logout.php">Se déconnecter</a>

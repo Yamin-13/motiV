@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 
-    if (addUser($email, $name, $firstName, $password, $idRole, '', '', '', $dbConnection)) {
+    if (addUser($email, $name, $firstName, $password, $idRole, '', '', '', '','', $dbConnection)) {
         deleteInvitation($invitation['id'], $dbConnection);
         $_SESSION['user'] = getUserByEmail($email, $dbConnection);
         

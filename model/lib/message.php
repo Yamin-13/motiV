@@ -24,3 +24,12 @@ function getMessagesByidUser($idUser, $dbConnection)
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function sendNotification($idUser, $subject, $body, $dbConnection) {
+    $query = "INSERT INTO message (idUser, subject, body) VALUES (:idUser, :subject, :body)";
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':idUser', $idUser);
+    $statement->bindParam(':subject', $subject);
+    $statement->bindParam(':body', $body);
+    $statement->execute();
+}

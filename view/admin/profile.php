@@ -58,5 +58,6 @@
 <a href="/ctrl/city-hall/list.php">Liste des Mairies</a><br>
 <a href="/ctrl/educational-establishment/list.php">Liste des Etablissements Scolaires</a><br>
 <a href="/ctrl//invitation/admin-invitation-form.php">Inviter une Mairie ou un établissement scolaire</a>
+<a href="/ctrl/admin/bareme-points.php">Modifier le barème des points</a>
 <h2>Gestion des élèves</h2>
 <a href="/ctrl/admin/student-list-admin.php">Voir la liste des élèves validés</a>

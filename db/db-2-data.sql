@@ -14,3 +14,8 @@ INSERT INTO role (id, code, label ) VALUES
     ,(55, 'MB_ASSO', 'association_member')
     ,(60, 'YNG', 'young')
 ;
+
+INSERT INTO site_configuration (key_name, key_value, description) VALUES
+    ('points_per_hour', '100', 'Nombre de points attribués par heure pour les missions')
+    ,('ine_validation_points', '1000', 'Nombre de points attribués pour la validation du numéro INE')
+;

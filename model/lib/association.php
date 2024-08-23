@@ -99,3 +99,11 @@ function getMembersByAssociationId($associationId, $db)
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function getAssociationIdByUserId($userId, $dbConnection) {
+    $query = "SELECT id FROM association WHERE idUser = :idUser LIMIT 1";
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':idUser', $userId);
+    $statement->execute();
+    return $statement->fetchColumn();  //  ca retourne uniquement l'idAssociation
+}
