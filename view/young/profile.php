@@ -11,7 +11,7 @@
     <p><strong>Adresse :</strong> <?= $_SESSION['user']['address'] ?? 'Non spécifiée' ?></p>
     <p><strong>Membre depuis le :</strong> <?= $_SESSION['user']['registration_date'] ?></p>
     <p><strong>Points :</strong> <?= isset($_SESSION['user']['points']) ? $_SESSION['user']['points'] : 0 ?></p>
-    <p><strong>Numéro INE :</strong><?= $_SESSION['user']['ine_number']?></p>
+    <p><strong>Numéro INE :</strong><?= $_SESSION['user']['ine_number'] ?></p>
 </section>
 <section>
     <h2>Mettre à jour le profil</h2>
@@ -78,16 +78,16 @@ if ($messages) :
 <?php endif; ?>
 
 <?php if ($pointLogs) : ?>
-        <ul>
-            <?php foreach ($pointLogs as $log) : ?>
-                <li><?= $log['date_of_grant'] ?>: Félicitations ! t'as reçu <?= $log['number_of_points'] ?> points. Raison: <?= $log['reason'] ?></li>
-            <?php endforeach; ?>
-        </ul>
-    <?php else : ?>
-        <p>Aucun message pour le moment.</p>
-    <?php endif; ?>
+    <ul>
+        <?php foreach ($pointLogs as $log) : ?>
+            <li><?= $log['date_of_grant'] ?>: Félicitations ! t'as reçu <?= $log['number_of_points'] ?> points. Raison: <?= $log['reason'] ?></li>
+        <?php endforeach; ?>
+    </ul>
+<?php else : ?>
+    <p>Aucun message pour le moment.</p>
+<?php endif; ?>
 
-    <h2>Messages</h2>
+<h2>Messages</h2>
 <?php
 $messages = getMessagesByidUser($user['id'], $dbConnection);
 if ($messages) :
@@ -102,5 +102,25 @@ if ($messages) :
 <?php else : ?>
     <p>Vous n'avez aucun message.</p>
 <?php endif; ?>
+
+<h2>Missions Acceptées</h2>
+<?php
+$acceptedMissions = getAcceptedMissionsByUser($user['id'], $dbConnection);
+if ($acceptedMissions): ?>
+    <ul>
+        <?php foreach ($acceptedMissions as $mission): ?>
+            <li>
+                <strong><?= $mission['title'] ?></strong>
+                du <?= date('d/m/Y H:i', strtotime($mission['start_date_mission'])) ?>
+                au <?= date('d/m/Y H:i', strtotime($mission['end_date_mission'])) ?>
+                <a href="/ctrl/mission/unregister-mission.php?id=<?= $mission['id'] ?>">Annuler la Mission</a>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+<?php else: ?>
+    <p>Aucune mission acceptée.</p>
+<?php endif; ?>
+<a href="/ctrl/young/history-missions.php">Voir l'historique des missions accomplies</a>
+
 
 <a href="/ctrl/login/logout.php">Se déconnecter</a>

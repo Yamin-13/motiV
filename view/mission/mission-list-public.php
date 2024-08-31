@@ -1,5 +1,19 @@
 <h1>Liste des Missions Disponibles</h1>
 
+<!-- message -->
+<?php if (isset($_SESSION['success'])) : ?>
+    <div class="success-message">
+        <?= $_SESSION['success'] ?>
+        <?php unset($_SESSION['success']); ?>
+    </div>
+<?php endif; ?>
+<?php if (isset($_SESSION['error'])) : ?>
+    <div class="error-message">
+        <?= $_SESSION['error'] ?>
+        <?php unset($_SESSION['error']); ?>
+    </div>
+<?php endif; ?>
+
 <?php if ($missions && count($missions) > 0) : ?>
     <table>
         <thead>
@@ -33,7 +47,17 @@
                     <td>
                         <a href="/ctrl/mission/details-mission.php?id=<?= $mission['id'] ?>">Voir Détails</a>
                         <?php if (isset($_SESSION['user']) && $_SESSION['user']['idRole'] == 60) : ?>
-                            <a href="/ctrl/mission/register-mission.php?id=<?= $mission['id'] ?>">Accepter la Mission</a>
+                            <?php if ($mission['status'] == 'open') : ?>
+                                <?php if (isUserRegisteredForMission($_SESSION['user']['id'], $mission['id'], $dbConnection)) : ?>
+                                    <a href="/ctrl/mission/unregister-mission.php?id=<?= $mission['id'] ?>">Annuler la Mission</a>
+                                <?php elseif ($mission['number_of_places'] > 0): ?>
+                                    <a href="/ctrl/mission/register-mission.php?id=<?= $mission['id'] ?>">Accepter la Mission</a>
+                                <?php else: ?>
+                                    <p>Plus de place disponible</p>
+                                <?php endif; ?>
+                            <?php else: ?>
+                                <p>Mission complète</p>
+                            <?php endif; ?>
                         <?php endif; ?>
                     </td>
                 </tr>

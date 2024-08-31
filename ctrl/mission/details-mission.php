@@ -13,7 +13,6 @@ if (!isset($_GET['id'])) {
     header('Location: /ctrl/mission/mission-list.php');
     exit();
 }
-
 $missionId = $_GET['id'];
 
 // Récupère les détails de la mission
@@ -38,6 +37,9 @@ $startTimeFormatted = $startDateTime->format('H:i');
 
 $endDateFormatted = $endDateTime->format('d/m/Y');
 $endTimeFormatted = $endDateTime->format('H:i');
+
+// Récupère les jeunes inscrits à la mission
+$registeredUsers = getRegisteredUsersByMission($missionId, $dbConnection);
 
 include $_SERVER['DOCUMENT_ROOT'] . '/view/partial/header.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/view/mission/details-mission.php';
