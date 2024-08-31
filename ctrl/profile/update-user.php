@@ -10,6 +10,7 @@ $newName = $_POST['name'] ?? $_SESSION['user']['name'];
 $newEmail = $_POST['email'] ?? $_SESSION['user']['email'];
 $newFirstName = $_POST['first_name'] ?? $_SESSION['user']['first_name'];
 $avatarFilename = $_SESSION['user']['avatar_filename'];
+$ineNumber = $_POST['ine_number'] ?? null;
 
 // Traitement de l'upload du nouvel avatar
 if (!empty($_FILES['avatar']['name'])) {

@@ -5,6 +5,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/db.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/user.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/message.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/point.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/mission.php';
 
 $titrePage = "motiV";
 

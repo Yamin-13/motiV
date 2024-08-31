@@ -4,6 +4,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/cfg/db-dev.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/db.php';
 
 $dbConnection = getConnection($dbConfig);
+$titrePage = "motiV";
 
 
 $idRole = $_SESSION['user']['idRole'];

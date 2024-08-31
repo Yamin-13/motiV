@@ -47,7 +47,7 @@
                     <td>
                         <a href="/ctrl/mission/details-mission.php?id=<?= $mission['id'] ?>">Voir</a>
                         <?php if ($mission['status'] == 'complete') : ?>
-                            <a href="/ctrl/association/complete.php?idMission=<?= $mission['id'] ?>" onclick="return confirm('Êtes-vous sûr de vouloir marquer cette mission comme accomplie ?');">Marquer Accomplie</a>
+                            <a href="/ctrl/mission/validate-mission.php?id=<?= $mission['id'] ?>">Valider la mission</a>
                         <?php endif; ?>
                         <a href="/ctrl/mission/delete-mission.php?id=<?= $mission['id'] ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette mission ?');">Supprimer</a>
                     </td>

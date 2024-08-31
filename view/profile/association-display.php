@@ -45,8 +45,31 @@
         </ul>
     <?php endif; ?>
 <?php endif; ?>
-<a href="/ctrl//mission/add-mission-display.php">Ajouter une mission</a>
+
+<a href="/ctrl/mission/add-mission-display.php">Ajouter une mission</a>
 <a href="/ctrl/mission/mission-list.php">Liste des missions</a>
+<a href="/ctrl/mission/history-mission.php">Voir l'historique des missions</a>
+<a href="/ctrl/mission/participant-list.php">Voir les Jeunes ayant Participé aux Missions</a>
+
+<!-- Ajout du lien de validation des missions -->
+<h2>Valider les Missions</h2>
+<?php
+$missions = getCompleteMissionsByAssociation($association['id'], $dbConnection); // Recupère les mission complètes de l'association
+if ($missions && count($missions) > 0): ?>
+    <ul>
+        <?php foreach ($missions as $mission): ?>
+            <li>
+                <a href="/ctrl/mission/validate-mission.php?id=<?= $mission['id'] ?>">
+                    Valider la mission : <?= $mission['title'] ?>
+                </a>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+<?php else: ?>
+    <p>Aucune mission à valider.</p>
+<?php endif; ?>
+
+
 <?php if (($association && is_array($association) && $association['status'] == 'rejected' && $user['idRole'] == 50) || (!$association && $user['idRole'] == 50)) : ?>
     <h2>Ajouter une Nouvelle Association</h2>
     <form action="/ctrl/association/add-association.php" method="POST">
@@ -108,8 +131,8 @@ if ($messages) :
             <input type="text" id="first_name" name="first_name" value="<?= ($_SESSION['user']['first_name']) ?>">
         </div>
         <div>
-            <label for="avatar">Nouveau Avatar :</label>
-            <input type="file" id="avatar" name="avatar">
+            <label for="address">Nouvelle Adresse :</label>
+            <input type="text" id="address" name="address" value="<?= ($_SESSION['user']['address'] ?? '') ?>">
         </div>
         <div>
             <label for="password">Nouveau mot de passe :</label>
@@ -119,20 +142,12 @@ if ($messages) :
             <label for="confirm_password">Confirmer le mot de passe :</label>
             <input type="password" id="confirm_password" name="confirm_password">
         </div>
+        <div>
+            <label for="avatar">Nouveau Avatar :</label>
+            <input type="file" id="avatar" name="avatar">
+        </div>
         <button type="submit" class="update-button">Mettre à jour</button>
     </form>
 </section>
-
-<?php if ($mission && $young): ?>
-    <form action="/ctrl/association/mark-absent.php" method="POST">
-        <input type="hidden" name="idMission" value="<?= $mission['id'] ?>">
-        <input type="hidden" name="idUser" value="<?= $young['id'] ?>">
-        <label for="reason">Raison:</label>
-        <input type="text" name="reason" required>
-        <button type="submit">Marquer comme absent</button>
-    </form>
-<?php else: ?>
-    <p>Impossible d'afficher le formulaire : mission ou utilisateur introuvable.</p>
-<?php endif; ?>
 
 <a href="/ctrl/login/logout.php">Se déconnecter</a>
