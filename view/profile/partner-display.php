@@ -6,6 +6,8 @@
 <?php endif; ?>
 <p>Nom: <?= ($user['name']) ?></p>
 
+<a href="/ctrl/reward/submit-reward.php?idPartner=<?= $partner['id'] ?>">Soumettre une Récompense</a>
+
 <?php if ($partner && is_array($partner)) : ?>
     <h2>Informations sur l'Entreprise</h2>
     <p>Nom de l'entreprise: <?= ($partner['name']) ?></p>

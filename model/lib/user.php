@@ -96,8 +96,7 @@ function updateUserProfile($idUser, $name, $email, $avatarFilename, $firstName, 
 // fonction pour récupérer les utilisateurs par rôle
 function getUsersByRole($dbConnection)
 {
-    $query = "
-        SELECT 
+    $query = "SELECT 
             u.id, 
             u.name, 
             u.first_name, 
@@ -116,8 +115,7 @@ function getUsersByRole($dbConnection)
 
 function getUserById($id, $dbConnection)
 {
-    $query = "
-        SELECT id, name, first_name, email, ine_number, date_of_birth, address, password, avatar_filename, registration_date, last_connexion, idRole, profile_complete, points
+    $query = " SELECT id, name, first_name, email, ine_number, date_of_birth, address, password, avatar_filename, registration_date, last_connexion, idRole, profile_complete, points
         FROM user
         WHERE id = :id
     ";

@@ -19,3 +19,15 @@ INSERT INTO site_configuration (key_name, key_value, description) VALUES
     ('points_per_hour', '100', 'Nombre de points attribués par heure pour les missions')
     ,('ine_validation_points', '1000', 'Nombre de points attribués pour la validation du numéro INE')
 ;
+
+INSERT INTO category (id, name) VALUES
+     (1, 'Événements et Activités')
+    ,(2, 'Bons d\'Achat')
+    ,(3, 'Produits et Gadgets')
+    ,(4, 'Repas et Boissons')
+    ,(5, 'Sports et Loisirs')
+    ,(6, 'Voyages et Séjours')
+    ,(7, 'Éducation et Apprentissage')
+    ,(8, 'Bien-être et Santé')
+    ,(9, 'Culture et Divertissement')
+;
