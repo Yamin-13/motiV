@@ -40,7 +40,9 @@ CREATE TABLE reward (
     quantity_available varchar(50) NOT NULL,
     image_filename varchar(255),
     idUser bigint(20) NOT NULL,
-    idCategory bigint(20) NOT NULL
+    idCategory bigint(20) NOT NULL,
+    idCityHall bigint(20) NULL,
+    idPartner bigint(20) NULL
 )
 ;
 
@@ -250,8 +252,9 @@ CREATE TABLE password_resets (
     ,expiry TIMESTAMP NOT NULL
 )
 ;
+
 -- ----------
--- CONTRAINT
+-- CONTRAINTES
 -- ----------
 
 ALTER TABLE role
@@ -268,6 +271,8 @@ ALTER TABLE user
 ALTER TABLE reward
     ADD CONSTRAINT `fk_reward_user` FOREIGN KEY(idUser) REFERENCES user(id) ON DELETE CASCADE
     ,ADD CONSTRAINT `fk_reward_category` FOREIGN KEY(idCategory) REFERENCES category(id)
+    ,ADD CONSTRAINT `fk_reward_city_hall` FOREIGN KEY(idCityHall) REFERENCES city_hall(id) ON DELETE CASCADE
+    ,ADD CONSTRAINT `fk_reward_partner` FOREIGN KEY(idPartner) REFERENCES partner(id) ON DELETE CASCADE
 ;
 
 ALTER TABLE comment
@@ -320,7 +325,6 @@ ALTER TABLE mission_registration
     ADD CONSTRAINT `fk_mission_registration_mission` FOREIGN KEY (idMission) REFERENCES mission(id) ON DELETE CASCADE,
     ADD CONSTRAINT `fk_mission_registration_user` FOREIGN KEY (idUser) REFERENCES user(id) ON DELETE CASCADE
 ;
-
 
 ALTER TABLE association
     ADD CONSTRAINT `u_association_name` UNIQUE(name)

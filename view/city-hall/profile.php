@@ -11,6 +11,7 @@
     <p>Adresse: <?= ($cityHall['address']) ?></p>
     <p>Email de la mairie: <?= ($cityHall['email']) ?></p>
     <p>Administrateur: <?= ($admin['first_name'] . ' ' . $admin['name']) ?></p>
+    <a href="/ctrl/reward/submit-reward.php?idCityHall=<?= $cityHall['id'] ?>">Soumettre une Récompense</a>
 
     <?php if ($user['idRole'] == 30) : ?>
         <a href="/ctrl/city-hall/update-display.php?id=<?= ($cityHall['id']) ?>"><button>Modifier la Mairie</button></a>
