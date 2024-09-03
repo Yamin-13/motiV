@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             awardPoints($userId, $mission['point_award'], 'Mission accomplie', $dbConnection);
 
             // Envoie un message au jeune
-            sendNotification($userId, 'Mission accomplie', 'Vous avez reçu ' . $mission['point_award'] . ' points pour avoir complété la mission.', $dbConnection);
+            sendMessage($userId, 'Mission accomplie', 'Vous avez reçu ' . $mission['point_award'] . ' points pour avoir complété la mission.', $dbConnection);
         } else {
             // Marque le jeune comme absent
             $query = "UPDATE mission_registration SET status = 'canceled', marked_absent = 1 WHERE idMission = :idMission AND idUser = :idUser";
@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             awardPoints($userId, -$pointsToRemove, 'Absence à la mission', $dbConnection);
 
             // Envoie un message au jeune
-            sendNotification($userId, 'Absence à la mission', 'Vous avez perdu ' . $pointsToRemove . ' points pour absence à la mission.', $dbConnection);
+            sendMessage($userId, 'Absence à la mission', 'Vous avez perdu ' . $pointsToRemove . ' points pour absence à la mission.', $dbConnection);
         }
     }
 

@@ -31,7 +31,7 @@ foreach ($registeredUsers as $user) {
     // Envoi d'une notification
     $subject = "Félicitations ! Vous avez reçu des points pour une mission accomplie.";
     $body = "Vous avez reçu {$totalPoints} points pour avoir complété la mission \"{$mission['title']}\".";
-    sendNotification($user['idUser'], $subject, $body, $dbConnection);
+    sendMessage($user['idUser'], $subject, $body, $dbConnection);
 
     // Marque la mission comme complété pour chaque utilisateur
     $query = "UPDATE mission_registration SET status = 'completed' WHERE idMission = :idMission AND idUser = :idUser";

@@ -76,7 +76,7 @@ $uploadPath = $uploadDirectory . basename($fileName);
 $didUpload = move_uploaded_file($fileTmpName, $uploadPath);
 
 // condition pour affiché les messages de succès ou d'échec
-if (addUser($email, $name, $firstName, $hashedPassword, $idRole, $fileName, $address, $dateOfBirth, $points, $dbConnection)) {  // Apel de la fonction addUser avec les 4 arguments  
+if (addUser($email, $name, $firstName, $hashedPassword, $idRole, $fileName, $address, $dateOfBirth, $points, $ine_number, $dbConnection)) {  // Apel de la fonction addUser avec les arguments  
     $_SESSION['success'] = 'Inscription réussie.<br>Vous pouvez maintenant vous connecter.'; // le message sera stocké dans la variable de session "succes" 
     header('Location: /ctrl/login/login-display.php');
     exit(); // ca arrete l'execution du script ici

@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     var_dump($associationId, $partnerId, $educationalEstablishmentId, $cityHallId);
 
-    if (addUser($email, $name, $firstName, $password, $idRole, '', '', '', $dbConnection)) {
+    if (addUser($email, $name, $firstName, $password, $idRole, '', '', '', '', '', $dbConnection)) {
         $userId = $dbConnection->lastInsertId();
 
         // Lier l'utilisateur à l'entité appropriée

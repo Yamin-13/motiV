@@ -59,6 +59,7 @@ CREATE TABLE transaction (
     id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     transaction_date timestamp NOT NULL,
     number_of_points varchar(50) NOT NULL,
+    unique_code VARCHAR(255) NOT NULL,
     idReward bigint(20) NOT NULL,
     idUser bigint(20) NOT NULL
 )
@@ -277,11 +278,11 @@ ALTER TABLE reward
 
 ALTER TABLE comment
     ADD CONSTRAINT `fk_comment_user` FOREIGN KEY(idUser) REFERENCES user(id) ON DELETE CASCADE
-    ,ADD CONSTRAINT `fk_comment_reward` FOREIGN KEY(idReward) REFERENCES reward(id)
+    ,ADD CONSTRAINT `fk_comment_reward` FOREIGN KEY(idReward) REFERENCES reward(id) ON DELETE CASCADE
 ;
 
 ALTER TABLE transaction
-    ADD CONSTRAINT `fk_transaction_reward` FOREIGN KEY(idReward) REFERENCES reward(id)
+    ADD CONSTRAINT `fk_transaction_reward` FOREIGN KEY(idReward) REFERENCES reward(id) 
     ,ADD CONSTRAINT `fk_transaction_user` FOREIGN KEY(idUser) REFERENCES user(id) ON DELETE CASCADE
 ;
 

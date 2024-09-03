@@ -4,6 +4,7 @@ session_start();
 include $_SERVER['DOCUMENT_ROOT'] . '/cfg/db-dev.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/db.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/reward.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/message.php';
 
 // Connexion à la base de données
 $dbConnection = getConnection($dbConfig);
@@ -24,6 +25,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!$reward) {
         $_SESSION['error'] = "Récompense introuvable.";
+        header('Location: /ctrl/reward/rewards.php');
+        exit();
+    }
+
+    // Vérifie si l'utilisateur a déjà acheté cette récompense
+    if (hasUserAlreadyRedeemed($idUser, $idReward, $dbConnection)) {
+        $_SESSION['error'] = "Vous avez déjà échangé cette récompense.";
         header('Location: /ctrl/reward/rewards.php');
         exit();
     }
@@ -62,6 +70,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
+    // Envoi un message de confirmation
+    $sendMessage = sendMessage($idUser, "Récompense échangée", "Tu as échangé la récompense '{$reward['title']}' pour {$reward['reward_price']} points.", $dbConnection);
+    if (!$sendMessage) {
+        $_SESSION['error'] = "Erreur lors de l'envoi du message de confirmation.";
+        header('Location: /ctrl/reward/rewards.php');
+        exit();
+    }
+
     // Décrémente la quantité disponible
     $updated = updateRewardQuantity($idReward, $dbConnection);
     if (!$updated) {
@@ -71,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // affiche le code unique 
-    $_SESSION['success'] = "Récompense échangée avec succès. Votre code unique est : " . $unique_code;
+    $_SESSION['success'] = "Récompense échangée avec succès. Tu trouveras ton code unique dans ton profile, dans l'onglet mes codes. Ton code unique est : " . $unique_code;
     header('Location: /ctrl/reward/rewards.php');
     exit();
 } else {

@@ -17,11 +17,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         updateAssociationStatus($id, $status, $dbConnection);
         if ($action == 'reject') {
             deleteAssociation($id, $dbConnection);
+            $_SESSION['message'] = "L'association a été rejetée et supprimée.";
+        } else {
+            $_SESSION['message'] = "L'association a été acceptée.";
         }
     } elseif ($type == 'partner') {
         updatePartnerStatus($id, $status, $dbConnection);
         if ($action == 'reject') {
             deletePartner($id, $dbConnection);
+            $_SESSION['message'] = "Le partenaire a été rejeté et supprimé.";
+        } else {
+            $_SESSION['message'] = "Le partenaire a été accepté.";
         }
     }
 

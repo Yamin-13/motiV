@@ -6,7 +6,14 @@
 <?php endif; ?>
 <p>Nom: <?= ($user['name']) ?></p>
 
-<a href="/ctrl/reward/submit-reward.php?idPartner=<?= $partner['id'] ?>">Soumettre une Récompense</a>
+<?php
+
+// vérifie si le partenaire est validé
+if ($partner['status'] == 'approved') : ?>
+    <a href="/ctrl/reward/submit-reward.php?idPartner=<?= $partner['id'] ?>">Soumettre une Récompense</a>
+<?php else : ?>
+    <p>Votre entreprise doit être validée par un administrateur avant de pouvoir soumettre une récompense.</p>
+<?php endif; ?>
 
 <?php if ($partner && is_array($partner)) : ?>
     <h2>Informations sur l'Entreprise</h2>

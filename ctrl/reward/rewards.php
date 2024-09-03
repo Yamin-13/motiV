@@ -10,12 +10,12 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/user.php';
 $dbConnection = getConnection($dbConfig);
 $titrePage = "motiV";
 
-// Récupére toute les récompenses disponible
+// Récupére toute les récompense disponible
 $rewards = getAllRewards($dbConnection);
 
-// Récupére le nom du submitteur (partenaire ou mairie) pour chaque récompense
-foreach ($rewards as &$reward) {
-    $reward['submitter_name'] = getSubmitterName($reward, $dbConnection);
+// Récupére le nom du submiteur (partenaire ou mairie) pour chaque récompense
+foreach ($rewards as $key => $reward) {
+    $rewards[$key]['submitter_name'] = getSubmitterName($reward, $dbConnection);
 }
 
 include $_SERVER['DOCUMENT_ROOT'] . '/view/partial/header.php';
