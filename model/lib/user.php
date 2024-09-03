@@ -27,7 +27,7 @@ function addUser($email, $name, $firstName, $password, $idRole, $fileName, $date
 function getUser(string $email, string $password, PDO $db)
 {
     // - Prépare la requête
-    $query = 'SELECT user.name, user.email, user.first_name, user.password, user.idRole, user.id, user.registration_date, user.address, user.avatar_filename, user.date_of_birth';
+    $query = 'SELECT user.name, user.email, user.first_name, user.password, user.idRole, user.id, user.registration_date, user.address, user.avatar_filename, user.date_of_birth, user.points';
     $query .= ' FROM user';
     $query .= ' WHERE user.email = :email ';
     $statement = $db->prepare($query);
@@ -135,7 +135,7 @@ function deleteUserById($id, $dbConnection)
 
 function getUserByEmail($email, $dbConnection)
 {
-    $query = 'SELECT id, name, first_name, email, date_of_birth, address, password, avatar_filename, registration_date, last_connexion, idRole 
+    $query = 'SELECT id, name, first_name, email, points, date_of_birth, address, password, avatar_filename, registration_date, last_connexion, idRole 
               FROM user 
               WHERE email = :email';
     $statement = $dbConnection->prepare($query);

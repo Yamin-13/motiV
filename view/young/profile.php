@@ -2,6 +2,8 @@
     <h3>Profil de <?= $_SESSION['user']['name'] ?></h3>
     <p><img src="/upload/<?= $_SESSION['user']['avatar_filename'] ?? 'default-avatar.png' ?>" alt="Avatar de l'utilisateur"></p>
 </section>
+<h2>Récompenses</h2>
+<a href="/ctrl/reward/purchase-history.php">Mes codes / Historique des Achats</a>
 <section>
     <h2>Informations du profil</h2>
     <p><strong>Email :</strong> <?= $_SESSION['user']['email'] ?></p>

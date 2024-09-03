@@ -88,16 +88,15 @@ function getCityHallsWithAdmins($dbConnection)
 
 function getCityHallsWithDetails($dbConnection)
 {
-    $query = "
-        SELECT 
+    $query = "SELECT 
             ch.id, 
             ch.name AS city_hall_name, 
             u.name AS admin_name, 
             u.first_name AS admin_first_name, 
             u.email AS admin_email,
             ch.phone_number AS city_hall_phone_number
-        FROM city_hall ch
-        JOIN user u ON ch.idUser = u.id
+            FROM city_hall ch
+            JOIN user u ON ch.idUser = u.id
     ";
     $statement = $dbConnection->prepare($query);
     $statement->execute();
