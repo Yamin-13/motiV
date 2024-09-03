@@ -59,15 +59,14 @@ function deletePartnerById($id, $dbConnection)
 
 function getPartnersWithDetails($dbConnection)
 {
-    $query = "
-        SELECT 
+    $query = "SELECT 
             p.id, 
             p.name AS partner_name, 
             u.name AS partner_full_name, 
             u.first_name AS partner_first_name, 
             u.email AS partner_email
-        FROM partner p
-        JOIN user u ON p.idUser = u.id
+            FROM partner p
+            JOIN user u ON p.idUser = u.id
     ";
     $statement = $dbConnection->prepare($query);
     $statement->execute();

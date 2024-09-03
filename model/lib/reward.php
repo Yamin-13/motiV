@@ -168,3 +168,41 @@ function getUserPurchaseHistory($idUser, $dbConnection)
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function getRewardsHistoryByPartner($idPartner, $dbConnection)
+{
+    $query = "SELECT r.id, r.title, r.reward_price, r.quantity_available, COUNT(t.id) AS total_exchanges
+              FROM reward r
+              LEFT JOIN transaction t ON r.id = t.idReward
+              WHERE r.idPartner = :idPartner
+              GROUP BY r.id";
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':idPartner', $idPartner);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getRewardsHistoryByCityHall($idCityHall, $dbConnection)
+{
+    $query = "SELECT r.id, r.title, r.reward_price, r.quantity_available, COUNT(t.id) AS total_exchanges
+              FROM reward r
+              LEFT JOIN transaction t ON r.id = t.idReward
+              WHERE r.idCityHall = :idCityHall
+              GROUP BY r.id";
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':idCityHall', $idCityHall);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getPurchasersByReward($idReward, $dbConnection)
+{
+    $query = "SELECT u.first_name, u.name, t.transaction_date
+              FROM transaction t
+              JOIN user u ON t.idUser = u.id
+              WHERE t.idReward = :idReward";
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':idReward', $idReward);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}

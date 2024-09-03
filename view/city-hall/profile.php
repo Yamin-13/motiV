@@ -4,6 +4,10 @@
 <p>Prénom: <?= ($user['first_name']) ?></p>
 <p>Nom: <?= ($user['name']) ?></p>
 
+<h2>Offres</h2>
+<a href="/ctrl/reward/submit-reward.php?idCityHall=<?= $cityHall['id'] ?>">Soumettre une Récompense</a>
+<a href="/ctrl/reward/entity-history.php">Voir l'historique des échanges d'offres</a>
+
 <?php if ($cityHall && is_array($cityHall)) : ?>
     <h2>Informations sur la Mairie</h2>
     <p>Nom de la mairie: <?= ($cityHall['name']) ?></p>
@@ -11,7 +15,6 @@
     <p>Adresse: <?= ($cityHall['address']) ?></p>
     <p>Email de la mairie: <?= ($cityHall['email']) ?></p>
     <p>Administrateur: <?= ($admin['first_name'] . ' ' . $admin['name']) ?></p>
-    <a href="/ctrl/reward/submit-reward.php?idCityHall=<?= $cityHall['id'] ?>">Soumettre une Récompense</a>
 
     <?php if ($user['idRole'] == 30) : ?>
         <a href="/ctrl/city-hall/update-display.php?id=<?= ($cityHall['id']) ?>"><button>Modifier la Mairie</button></a>
