@@ -161,3 +161,28 @@ function updateUserPoints($idUser, $points, $dbConnection)
     $statement->bindParam(':id', $idUser);
     return $statement->execute();
 }
+
+function getProfileLink($idRole)
+{
+    switch ($idRole) {
+        case 10: // Admin
+            return "/ctrl/admin/profile.php";
+        case 20: // Educational Establishment
+        case 25: // Educational Establishment Member
+        case 27: // Professor
+            return "/ctrl/profile/display.php";
+        case 30: // City Hall
+        case 35: // City Hall Member
+            return "/ctrl/profile/display.php";
+        case 40: // Partner
+        case 45: // Partner Member
+            return "/ctrl/profile/display.php";
+        case 50: // Association
+        case 55: // Association Member
+            return "/ctrl/profile/display.php";
+        case 60: // Young
+            return "/ctrl/young/profile.php";
+        default:
+            return "/ctrl/login/login-display.php";
+    }
+}

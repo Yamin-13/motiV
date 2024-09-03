@@ -35,7 +35,7 @@ if (!empty($_POST['password']) && $_POST['password'] === $_POST['confirm_passwor
 
 // Mise à jour de l'utilisateur dans la base de données
 $dbConnection = getConnection($dbConfig);
-updateUserProfile($newName, $idUser, $newEmail, $avatarFilename, $newFirstName, $newPassword, $_SESSION['user']['idRole'], null, null, $ineNumber, $dbConnection);
+updateUserProfile($idUser, $newName, $newEmail, $avatarFilename, $newFirstName, $newPassword, $_SESSION['user']['idRole'], $ineNumber, null, null, $dbConnection);
 
 // Mise à jour des informations de session
 $_SESSION['user']['name'] = $newName;

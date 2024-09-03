@@ -48,20 +48,19 @@ function getAllRewards($dbConnection)
 function getSubmitterName($reward, $dbConnection)
 {
     if (!empty($reward['idCityHall'])) {
-        $query = "SELECT name FROM city_hall WHERE id = :id";
+        $query = "SELECT name FROM city_hall WHERE id = :idCityHall";
         $statement = $dbConnection->prepare($query);
-        $statement->bindParam(':id', $reward['idCityHall'], PDO::PARAM_INT);
-        $statement->execute();
-        return $statement->fetchColumn();
+        $statement->bindParam(':idCityHall', $reward['idCityHall'], PDO::PARAM_INT);
     } elseif (!empty($reward['idPartner'])) {
-        $query = "SELECT name FROM partner WHERE id = :id";
+        $query = "SELECT name FROM partner WHERE id = :idPartner";
         $statement = $dbConnection->prepare($query);
-        $statement->bindParam(':id', $reward['idPartner'], PDO::PARAM_INT);
-        $statement->execute();
-        return $statement->fetchColumn();
+        $statement->bindParam(':idPartner', $reward['idPartner'], PDO::PARAM_INT);
     } else {
-        return 'Submitteur Inconnu';
+        return 'Submitter inconnu';
     }
+
+    $statement->execute();
+    return $statement->fetchColumn();
 }
 
 function getRewardById($idReward, $dbConnection)
@@ -94,12 +93,14 @@ function deductUserPoints($idUser, $points, $dbConnection)
 
 function insertTransaction($idUser, $idReward, $points, $unique_code, $dbConnection)
 {
-    $query = "INSERT INTO transaction (transaction_date, number_of_points, idReward, idUser) 
-              VALUES (NOW(), :points, :idReward, :idUser)";
+    $query = "INSERT INTO transaction (transaction_date, number_of_points, unique_code, idReward, idUser) 
+              VALUES (NOW(), :points, :unique_code, :idReward, :idUser)";
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':points', $points, PDO::PARAM_INT);
+    $statement->bindParam(':unique_code', $unique_code, PDO::PARAM_STR);
     $statement->bindParam(':idReward', $idReward, PDO::PARAM_INT);
     $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+
     return $statement->execute();
 }
 
@@ -134,4 +135,36 @@ function getPartnerIdByUserId($idUser, $dbConnection)
     $statement->execute();
     $result = $statement->fetch(PDO::FETCH_ASSOC);
     return $result ? $result['id'] : null;
+}
+
+function deleteReward($idReward, $dbConnection)
+{
+    $query = "DELETE FROM reward WHERE id = :idReward";
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':idReward', $idReward, PDO::PARAM_INT);
+    return $statement->execute();
+}
+
+function hasUserAlreadyRedeemed($idUser, $idReward, $dbConnection)
+{
+    $query = "SELECT COUNT(1) FROM transaction WHERE idUser = :idUser AND idReward = :idReward";
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+    $statement->bindParam(':idReward', $idReward, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchColumn() > 0;
+}
+
+function getUserPurchaseHistory($idUser, $dbConnection)
+{
+    $query = "SELECT t.transaction_date, t.number_of_points, t.unique_code, r.title AS reward_title
+            FROM transaction t
+            JOIN reward r ON t.idReward = r.id
+            WHERE t.idUser = :idUser
+            ORDER BY t.transaction_date DESC
+    ";
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
 }

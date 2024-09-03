@@ -19,11 +19,11 @@ if (!isset($_SESSION['user'])) {
 
 // Vérifie le rôle
 $idRole = $_SESSION['user']['idRole'];
-$allowedRoles = [30, 40];
+$allowedRoles = [30, 35, 45, 40];
 
 if (!in_array($idRole, $allowedRoles)) {
     $_SESSION['error'] = "Vous n'avez pas la permission d'effectuer cette action.";
-    header('Location: /ctrl/profile/profile.php');
+    header('Location: /ctrl/profile/display.php');
     exit();
 }
 
@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($inserted) {
         $_SESSION['success'] = "Récompense soumise avec succès.";
-        header('Location: /ctrl/reward/submit-reward.php');
+        header('Location: /ctrl/profile/display.php');
         exit();
     } else {
         $_SESSION['error'] = "Erreur lors de la soumission de la récompense.";

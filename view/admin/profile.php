@@ -1,32 +1,15 @@
 <h2 class="secret-message">Bonjour, Admininistrateur <?= ($_SESSION['user']['name']) ?>.</h2>
 <ul class="admin-actions">
     <li><a class="header-link" href="">Option</a></li>
-
 </ul>
 <a href="/ctrl/login/logout.php">se deconnecter</a>
 
-<h2>Associations en attente</h2>
-<table>
-    <tr>
-        <th>Nom</th>
-        <th>Description</th>
-        <th>Actions</th>
-    </tr>
-    <?php foreach ($pendingAssociations as $association) : ?>
-        <tr>
-            <td><?= ($association['name']) ?></td>
-            <td><?= ($association['description']) ?></td>
-            <td>
-                <form action="/ctrl/admin/update-status.php" method="post" style="display:inline;">
-                    <input type="hidden" name="type" value="association">
-                    <input type="hidden" name="id" value="<?= $association['id'] ?>">
-                    <button type="submit" name="action" value="approve">Accepter</button>
-                    <a href="/view/admin/reject-reason.php?type=association&id=<?= $association['id'] ?>">Rejeter</a>
-                </form>
-            </td>
-        </tr>
-    <?php endforeach; ?>
-</table>
+<!-- message de confirmation (entité accepté ou refusé) -->
+<?php
+if (isset($_SESSION['message'])) {
+    echo '<p>' . $_SESSION['message'] . '</p>';
+    unset($_SESSION['message']);
+}?>
 
 <h2>Entreprises en attente</h2>
 <table>
@@ -48,22 +31,56 @@
                     <button type="submit" name="action" value="approve">Accepter</button>
                     <a href="/view/admin/reject-reason.php?type=partner&id=<?= $partner['id'] ?>">Rejeter</a>
                 </form>
+                <!-- Bouton Détails -->
+                <a href="/ctrl/partner/details.php?id=<?= $partner['id'] ?>">Détails</a>
             </td>
         </tr>
     <?php endforeach; ?>
 </table>
+
+<h2>Associations en attente</h2>
+<table>
+    <tr>
+        <th>Nom</th>
+        <th>Email</th>
+        <th>Numéro RNE</th>
+        <th>Actions</th>
+    </tr>
+    <?php foreach ($pendingAssociations as $association) : ?>
+        <tr>
+            <td><?= ($association['name']) ?></td>
+            <td><?= ($association['email']) ?></td>
+            <td><?= ($association['RNE_number']) ?></td>
+            <td>
+                <form action="/ctrl/admin/update-status.php" method="post" style="display:inline;">
+                    <input type="hidden" name="type" value="association">
+                    <input type="hidden" name="id" value="<?= $association['id'] ?>">
+                    <button type="submit" name="action" value="approve">Accepter</button>
+                    <a href="/view/admin/reject-reason.php?type=association&id=<?= $association['id'] ?>">Rejeter</a>
+                </form>
+                <!-- Bouton Détails -->
+                <a href="/ctrl/association/details.php?id=<?= $association['id'] ?>">Détails</a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>
+
 <a href="/ctrl/association/list.php">Liste des associations</a><br>
 <a href="/ctrl/partner/list.php">Liste des partenaires</a><br>
 <a href="/ctrl/admin/list.php">Liste des utilisateurs</a><br>
 <a href="/ctrl/city-hall/list.php">Liste des Mairies</a><br>
 <a href="/ctrl/educational-establishment/list.php">Liste des Etablissements Scolaires</a><br>
 <a href="/ctrl//invitation/admin-invitation-form.php">Inviter une Mairie ou un établissement scolaire</a>
-<a href="/ctrl/admin/bareme-points.php">Modifier le barème des points</a>
+
 <h2>Gestion des Missions</h2>
 <ul>
     <li><a href="/ctrl/admin/admin-mission-list.php">Missions en cours</a></li>
     <li><a href="/ctrl/admin/admin-mission-history.php">Historique des missions</a></li>
+    <a href="/ctrl/admin/bareme-points.php">Modifier le barème des points</a>
 </ul>
+
+<h2>Gestion des Récompenses</h2>
+<a href="/ctrl/admin/transaction-list.php">Voir les Transactions</a>
 
 <h2>Gestion des élèves</h2>
 <a href="/ctrl/admin/student-list-admin.php">Voir la liste des élèves validés</a>

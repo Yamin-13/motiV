@@ -62,45 +62,38 @@
 <?php endif; ?>
 
 <h2>Messages</h2>
+
 <?php
 $messages = getMessagesByidUser($user['id'], $dbConnection);
+
 if ($messages) :
-    foreach ($messages as $message) :
 ?>
-        <div>
-            <h3><?= ($message['subject']) ?></h3>
-            <p><?= ($message['body']) ?></p>
-            <small><?= ($message['sent_at']) ?></small>
-        </div>
-    <?php endforeach; ?>
+    <div class="message-list">
+        <?php foreach ($messages as $message) : ?>
+            <div class="message-item">
+                <h4><?= ($message['subject']) ?></h4>
+                <p><?= nl2br(($message['body'])) ?></p>
+                <small class="message-date"><?= date("d/m/Y H:i", strtotime($message['sent_at'])) ?></small>
+            </div>
+        <?php endforeach; ?>
+    </div>
 <?php else : ?>
-    <p>Vous n'avez aucun message.</p>
+    <p class="no-messages">Vous n'avez aucun message.</p>
 <?php endif; ?>
 
+<h2>Points Gagnés</h2>
 <?php if ($pointLogs) : ?>
-    <ul>
+    <ul class="point-logs">
         <?php foreach ($pointLogs as $log) : ?>
-            <li><?= $log['date_of_grant'] ?>: Félicitations ! t'as reçu <?= $log['number_of_points'] ?> points. Raison: <?= $log['reason'] ?></li>
+            <li>
+                <span class="log-date"><?= date("d/m/Y", strtotime($log['date_of_grant'])) ?>:</span> 
+                Félicitations ! Vous avez reçu <strong><?= intval($log['number_of_points']) ?></strong> points. 
+                <span class="log-reason">Raison: <?= ($log['reason']) ?></span>
+            </li>
         <?php endforeach; ?>
     </ul>
 <?php else : ?>
-    <p>Aucun message pour le moment.</p>
-<?php endif; ?>
-
-<h2>Messages</h2>
-<?php
-$messages = getMessagesByidUser($user['id'], $dbConnection);
-if ($messages) :
-    foreach ($messages as $message) :
-?>
-        <div>
-            <h3><?= ($message['subject']) ?></h3>
-            <p><?= ($message['body']) ?></p>
-            <small><?= ($message['sent_at']) ?></small>
-        </div>
-    <?php endforeach; ?>
-<?php else : ?>
-    <p>Vous n'avez aucun message.</p>
+    <p class="no-point-logs">Aucun point gagné pour le moment.</p>
 <?php endif; ?>
 
 <h2>Missions Acceptées</h2>
@@ -121,6 +114,5 @@ if ($acceptedMissions): ?>
     <p>Aucune mission acceptée.</p>
 <?php endif; ?>
 <a href="/ctrl/young/history-missions.php">Voir l'historique des missions accomplies</a>
-
-
+<a href="/ctrl/reward/purchase-history.php">Mes codes / Historique des Achats</a>
 <a href="/ctrl/login/logout.php">Se déconnecter</a>

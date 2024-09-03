@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($invitation) {
         // Ajouter l'utilisateur à la base de données
         $idRole = $invitation['idRole'];
-        if (addUser($email, $name, $firstName, $hashedPassword, $idRole, $fileName, '', '', $dbConnection)) {
+        if (addUser($email, $name, $firstName, $hashedPassword, $idRole, $fileName, '', '', '', '', $dbConnection)) {
             // Supprimer l'invitation de la base de données
             $query = 'DELETE FROM invitation WHERE token = :token';
             $statement = $dbConnection->prepare($query);
