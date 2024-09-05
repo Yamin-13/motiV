@@ -57,9 +57,17 @@ foreach ($cartItems as $idReward) { // pour chaque récompense dans le panier...
     $unique_code = generateUniqueCode();
 
     // enregistre la transaction
-    $transaction = insertTransaction($idUser, $idReward, $reward['reward_price'], $unique_code, $dbConnection);
+    $transaction = insertTransaction($idUser, $idReward, $reward['reward_price'], $dbConnection);
     if (!$transaction) {
         $_SESSION['error'] = "Erreur lors de l'enregistrement de la transaction.";
+        header('Location: /ctrl/reward/rewards.php');
+        exit();
+    }
+
+    // enregistre le code unique dans la table unique_codes
+    $insertCode = insertUniqueCode($unique_code, $idReward, $idUser, $dbConnection);
+    if (!$insertCode) {
+        $_SESSION['error'] = "Erreur lors de l'enregistrement du code unique.";
         header('Location: /ctrl/reward/rewards.php');
         exit();
     }

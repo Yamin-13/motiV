@@ -31,12 +31,13 @@
                     <?php if (isset($_SESSION['user']) && hasUserAlreadyRedeemed($_SESSION['user']['id'], $reward['id'], $dbConnection)) : ?>
                         <p class="redeemed-text"><strong>Vous avez déjà échangé cette récompense.</strong></p>
                     <?php else : ?>
-                        <!-- Bouton pour échanger les points -->
-                        <form action="/ctrl/cart/add-to-cart.php" method="POST">
-                            <input type="hidden" name="idReward" value="<?= ($reward['id']) ?>">
-                            <button type="submit">Ajouter au panier</button>
-                        </form>
-
+                        <?php if (!isset($_SESSION['user']) || $_SESSION['user']['idRole'] == 60) : ?>
+                            <!-- Bouton pour échanger les points visible seulement pour les jeune et les utilisateur non connecté -->
+                            <form action="/ctrl/cart/add-to-cart.php" method="POST">
+                                <input type="hidden" name="idReward" value="<?= ($reward['id']) ?>">
+                                <button type="submit">Ajouter au panier</button>
+                            </form>
+                        <?php endif; ?>
                     <?php endif; ?>
                 <?php else : ?>
                     <p class="unavailable-text"><strong>Cette récompense n'est plus disponible.</strong></p>
@@ -49,7 +50,6 @@
                         <button type="submit" class="delete-button">Supprimer</button>
                     </form>
                 <?php endif; ?>
-
                 <hr>
             </div>
         <?php endforeach; ?>

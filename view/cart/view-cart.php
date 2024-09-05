@@ -21,7 +21,10 @@
     </ul>
 
     <p><strong>Sous-total: <?= $subTotal ?> points</strong></p> <!-- affiche le sous-total des points -->
-    <a href="/ctrl/cart/checkout.php">Confirmer l'échange</a>
+
+    <?php if (isset($_SESSION['user']) && $_SESSION['user']['idRole'] == 60) : ?> <!-- si un jeune est connecté -->
+        <a href="/ctrl/cart/checkout.php">Confirmer l'échange</a>
+    <?php endif; ?>
 
 <?php else : ?>
     <p>Ton panier est vide.</p>

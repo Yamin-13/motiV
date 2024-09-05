@@ -1,0 +1,6 @@
+/* style des message d'information */
+.success-message {
+    color: green;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
