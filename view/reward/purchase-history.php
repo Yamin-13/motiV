@@ -1,5 +1,7 @@
 <h1>Historique des Achats</h1>
 
+<a href="/ctrl/reward/my-unique-code.php">Mes codes et QR codes</a>
+
 <?php if ($purchases && count($purchases) > 0) : ?>
     <table>
         <thead>
@@ -7,7 +9,7 @@
                 <th>Récompense</th>
                 <th>Date d'Achat</th>
                 <th>Points Dépensés</th>
-                <th>Code Unique</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -16,7 +18,10 @@
                     <td><?= ($purchase['reward_title']) ?></td>
                     <td><?= ($purchase['transaction_date']) ?></td>
                     <td><?= ($purchase['number_of_points']) ?> points</td>
-                    <td><?= ($purchase['unique_code']) ?></td>
+                    <td>
+                        <!-- Bouton Détails -->
+                        <a href="/ctrl/reward/reward-details.php?idReward=<?= $purchase['idReward'] ?>">Détails</a>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

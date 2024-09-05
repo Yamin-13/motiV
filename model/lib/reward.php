@@ -91,13 +91,12 @@ function deductUserPoints($idUser, $points, $dbConnection)
     return $statement->execute();
 }
 
-function insertTransaction($idUser, $idReward, $points, $unique_code, $dbConnection)
+function insertTransaction($idUser, $idReward, $points, $dbConnection)
 {
-    $query = "INSERT INTO transaction (transaction_date, number_of_points, unique_code, idReward, idUser) 
-              VALUES (NOW(), :points, :unique_code, :idReward, :idUser)";
+    $query = "INSERT INTO transaction (transaction_date, number_of_points, idReward, idUser) 
+              VALUES (NOW(), :points, :idReward, :idUser)";
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':points', $points, PDO::PARAM_INT);
-    $statement->bindParam(':unique_code', $unique_code, PDO::PARAM_STR);
     $statement->bindParam(':idReward', $idReward, PDO::PARAM_INT);
     $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
 
@@ -115,6 +114,17 @@ function updateRewardQuantity($idReward, $dbConnection)
 function generateUniqueCode()
 {
     return strtoupper(bin2hex(random_bytes(4))); // Génère un code de 8 caractères hexadécimaux
+}
+
+function insertUniqueCode($code, $idReward, $idUser, $dbConnection)
+{
+    $query = "INSERT INTO unique_codes (code, idReward, idUser, generated_at, status) 
+              VALUES (:code, :idReward, :idUser, NOW(), 'valid')";
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':code', $code);
+    $statement->bindParam(':idReward', $idReward, PDO::PARAM_INT);
+    $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+    return $statement->execute();
 }
 
 function getCityHallIdByUserId($idUser, $dbConnection)
@@ -157,17 +167,18 @@ function hasUserAlreadyRedeemed($idUser, $idReward, $dbConnection)
 
 function getUserPurchaseHistory($idUser, $dbConnection)
 {
-    $query = "SELECT t.transaction_date, t.number_of_points, t.unique_code, r.title AS reward_title
-            FROM transaction t
-            JOIN reward r ON t.idReward = r.id
-            WHERE t.idUser = :idUser
-            ORDER BY t.transaction_date DESC
-    ";
+    $query = "SELECT t.transaction_date, t.number_of_points, uc.code AS unique_code, r.title AS reward_title, r.id AS idReward
+              FROM transaction t
+              JOIN reward r ON t.idReward = r.id
+              LEFT JOIN unique_codes uc ON uc.idReward = r.id AND uc.idUser = t.idUser
+              WHERE t.idUser = :idUser
+              ORDER BY t.transaction_date DESC";
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
+
 
 function getRewardsHistoryByPartner($idPartner, $dbConnection)
 {
@@ -203,6 +214,69 @@ function getPurchasersByReward($idReward, $dbConnection)
               WHERE t.idReward = :idReward";
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':idReward', $idReward);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Fonction pour récupéré les détails de la récompense et du jeune à partir du code unique
+function getRewardDetailsByCode($code, $dbConnection)
+{
+    $query = "SELECT uc.code, uc.idReward, uc.idUser, uc.generated_at, uc.used_at, uc.status, 
+                     r.title, r.description, r.reward_price, r.image_filename, u.first_name, u.name
+              FROM unique_codes uc
+              JOIN reward r ON uc.idReward = r.id
+              JOIN user u ON uc.idUser = u.id
+              WHERE uc.code = :code AND uc.status = 'valid'";
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':code', $code, PDO::PARAM_STR);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+}
+
+// Fonction pour mettre à jour le statut du code unique à 'used'
+function updateCodeStatusToUsed($code, $dbConnection)
+{
+    $query = "UPDATE unique_codes SET status = 'used' WHERE code = :code AND status = 'valid'";
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':code', $code, PDO::PARAM_STR);
+    return $statement->execute();
+}
+
+function generateQRCodeUrl($uniqueCode)
+{
+    $baseUrl = "https://api.qrserver.com/v1/create-qr-code/";
+    $dataUrl = "http://localhost:49937/ctrl/reward/validate.php?code=" . $uniqueCode; // Construit l'URL complète sans encodage
+    $params = [
+        'size' => '300x300',
+        'data' => $dataUrl // passe l'URL sans l'encoder
+    ];
+    $queryString = http_build_query($params);
+    return "{$baseUrl}?{$queryString}";
+}
+
+function getRewardAndUserByCode($code, $dbConnection)
+{
+    $query = "SELECT r.title, r.description, r.reward_price, u.first_name, u.name 
+              FROM unique_codes uc
+              JOIN reward r ON uc.idReward = r.id
+              JOIN user u ON uc.idUser = u.id
+              WHERE uc.code = :code AND uc.status = 'valid'";
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':code', $code, PDO::PARAM_STR);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+}
+
+function getUserCodes($idUser, $dbConnection)
+{
+    $query = "SELECT uc.code, uc.status, uc.expiration_date, r.title, r.image_filename
+              FROM unique_codes uc
+              JOIN reward r ON uc.idReward = r.id
+              WHERE uc.idUser = :idUser
+              ORDER BY uc.expiration_date DESC
+    ";
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }

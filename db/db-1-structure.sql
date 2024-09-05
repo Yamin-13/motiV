@@ -59,7 +59,6 @@ CREATE TABLE transaction (
     id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     transaction_date timestamp NOT NULL,
     number_of_points varchar(50) NOT NULL,
-    unique_code VARCHAR(255) NOT NULL,
     idReward bigint(20) NOT NULL,
     idUser bigint(20) NOT NULL
 )
@@ -254,6 +253,18 @@ CREATE TABLE password_resets (
 )
 ;
 
+CREATE TABLE unique_codes (
+    id BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY
+    ,code VARCHAR(255) NOT NULL UNIQUE
+    ,idReward BIGINT(20) NOT NULL 
+    ,idUser BIGINT(20) NOT NULL
+    ,generated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- date et heure de génération du code
+    ,used_at TIMESTAMP NULL -- date et heure d'utilisation du code
+    ,expiration_date TIMESTAMP NULL 
+    ,status ENUM('valid', 'used', 'expired') DEFAULT 'valid'  
+)
+;
+
 -- ----------
 -- CONTRAINTES
 -- ----------
@@ -367,4 +378,9 @@ ALTER TABLE professor_user
 ALTER TABLE student
     ADD CONSTRAINT `fk_student_professor` FOREIGN KEY (idProfessor) REFERENCES professor_user(id) ON DELETE CASCADE
     ,ADD CONSTRAINT `fk_student_educational_establishment` FOREIGN KEY (idEducationalEstablishment) REFERENCES educational_establishment(id) ON DELETE CASCADE
+;
+
+ALTER TABLE unique_codes
+    ADD CONSTRAINT `fk_unique_codes_reward` FOREIGN KEY(idReward) REFERENCES reward(id) ON DELETE CASCADE,
+    ADD CONSTRAINT `fk_unique_codes_user` FOREIGN KEY(idUser) REFERENCES user(id) ON DELETE CASCADE
 ;

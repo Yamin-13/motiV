@@ -1,0 +1,10 @@
+/* Ajoute un effet de filtre grisé sur les image pour les code utilisés ou expiré */
+.reward-image.grayscale {
+    filter: grayscale(100%);
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.reward-image{
+    cursor: pointer;
+}
