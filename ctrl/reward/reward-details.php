@@ -27,6 +27,9 @@ if (!$reward) {
     exit();
 }
 
+// Si l'utilisateur est connecté, récupérer son ID
+$idUser = isset($_SESSION['user']) ? $_SESSION['user']['id'] : null;
+
 include $_SERVER['DOCUMENT_ROOT'] . '/view/partial/header.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/view/reward/reward-details.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/view/partial/footer.php';

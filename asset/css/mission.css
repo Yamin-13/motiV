@@ -1,0 +1,16 @@
+
+/* grise les missions plus dispo */
+.grayscale-mission-page {
+    filter: grayscale(100%);
+    opacity: 0.6;
+}
+
+.mission-item {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.mission-item img {
+    border-radius: 8px;
+}

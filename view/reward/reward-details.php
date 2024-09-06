@@ -27,12 +27,13 @@
                 <input type="hidden" name="idReward" value="<?= ($reward['id']) ?>">
                 <button type="submit">Ajouter au panier</button>
             </form>
-
-        <?php endif; ?>
+            <!-- Lien vers la page de modification visible uniquement pour le soumetteur de la récompense -->
+            <?php if ($reward['idUser'] == $idUser) : ?>
+                <a href="/ctrl/reward/update-reward.php?id=<?= $idReward ?>">Modifier la récompense</a>
+            <?php endif; ?> <?php endif; ?>
     <?php else : ?>
         <p class="unavailable-text"><strong>Cette récompense n'est plus disponible.</strong></p>
     <?php endif; ?>
-
     <br>
     <a href="/ctrl/reward/rewards.php" class="back-button">Retour</a>
 </div>

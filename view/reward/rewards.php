@@ -24,7 +24,7 @@
                 ?>
 
                 <?php if ($reward['image_filename']) : ?>
-                   <!-- Ajoute la classe grayscale-reward-page si la récompense est expiré ou épuisé -->
+                    <!-- Ajoute la classe grayscale-reward-page si la récompense est expiré ou épuisé -->
                     <img
                         src="/upload/<?= ($reward['image_filename']) ?>"
                         alt="<?= ($reward['title']) ?>"
@@ -65,9 +65,14 @@
                     </form>
                 <?php endif; ?>
                 <hr>
+                <!-- Affiche le bouton modifier si l'utilisateur est le propriétaire de la récompense -->
+                <?php if (isset($_SESSION['user']) && $_SESSION['user']['id'] == $reward['idUser']) : ?>
+                    <a href="/ctrl/reward/update-reward.php?id=<?= $reward['id'] ?>">Modifier la récompense</a>
+                <?php endif; ?>
             </div>
-        <?php endforeach; ?>
     </div>
+<?php endforeach; ?>
+</div>
 <?php else : ?>
     <p>Aucune récompense disponible pour le moment.</p>
 <?php endif; ?>

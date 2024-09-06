@@ -112,14 +112,37 @@ function validateMission($idMission, $dbConnection)
 
 function getAllMissions($dbConnection)
 {
-    $query = "SELECT m.id, m.title, m.description, m.point_award, m.start_date_mission, m.end_date_mission, m.number_of_places, m.status, a.name AS association_name 
-              FROM mission m 
-              JOIN association a ON m.idAssociation = a.id 
-              WHERE m.status != 'accomplished' 
+    $query = "SELECT m.id, m.title, m.description, m.start_date_mission, m.end_date_mission, m.number_of_places, 
+                     m.point_award, m.image_filename, m.idUser, a.name AS association_name
+              FROM mission m
+              JOIN association a ON m.idAssociation = a.id
               ORDER BY m.start_date_mission DESC";
     $statement = $dbConnection->prepare($query);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function updateMission($idMission, $title, $description, $start_date, $start_time, $end_date, $end_time, $number_of_places, $image_filename, $dbConnection)
+{
+    // Combine la date et l'heure pour former un format DATETIME
+    $start_date_time = DateTime::createFromFormat('Y-m-d H:i', "$start_date $start_time")->format('Y-m-d H:i:s');
+    $end_date_time = DateTime::createFromFormat('Y-m-d H:i', "$end_date $end_time")->format('Y-m-d H:i:s');
+
+    $query = "UPDATE mission 
+              SET title = :title, description = :description, start_date_mission = :start_date_time, 
+                  end_date_mission = :end_date_time, number_of_places = :number_of_places, image_filename = :image_filename 
+              WHERE id = :idMission";
+
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':title', $title);
+    $statement->bindParam(':description', $description);
+    $statement->bindParam(':start_date_time', $start_date_time);
+    $statement->bindParam(':end_date_time', $end_date_time);
+    $statement->bindParam(':number_of_places', $number_of_places, PDO::PARAM_INT);
+    $statement->bindParam(':image_filename', $image_filename);
+    $statement->bindParam(':idMission', $idMission, PDO::PARAM_INT);
+
+    return $statement->execute();
 }
 
 function getRegisteredUsersByMission($idMission, $dbConnection)
@@ -136,7 +159,7 @@ function getRegisteredUsersByMission($idMission, $dbConnection)
 
 function getMissionById($idMission, $dbConnection)
 {
-    $query = "SELECT id, title, description, point_award, start_date_mission, end_date_mission, number_of_places, status, image_filename 
+    $query = "SELECT id, title, description, point_award, start_date_mission, end_date_mission, number_of_places, status, image_filename, idAssociation 
               FROM mission 
               WHERE id = :idMission";
     $statement = $dbConnection->prepare($query);

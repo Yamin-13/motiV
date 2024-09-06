@@ -1,6 +1,7 @@
 @import url(./modal.css);
 @import url(./message.css);
 @import url(./reward.css);
+@import url(./mission.css);
 
 * {
     margin: 0;
