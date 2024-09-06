@@ -36,20 +36,21 @@
                 <tr>
                     <td><?= ($mission['title']) ?></td>
                     <td><?= ($mission['description']) ?></td>
-                    <td><?= ($mission['start_date_formatted']) ?></td>
-                    <td><?= ($mission['start_time_formatted']) ?></td>
-                    <td><?= ($mission['end_date_formatted']) ?></td>
-                    <td><?= ($mission['end_time_formatted']) ?></td>
-                    <td><?= ($mission['duration_in_hours']) ?> heure(s)</td>
+                    <td><?= date('d/m/Y', strtotime($mission['start_date_mission'])) ?></td>
+                    <td><?= date('H:i', strtotime($mission['start_date_mission'])) ?></td>
+                    <td><?= date('d/m/Y', strtotime($mission['end_date_mission'])) ?></td>
+                    <td><?= date('H:i', strtotime($mission['end_date_mission'])) ?></td>
+                    <td><?= round((strtotime($mission['end_date_mission']) - strtotime($mission['start_date_mission'])) / 3600, 1) ?> heure(s)</td>
                     <td><?= ($mission['point_award']) ?></td>
                     <td><?= ($mission['number_of_places']) ?></td>
                     <td><?= ($mission['status']) ?></td>
                     <td>
                         <a href="/ctrl/mission/details-mission.php?id=<?= $mission['id'] ?>">Voir</a>
                         <?php if ($mission['status'] == 'complete') : ?>
-                            <a href="/ctrl/mission/validate-mission.php?id=<?= $mission['id'] ?>">Valider la mission</a>
+                            <a href="/ctrl/mission/validate-mission.php?id=<?= $mission['id'] ?>">Valider</a>
                         <?php endif; ?>
                         <a href="/ctrl/mission/delete-mission.php?id=<?= $mission['id'] ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette mission ?');">Supprimer</a>
+                        <a href="/ctrl/mission/update-mission.php?id=<?= $mission['id'] ?>">Modifier</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

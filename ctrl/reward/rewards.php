@@ -18,6 +18,9 @@ foreach ($rewards as $key => $reward) {
     $rewards[$key]['submitter_name'] = getSubmitterName($reward, $dbConnection);
 }
 
+// défini l'id de l'utilisateur connecté s'il est connecté
+$idUser = isset($_SESSION['user']['id']) ? $_SESSION['user']['id'] : null;
+
 include $_SERVER['DOCUMENT_ROOT'] . '/view/partial/header.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/view/reward/rewards.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/view/partial/footer.php';

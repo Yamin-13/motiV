@@ -62,6 +62,24 @@ function getAllRewards($dbConnection)
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function updateReward($idReward, $title, $description, $reward_price, $quantity_available, $idCategory, $dbConnection)
+{
+    $query = "UPDATE reward 
+              SET title = :title, description = :description, reward_price = :reward_price, 
+                  quantity_available = :quantity_available, idCategory = :idCategory
+              WHERE id = :idReward";
+
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':title', $title);
+    $statement->bindParam(':description', $description);
+    $statement->bindParam(':reward_price', $reward_price, PDO::PARAM_INT);
+    $statement->bindParam(':quantity_available', $quantity_available, PDO::PARAM_INT);
+    $statement->bindParam(':idCategory', $idCategory, PDO::PARAM_INT);
+    $statement->bindParam(':idReward', $idReward, PDO::PARAM_INT);
+
+    return $statement->execute();
+}
+
 function getSubmitterName($reward, $dbConnection)
 {
     if (!empty($reward['idCityHall'])) {

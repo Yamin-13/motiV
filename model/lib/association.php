@@ -60,15 +60,13 @@ function deleteAssociationById($id, $dbConnection)
 
 function getAssociationsWithPresidents($dbConnection)
 {
-    $query = "
-    SELECT 
-        a.id, 
-        a.name AS association_name, 
-        u.name AS president_name, 
-        u.first_name AS president_first_name, 
-        u.email AS president_email
-    FROM association a
-    JOIN user u ON a.idUser = u.id
+    $query = "SELECT a.id, 
+                     a.name AS association_name, 
+                     u.name AS president_name, 
+                     u.first_name AS president_first_name, 
+                     u.email AS president_email
+              FROM association a
+              JOIN user u ON a.idUser = u.id
 ";
     $statement = $dbConnection->prepare($query);
     $statement->execute();
@@ -100,7 +98,8 @@ function getMembersByAssociationId($associationId, $db)
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function getAssociationIdByUserId($userId, $dbConnection) {
+function getAssociationIdByUserId($userId, $dbConnection)
+{
     $query = "SELECT id FROM association WHERE idUser = :idUser LIMIT 1";
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':idUser', $userId);
