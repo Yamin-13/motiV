@@ -4,7 +4,10 @@
     opacity: 0.6;
     cursor: not-allowed;
 }
-
+.grayscale-reward-page {
+    filter: grayscale(100%);
+    opacity: 0.5;
+}
 .reward-image{
     cursor: pointer;
 }

@@ -40,7 +40,7 @@ foreach ($cartItems as $idReward) { // pour chaque récompense dans le panier...
     // ca vérifie que le jeune a assez de points pour échanger cette récompense
     $userPoints = fetchUserRewardPoints($idUser, $dbConnection);
     if ($userPoints < $reward['reward_price']) {
-        $_SESSION['error'] = "Tu n'a pas assez de points pour échanger cette récompense.";
+        $_SESSION['error'] = "Tu n'as pas assez de points pour échanger cette récompense.";
         header('Location: /ctrl/reward/rewards.php');
         exit();
     }
@@ -52,6 +52,9 @@ foreach ($cartItems as $idReward) { // pour chaque récompense dans le panier...
         header('Location: /ctrl/reward/rewards.php');
         exit();
     }
+
+    // met à jour les point dans la session après la déduction
+    $_SESSION['user']['points'] = fetchUserRewardPoints($idUser, $dbConnection);
 
     // génère un code unique pour la transaction
     $unique_code = generateUniqueCode();

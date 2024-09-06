@@ -53,7 +53,10 @@ function submitReward($title, $description, $reward_price, $quantity_available, 
 
 function getAllRewards($dbConnection)
 {
-    $query = "SELECT id, title, date, description, reward_price, quantity_available, image_filename, idUser, idCategory, idCityHall, idPartner FROM reward ORDER BY date DESC";
+    $query = "SELECT id, title, date, description, reward_price, quantity_available, image_filename, idUser, idCategory, idCityHall, idPartner, expiration_date 
+              FROM reward 
+              ORDER BY date DESC";
+
     $statement = $dbConnection->prepare($query);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);

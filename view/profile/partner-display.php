@@ -11,7 +11,7 @@
 // vérifie si le partenaire est validé
 if ($partner['status'] == 'approved') : ?>
     <a href="/ctrl/reward/submit-reward.php?idPartner=<?= $partner['id'] ?>">Soumettre une Récompense</a>
-    <a href="/ctrl/reward/entity-history.php">Voir l'historique des échanges d'offres</a>
+    <a href="/ctrl/reward/entity-history.php">Mes récompenses proposés</a>
 <?php else : ?>
     <p>Votre entreprise doit être validée par un administrateur avant de pouvoir soumettre une récompense.</p>
 <?php endif; ?>

@@ -18,21 +18,35 @@
     <div class="rewards-list">
         <?php foreach ($rewards as $reward) : ?>
             <div class="reward-item">
+                <?php
+                // Vérifie si la récompense est expiré
+                $isExpired = !empty($reward['expiration_date']) && strtotime($reward['expiration_date']) < time();
+                ?>
+
                 <?php if ($reward['image_filename']) : ?>
-                    <img src="/upload/<?= ($reward['image_filename']) ?>" alt="<?= ($reward['title']) ?>" width="200">
+                   <!-- Ajoute la classe grayscale-reward-page si la récompense est expiré ou épuisé -->
+                    <img
+                        src="/upload/<?= ($reward['image_filename']) ?>"
+                        alt="<?= ($reward['title']) ?>"
+                        width="200"
+                        class="<?= ($reward['quantity_available'] <= 0 || $isExpired) ? 'grayscale-reward-page' : '' ?>">
                 <?php endif; ?>
+
                 <h2><?= ($reward['title']) ?></h2>
                 <p><strong>Prix :</strong> <?= ($reward['reward_price']) ?> points</p>
                 <p><strong>Quantité Disponible :</strong> <?= ($reward['quantity_available']) ?></p>
                 <p><strong>Proposé par :</strong> <?= ($reward['submitter_name']) ?></p>
                 <a href="/ctrl/reward/reward-details.php?idReward=<?= ($reward['id']) ?>" class="details-button">Détails</a>
 
-                <?php if ($reward['quantity_available'] > 0) : ?>
+                <?php if ($isExpired) : ?>
+                    <!-- Si la récompense est expiré on affiche "Récompense expiré" -->
+                    <p class="expired-text"><strong>Récompense expirée</strong></p>
+                <?php elseif ($reward['quantity_available'] > 0) : ?>
                     <?php if (isset($_SESSION['user']) && hasUserAlreadyRedeemed($_SESSION['user']['id'], $reward['id'], $dbConnection)) : ?>
                         <p class="redeemed-text"><strong>Vous avez déjà échangé cette récompense.</strong></p>
                     <?php else : ?>
                         <?php if (!isset($_SESSION['user']) || $_SESSION['user']['idRole'] == 60) : ?>
-                            <!-- Bouton pour échanger les points visible seulement pour les jeune et les utilisateur non connecté -->
+                            <!-- Bouton pour échanger les points visible seulement pour les jeunes ou les utilisateur non connecté -->
                             <form action="/ctrl/cart/add-to-cart.php" method="POST">
                                 <input type="hidden" name="idReward" value="<?= ($reward['id']) ?>">
                                 <button type="submit">Ajouter au panier</button>
@@ -43,8 +57,8 @@
                     <p class="unavailable-text"><strong>Cette récompense n'est plus disponible.</strong></p>
                 <?php endif; ?>
 
+                <!-- Affiche le bouton supprimer si l'utilisateur est admin ou propriétaire de la récompense -->
                 <?php if (isset($_SESSION['user']) && ($_SESSION['user']['idRole'] == 10 || $_SESSION['user']['id'] == $reward['idUser'])) : ?>
-                    <!-- Bouton pour supprimer la récompense -->
                     <form action="/ctrl/reward/delete-reward.php" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette récompense ?');">
                         <input type="hidden" name="idReward" value="<?= ($reward['id']) ?>">
                         <button type="submit" class="delete-button">Supprimer</button>

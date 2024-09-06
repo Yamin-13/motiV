@@ -14,6 +14,7 @@
                 <th>Prénom</th>
                 <th>Nom</th>
                 <th>Date de l'achat</th>
+                <th>Code unique</th>
             </tr>
         </thead>
         <tbody>
@@ -22,6 +23,7 @@
                     <td><?= ($purchaser['first_name']) ?></td>
                     <td><?= ($purchaser['name']) ?></td>
                     <td><?= ($purchaser['transaction_date']) ?></td>
+                    <td><?= ($purchaser['code']) ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
