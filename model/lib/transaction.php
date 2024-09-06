@@ -39,26 +39,27 @@ function getAllTransactions($dbConnection)
 
 function getPurchasersByReward($idReward, $dbConnection)
 {
-    // ca prépare la requete SQL pour récupérer les information des jeunes...
-    // ...qui ont acheté une récompense
-    $query = "SELECT u.first_name, u.name, t.transaction_date, uc.used_at
+    // prépare la requête SQL pour récupérer les informations des jeunes qui ont achetés la recompense
+    $query = "SELECT u.first_name, u.name, t.transaction_date, uc.code, uc.used_at
               FROM transaction t
               JOIN user u ON t.idUser = u.id
-              WHERE t.idReward = :idReward
-    ";
+              JOIN unique_codes uc ON t.idReward = uc.idReward AND t.idUser = uc.idUser
+              WHERE t.idReward = :idReward";
+
     $statement = $dbConnection->prepare($query);
 
-    // ca lie l'identifiant de la récompense à la requête pour récupérer les bons résultats
+    // lie l'identifiant de la récompense à la requête pour récupérer les bons résultat
     $statement->bindParam(':idReward', $idReward, PDO::PARAM_INT);
 
-    // ca exécute la requete pour récupérer les données à la BDD
+    // ca exécute la requête pour récupérer les donnée depuis la BDD
     $statement->execute();
 
-    // ca retourne les résultats en tant que tableau associatif
+    // retourne les résultat en tant que tableau associatif
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function getFrenchStatus($status, $used_at = null) {
+function getFrenchStatus($status, $used_at = null)
+{
     switch ($status) {
         case 'valid':
             return 'Valide';
