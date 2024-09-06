@@ -11,11 +11,19 @@
         <tr>
             <th>Nom</th>
             <th>Date d'échange</th>
+            <th>Date d'utilisation du code unique</th>
         </tr>
         <?php foreach ($purchasers as $purchaser) : ?>
             <tr>
                 <td><?= $purchaser['first_name'] ?> <?= $purchaser['name'] ?></td>
                 <td><?= $purchaser['transaction_date'] ?></td>
+                <td>
+                    <?php if ($purchaser['used_at']) : ?>
+                        <?= $purchaser['used_at'] ?>
+                    <?php else : ?>
+                        <em>Code unique non utilisé</em>
+                    <?php endif; ?>
+                </td>
             </tr>
         <?php endforeach; ?>
     </table>

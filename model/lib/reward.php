@@ -8,10 +8,11 @@ function getAllCategories($dbConnection)
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function submitReward($title, $description, $reward_price, $quantity_available, $image_filename, $idUser, $idCategory, $idCityHall = null, $idPartner = null, $dbConnection)
+function submitReward($title, $description, $reward_price, $quantity_available, $image_filename, $idUser, $idCategory, $idCityHall = null, $idPartner = null, $start_date_usage = null, $expiration_date = null, $dbConnection)
 {
-    $query = "INSERT INTO reward (title, date, description, reward_price, quantity_available, image_filename, idUser, idCategory, idCityHall, idPartner) 
-              VALUES (:title, NOW(), :description, :reward_price, :quantity_available, :image_filename, :idUser, :idCategory, :idCityHall, :idPartner)";
+    $query = "INSERT INTO reward (title, date, description, reward_price, quantity_available, image_filename, idUser, idCategory, idCityHall, idPartner, start_date_usage, expiration_date) 
+              VALUES (:title, NOW(), :description, :reward_price, :quantity_available, :image_filename, :idUser, :idCategory, :idCityHall, :idPartner, :start_date_usage, :expiration_date)";
+
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':title', $title);
     $statement->bindParam(':description', $description);
@@ -32,6 +33,19 @@ function submitReward($title, $description, $reward_price, $quantity_available, 
         $statement->bindParam(':idPartner', $idPartner, PDO::PARAM_INT);
     } else {
         $statement->bindValue(':idPartner', null, PDO::PARAM_NULL);
+    }
+
+    // Gère les date de début et d'expiration
+    if ($start_date_usage !== null) {
+        $statement->bindParam(':start_date_usage', $start_date_usage);
+    } else {
+        $statement->bindValue(':start_date_usage', null, PDO::PARAM_NULL);
+    }
+
+    if ($expiration_date !== null) {
+        $statement->bindParam(':expiration_date', $expiration_date);
+    } else {
+        $statement->bindValue(':expiration_date', null, PDO::PARAM_NULL);
     }
 
     return $statement->execute();
@@ -65,7 +79,9 @@ function getSubmitterName($reward, $dbConnection)
 
 function getRewardById($idReward, $dbConnection)
 {
-    $query = "SELECT id, title, date, description, reward_price, quantity_available, image_filename, idUser, idCategory, idCityHall, idPartner FROM reward WHERE id = :idReward";
+    $query = "SELECT id, title, date, description, reward_price, quantity_available, image_filename, idUser, idCategory, idCityHall, idPartner, start_date_usage, expiration_date
+              FROM reward
+              WHERE id = :idReward";
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':idReward', $idReward, PDO::PARAM_INT);
     $statement->execute();
@@ -206,18 +222,6 @@ function getRewardsHistoryByCityHall($idCityHall, $dbConnection)
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function getPurchasersByReward($idReward, $dbConnection)
-{
-    $query = "SELECT u.first_name, u.name, t.transaction_date
-              FROM transaction t
-              JOIN user u ON t.idUser = u.id
-              WHERE t.idReward = :idReward";
-    $statement = $dbConnection->prepare($query);
-    $statement->bindParam(':idReward', $idReward);
-    $statement->execute();
-    return $statement->fetchAll(PDO::FETCH_ASSOC);
-}
-
 // Fonction pour récupéré les détails de la récompense et du jeune à partir du code unique
 function getRewardDetailsByCode($code, $dbConnection)
 {
@@ -236,7 +240,9 @@ function getRewardDetailsByCode($code, $dbConnection)
 // Fonction pour mettre à jour le statut du code unique à 'used'
 function updateCodeStatusToUsed($code, $dbConnection)
 {
-    $query = "UPDATE unique_codes SET status = 'used' WHERE code = :code AND status = 'valid'";
+    $query = "UPDATE unique_codes 
+              SET status = 'used', used_at = NOW() 
+              WHERE code = :code AND status = 'valid'"; // ca met à jour uniquement les code qui sont encore valide
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':code', $code, PDO::PARAM_STR);
     return $statement->execute();
@@ -269,12 +275,12 @@ function getRewardAndUserByCode($code, $dbConnection)
 
 function getUserCodes($idUser, $dbConnection)
 {
-    $query = "SELECT uc.code, uc.status, uc.expiration_date, r.title, r.image_filename
-              FROM unique_codes uc
-              JOIN reward r ON uc.idReward = r.id
-              WHERE uc.idUser = :idUser
-              ORDER BY uc.expiration_date DESC
-    ";
+    $query = "SELECT uc.code, uc.status, uc.expiration_date AS code_expiration, uc.generated_at, uc.used_at, r.title, r.image_filename, r.start_date_usage, r.expiration_date AS reward_expiration
+          FROM unique_codes uc
+          JOIN reward r ON uc.idReward = r.id
+          WHERE uc.idUser = :idUser
+          ORDER BY uc.generated_at DESC";
+
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
     $statement->execute();

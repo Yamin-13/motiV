@@ -36,6 +36,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $idCategory = trim($_POST['idCategory']);
     $idUser = $_SESSION['user']['id'];
 
+    // Récupère les dates soumises
+    $start_date_usage = !empty($_POST['start_date_usage']) ? $_POST['start_date_usage'] : null;
+    $expiration_date = !empty($_POST['expiration_date']) ? $_POST['expiration_date'] : null;
+
+    // si y'a aucune date d'expiration est donnée définie une expiration dans 6 mois
+    if ($expiration_date === null) {
+        $expiration_date = date('Y-m-d', strtotime('+6 months'));
+    }
+
     // Validation des donnée
     if (empty($title) || empty($description) || empty($reward_price) || empty($quantity_available)) {
         $_SESSION['error'] = "Veuillez remplir tous les champs obligatoires.";
@@ -95,9 +104,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Insère la récompense dans la base de données
-    $inserted = submitReward($title, $description, $reward_price, $quantity_available, $image_filename, $idUser, $idCategory, $idCityHall, $idPartner, $dbConnection);
+    $insertedRewardId = submitReward($title, $description, $reward_price, $quantity_available, $image_filename, $idUser, $idCategory, $idCityHall, $idPartner, $start_date_usage, $expiration_date, $dbConnection);
 
-    if ($inserted) {
+    if ($insertedRewardId) {
         $_SESSION['success'] = "Récompense soumise avec succès.";
         header('Location: /ctrl/profile/display.php');
         exit();
@@ -106,8 +115,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: /ctrl/reward/submit-reward.php');
         exit();
     }
-} else {
-    $_SESSION['error'] = "Méthode de requête non autorisée.";
-    header('Location: /ctrl/reward/submit-reward.php');
-    exit();
 }

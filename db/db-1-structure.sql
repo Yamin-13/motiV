@@ -39,6 +39,8 @@ CREATE TABLE reward (
     reward_price varchar(50) NOT NULL,
     quantity_available varchar(50) NOT NULL,
     image_filename varchar(255),
+    start_date_usage DATETIME NULL,
+    expiration_date DATETIME NULL,
     idUser bigint(20) NOT NULL,
     idCategory bigint(20) NOT NULL,
     idCityHall bigint(20) NULL,
