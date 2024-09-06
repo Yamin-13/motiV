@@ -3,6 +3,7 @@ session_start();
 include $_SERVER['DOCUMENT_ROOT'] . '/cfg/db-dev.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/db.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/reward.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/transaction.php';
 
 $dbConnection = getConnection($dbConfig); // Connexion à la base de données
 

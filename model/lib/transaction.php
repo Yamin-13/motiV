@@ -41,7 +41,7 @@ function getPurchasersByReward($idReward, $dbConnection)
 {
     // ca prépare la requete SQL pour récupérer les information des jeunes...
     // ...qui ont acheté une récompense
-    $query = "SELECT u.first_name, u.name, t.transaction_date
+    $query = "SELECT u.first_name, u.name, t.transaction_date, uc.used_at
               FROM transaction t
               JOIN user u ON t.idUser = u.id
               WHERE t.idReward = :idReward
@@ -56,4 +56,17 @@ function getPurchasersByReward($idReward, $dbConnection)
 
     // ca retourne les résultats en tant que tableau associatif
     return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getFrenchStatus($status, $used_at = null) {
+    switch ($status) {
+        case 'valid':
+            return 'Valide';
+        case 'used':
+            return 'Utilisé le ' . date('d/m/Y', strtotime($used_at)) . ' à ' . date('H:i', strtotime($used_at));
+        case 'expired':
+            return 'Expiré';
+        default:
+            return 'Statut inconnu';
+    }
 }

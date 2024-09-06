@@ -8,6 +8,16 @@
     <p><strong>Quantité Disponible :</strong> <?= ($reward['quantity_available']) ?></p>
     <p><strong>Proposé par :</strong> <?= ($reward['submitter_name']) ?></p>
 
+    <!-- Vérifie et affiche la date de début si elle est définie -->
+    <?php if (!empty($reward['start_date_usage'])) : ?>
+        <p><strong>Date de début d'utilisation :</strong> <?= date('d/m/Y', strtotime($reward['start_date_usage'])) ?></p>
+    <?php endif; ?>
+
+    <!-- Vérifie et affiche la date d'expiration si elle est définie -->
+    <?php if (!empty($reward['expiration_date'])) : ?>
+        <p><strong>Date limite d'utilisation :</strong> <?= date('d/m/Y', strtotime($reward['expiration_date'])) ?></p>
+    <?php endif; ?>
+
     <?php if ($reward['quantity_available'] > 0) : ?>
         <?php if (isset($_SESSION['user']) && hasUserAlreadyRedeemed($_SESSION['user']['id'], $reward['id'], $dbConnection)) : ?>
             <p class="redeemed-text"><strong>Vous avez déjà échangé cette récompense.</strong></p>

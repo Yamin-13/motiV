@@ -44,6 +44,16 @@
     <label for="image">Image de la Récompense :</label><br>
     <input type="file" id="image" name="image" accept="image/*"><br><br>
 
+    <h3>Voulez vous définir une date de début et/ou d'utilisation de coupon ?</h3>
+    <!-- Date de début d'utilisation de la récompense -->
+    <label for="start_date_usage">Date de début d'utilisation :</label><br>
+    <input type="date" id="start_date_usage" name="start_date_usage"><br><br>
+
+    <!-- Date de fin d'utilisation de la récompense -->
+    <label for="expiration_date">Date limite d'utilisation de la récompense :</label><br>
+    <input type="date" id="expiration_date" name="expiration_date"><br><br>
+
+    <!-- Id caché pour la mairie ou le partenaire -->
     <input type="hidden" name="idCityHall" value="<?= ($idCityHall) ?>">
     <input type="hidden" name="idPartner" value="<?= ($idPartner) ?>">
 
