@@ -2,6 +2,7 @@
 @import url(./message.css);
 @import url(./reward.css);
 @import url(./mission.css);
+@import url(./comment.css);
 
 * {
     margin: 0;
