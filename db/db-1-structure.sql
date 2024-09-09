@@ -233,6 +233,17 @@ CREATE TABLE message (
 )
 ;
 
+CREATE TABLE contact_message (
+    id BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    subject VARCHAR(255) NOT NULL,
+    body TEXT NOT NULL,
+    sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    admin_response TEXT,
+    response_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    idUser BIGINT(20) NOT NULL
+)
+;
+
 CREATE TABLE invitation (
      id BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY
     ,email VARCHAR(50) NOT NULL
@@ -357,6 +368,10 @@ ALTER TABLE association_user
 
 ALTER TABLE message
     ADD CONSTRAINT `fk_message_user` FOREIGN KEY (idUser) REFERENCES user(id) ON DELETE CASCADE
+;
+
+ALTER TABLE contact_message
+    ADD CONSTRAINT `fk_contact_message_user` FOREIGN KEY (idUser) REFERENCES user(id) ON DELETE CASCADE
 ;
 
 ALTER TABLE rejections

@@ -84,3 +84,39 @@ if (isset($_SESSION['message'])) {
 
 <h2>Gestion des élèves</h2>
 <a href="/ctrl/admin/student-list-admin.php">Voir la liste des élèves validés</a>
+
+<h2>Messages reçus</h2>
+<?php if (!empty($messages)) : ?>
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Entité</th> 
+                <th>Type d'entité</th>
+                <th>Sujet</th>
+                <th>Message</th>
+                <th>Répondre</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($messages as $message) : ?>
+                <tr>
+                    <td><?= ($message['first_name'] . ' ' . $message['name']) ?></td>
+                    <td><?= ($message['entity_type']) ?></td> 
+                    <td><?= ($message['entity_name']) ?></td> 
+                    <td><?= ($message['subject']) ?></td>
+                    <td><?= nl2br(($message['body'])) ?></td>
+                    <td>
+                        <form action="/ctrl/contact/reply-message.php" method="POST">
+                            <input type="hidden" name="message_id" value="<?= ($message['id']) ?>">
+                            <textarea name="admin_response" rows="4"></textarea><br>
+                            <button type="submit">Répondre</button>
+                        </form>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php else : ?>
+    <p>Aucun message reçu pour le moment.</p>
+<?php endif; ?>

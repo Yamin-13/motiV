@@ -100,4 +100,38 @@ if ($messages) :
     </form>
 </section>
 
+<h2>Vos messages envoyés à l'admin</h2>
+<?php if (!empty($sentMessages)) : ?>
+    <div class="message-list">
+        <?php foreach ($sentMessages as $message) : ?>
+            <div class="message-item">
+                <h4><?= ($message['subject']) ?></h4>
+                <p><?= nl2br(($message['body'])) ?></p>
+                <small>Envoyé le : <?= date('d/m/Y H:i', strtotime($message['sent_at'])) ?></small>
+                <?php if (!empty($message['admin_response'])) : ?>
+                    <p><strong>Réponse de l'admin :</strong> <?= nl2br(($message['admin_response'])) ?></p>
+                    <small>Répondu le : <?= date('d/m/Y H:i', strtotime($message['response_at'])) ?></small>
+                <?php endif; ?>
+            </div>
+        <?php endforeach; ?>
+    </div>
+<?php else : ?>
+    <p>Vous n'avez envoyé aucun message à l'admin.</p>
+<?php endif; ?>
+
+<h2>Messages reçus de l'admin</h2>
+<?php if (!empty($receivedMessages)) : ?>
+    <div class="message-list">
+        <?php foreach ($receivedMessages as $message) : ?>
+            <div class="message-item">
+                <h4><?= ($message['subject']) ?></h4>
+                <p><?= nl2br(($message['body'])) ?></p>
+                <small class="message-date"><?= date('d/m/Y H:i', strtotime($message['sent_at'])) ?></small>
+            </div>
+        <?php endforeach; ?>
+    </div>
+<?php else : ?>
+    <p>Vous n'avez reçu aucun message de l'admin.</p>
+<?php endif; ?>
+
 <a href="/ctrl/login/logout.php">Se déconnecter</a>
