@@ -8,6 +8,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/partner.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/verification.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/city-hall.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/educational-establishment.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/contact.php';
 
 $titrePage = "motiV";
 
@@ -26,6 +27,8 @@ $pendingPartners = getPendingPartners($dbConnection);
 $associations = getAssociationsWithPresidents($dbConnection);
 $cityHalls = getCityHallsWithAdmins($dbConnection);
 $educationalEstablishments = getEducationalEstablishmentsWithAdmins($dbConnection);
+// récupération des messages pour l'admin
+$messages = getMessagesForAdmin($dbConnection);
 
 include $_SERVER['DOCUMENT_ROOT'] . '/view/partial/header.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/view/admin/profile.php';

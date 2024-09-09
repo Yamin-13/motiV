@@ -6,6 +6,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/user.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/message.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/point.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/mission.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/contact.php';
 
 $titrePage = "motiV";
 
@@ -30,6 +31,13 @@ $_SESSION['user']['registration_date'] = $user['registration_date'];
 $_SESSION['user']['points'] = $user['points'];
 
 $pointLogs = getPointLogs($userId, $dbConnection);
+
+// Fonction pour récupérer les messages envoyés par le jeune à l'admin
+$sentMessages = getContactMessagesByUser($user['id'], $dbConnection);
+
+// Fonction pour récupérer les réponses de l'admin à ce jeune
+$receivedMessages = getMessagesByidUser($user['id'], $dbConnection);
+
 
 // Vérifie le rôle de l'utilisateur
 $idRole = $_SESSION['user']['idRole'];

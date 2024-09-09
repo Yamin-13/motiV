@@ -19,6 +19,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/model/lib/user.php';
         <a href="/ctrl/mission/mission-list-public.php">mission</a>
         <a href="/ctrl/reward/rewards.php">Récompenses</a>
         <a href="/ctrl/cart/view-cart.php">Mon Panier</a>
+        <a href="/ctrl/contact/contact-display.php">Contact</a>
 
         <?php if (!isset($_SESSION['user'])) : ?> <!-- si l'utilisateur n'est pas connecté -->
             <a href="/ctrl/login/login-display.php">Se connecter</a>

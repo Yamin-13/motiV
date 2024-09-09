@@ -13,6 +13,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/user.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/professor.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/student.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/mission.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/contact.php';
 
 $titrePage = "motiV";
 
@@ -35,6 +36,12 @@ if (isset($_GET['mission_id']) && isset($_GET['user_id'])) {
     $mission = getMissionById($missionId, $dbConnection);
     $young = getUserById($userId, $dbConnection);
 }
+
+// Fonction pour récupérer les messages envoyés à l'admin
+$sentMessages = getContactMessagesByUser($user['id'], $dbConnection);
+
+// Fonction pour récupérer les réponses de l'admin
+$receivedMessages = getMessagesByidUser($user['id'], $dbConnection);
 
 include $_SERVER['DOCUMENT_ROOT'] . '/view/partial/header.php';
 
