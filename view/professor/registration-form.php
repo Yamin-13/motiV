@@ -14,3 +14,18 @@
     <input type="password" id="confirm_password" name="confirm_password" required><br>
     <button type="submit">S'inscrire</button>
 </form>
+
+<!-- message -->
+<?php if (isset($_SESSION['success'])) : ?>
+    <div class="success-message">
+        <?= ($_SESSION['success']) ?>
+        <?php unset($_SESSION['success']); ?>
+    </div>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['error'])) : ?>
+    <div class="error-message">
+        <?= ($_SESSION['error']) ?>
+        <?php unset($_SESSION['error']); ?>
+    </div>
+<?php endif; ?>

@@ -133,20 +133,23 @@ function getEducationalEstablishment($rne, $uniqueCode, $dbConnection, $selectAl
 
 function getProfessorStudentsByEstablishment($idEducationalEstablishment, $dbConnection)
 {
-    $query = "
-        SELECT 
+    $query = "SELECT 
             pu.id AS professor_id, 
             pu.class_name, 
             u.first_name AS professor_first_name, 
             u.name AS professor_name, 
             s.id AS student_id, 
             s.ine_number, 
-            s.status
-        FROM professor_user pu
-        JOIN user u ON pu.idUser = u.id
-        LEFT JOIN student s ON s.idProfessor = pu.id
-        WHERE pu.idEducationalEstablishment = :idEducationalEstablishment
-        ORDER BY pu.class_name, u.name, s.ine_number
+            s.status,
+            us.id AS user_id,
+            us.first_name AS student_first_name,  
+            us.name AS student_name             
+            FROM professor_user pu
+            JOIN user u ON pu.idUser = u.id
+            LEFT JOIN student s ON s.idProfessor = pu.id
+            LEFT JOIN user us ON us.ine_number = s.ine_number
+            WHERE pu.idEducationalEstablishment = :idEducationalEstablishment
+            ORDER BY pu.class_name, u.name, s.ine_number
     ";
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':idEducationalEstablishment', $idEducationalEstablishment);
@@ -170,14 +173,16 @@ function getProfessorStudentsByEstablishment($idEducationalEstablishment, $dbCon
             $professorStudents[$professorId]['students'][] = [
                 'id' => $row['student_id'],
                 'ine_number' => $row['ine_number'],
-                'status' => $row['status']
+                'status' => $row['status'],
+                'first_name' => $row['student_first_name'],
+                'name' => $row['student_name'],
+                'user_id' => $row['user_id']
             ];
         }
     }
 
     return array_values($professorStudents);
 }
-
 
 function validateStudent($studentId, $dbConnection)
 {
@@ -187,9 +192,9 @@ function validateStudent($studentId, $dbConnection)
     return $statement->execute();
 }
 
-function getYoungUsersByEstablishment($idEducationalEstablishment, $dbConnection) {
-    $query = "
-        SELECT 
+function getYoungUsersByEstablishment($idEducationalEstablishment, $dbConnection)
+{
+    $query = "SELECT 
             u.id, 
             u.name, 
             u.first_name, 

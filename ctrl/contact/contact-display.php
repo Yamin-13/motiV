@@ -12,17 +12,11 @@ $dbConnection = getConnection($dbConfig);
 $titrePage = "motiV";
 
 // Vérifie si l'utilisateur est connecté
-if (!isset($_SESSION['user'])) {
-    $_SESSION['error'] = "Veuillez vous connecter pour envoyer un message.";
-    header('Location: /ctrl/login/login-display.php');
-    exit();
-}
+$isUserLoggedIn = isset($_SESSION['user']);
 
-// Récupère l'ID de l'utilisateur connecté
-$idUser = $_SESSION['user']['id'];
-
-// Si le formulaire est soumis (méthode POST) on récupère les informations
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+// Si le formulaire est soumis (méthode POST) et que l'utilisateur est connecté ca récupère les informations
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && $isUserLoggedIn) {
+    $idUser = $_SESSION['user']['id'];
     $subject = trim($_POST['subject']);  // trim retire les espaces inutiles
     $body = trim($_POST['body']);        
 

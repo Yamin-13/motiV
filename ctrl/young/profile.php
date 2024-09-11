@@ -29,6 +29,7 @@ $_SESSION['user']['address'] = $user['address'];
 $_SESSION['user']['avatar_filename'] = $user['avatar_filename'];
 $_SESSION['user']['registration_date'] = $user['registration_date'];
 $_SESSION['user']['points'] = $user['points'];
+$_SESSION['user']['last_connexion'] = $user['last_connexion'];
 
 $pointLogs = getPointLogs($userId, $dbConnection);
 

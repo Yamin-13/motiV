@@ -289,7 +289,6 @@ ALTER TABLE role
 
 ALTER TABLE user
     ADD CONSTRAINT `u_user_name` UNIQUE(name)
-    ,ADD CONSTRAINT `u_user_email` UNIQUE(email)
     ,ADD CONSTRAINT `fk_user_role` FOREIGN KEY(idRole) REFERENCES role(id)
 ;
 

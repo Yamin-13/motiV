@@ -26,7 +26,7 @@ foreach ($users as $user) :
 
         $currentRole = $user['role'];
         ?>
-        <h2>Rôle: <?= $currentRole ?></h2>
+        <h2> <?= getReadableRole($currentRole) ?> :</h2>
         <table class="user-management-table">
             <thead>
                 <tr>

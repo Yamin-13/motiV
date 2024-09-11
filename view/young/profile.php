@@ -1,8 +1,7 @@
 <section>
     <h3>Profil de <?= $_SESSION['user']['first_name'] ?></h3>
-    <p><img src="/upload/<?= $_SESSION['user']['avatar_filename'] ?? 'default-avatar.png' ?>" alt="Avatar de l'utilisateur"></p>
-</section>
-
+       <img width = "150px;" src="/upload/<?= !empty($user['avatar_filename']) ? $user['avatar_filename'] : '/asset/img/profil-par-defaut.jpeg' ?>" alt="Avatar de l'utilisateur">
+    </section>
 <!-- message -->
 <?php if (isset($_SESSION['success'])) : ?>
     <div class="success-message">
@@ -117,6 +116,8 @@ if ($messages) :
     <p><strong>Membre depuis le :</strong> <?= $_SESSION['user']['registration_date'] ?></p>
     <p><strong>Points :</strong> <?= isset($_SESSION['user']['points']) ? $_SESSION['user']['points'] : 0 ?></p>
     <p><strong>Numéro INE :</strong><?= $_SESSION['user']['ine_number'] ?></p>
+    <p><strong>Dèrnière connexion :</strong><?= $_SESSION['user']['last_connexion'] ?></p>
+
 </section>
 <section>
     <h2>Mettre à jour le profil</h2>

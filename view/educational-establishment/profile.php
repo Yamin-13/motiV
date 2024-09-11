@@ -1,5 +1,5 @@
 <h1>Profil de <?= ($user['first_name'] . ' ' . $user['name']) ?></h1>
-<p><img src="/upload/<?= ($_SESSION['user']['avatar_filename'] ?? 'default-avatar.png') ?>" alt="Avatar de l'utilisateur"></p>
+<img width = "150px;" src="/upload/<?= !empty($user['avatar_filename']) ? $user['avatar_filename'] : '/asset/img/profil-par-defaut.jpeg' ?>" alt="Avatar de l'utilisateur">
 <p>Email: <?= ($user['email']) ?></p>
 <p>Prénom: <?= ($user['first_name']) ?></p>
 <p>Nom: <?= ($user['name']) ?></p>

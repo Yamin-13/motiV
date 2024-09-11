@@ -7,24 +7,48 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/invitation.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $dbConnection = getConnection($dbConfig);
-    $invitation = $_SESSION['invitation'];
-    
-    $email = htmlspecialchars($_POST['email']);
-    $name = htmlspecialchars($_POST['name']);
-    $firstName = htmlspecialchars($_POST['first_name']);
-    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-    $idRole = $invitation['idRole'];
-    
-    if ($_POST['password'] !== $_POST['confirm_password']) {
-        $_SESSION['error'] = 'Les mots de passe ne correspondent pas.';
-        header('Location: /view/invitation/register-form.php?token=' . $invitation['token']);
+    $invitation = $_SESSION['invitation'] ?? null;
+
+    if (!$invitation) {
+        $_SESSION['error'] = "L'invitation est invalide ou a expiré.";
+        include $_SERVER['DOCUMENT_ROOT'] . '/view/invitation/establisment-ch-register-form.php';
         exit();
     }
 
-    if (addUser($email, $name, $firstName, $password, $idRole, '', '', '', '','', $dbConnection)) {
+    // Récupération des données du formulaire
+    $email = htmlspecialchars($_POST['email']);
+    $name = htmlspecialchars($_POST['name']);
+    $firstName = htmlspecialchars($_POST['first_name']);
+    $password = $_POST['password'];
+    $confirmPassword = $_POST['confirm_password'];
+    $idRole = $invitation['idRole'];
+
+    // Enregistrer les données du formulaire dans la session pour les pré-remplir en cas d'erreur
+    $_SESSION['form_data'] = [
+        'name' => $name,
+        'first_name' => $firstName,
+        'email' => $email,
+    ];
+
+    // Vérification des mots de passe
+    if ($password !== $confirmPassword) {
+        $_SESSION['error'] = 'Les mots de passe ne correspondent pas.';
+        include $_SERVER['DOCUMENT_ROOT'] . '/view/invitation/establisment-ch-register-form.php';
+        exit();
+    }
+
+    // Hash du mot de passe
+    $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+
+    // Ajout de l'utilisateur
+    if (addUser($email, $name, $firstName, $hashedPassword, $idRole, '', '', '', '', '', $dbConnection)) {
+        // Suppression de l'invitation après l'inscription réussie
         deleteInvitation($invitation['id'], $dbConnection);
+
+        // Connexion automatique de l'utilisateur
         $_SESSION['user'] = getUserByEmail($email, $dbConnection);
-        
+
+        // Redirection en fonction du rôle
         if ($idRole == 20) {
             header('Location: /view/educational-establishment/add-educational-establishment.php');
         } elseif ($idRole == 30) {
@@ -34,8 +58,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         exit();
     } else {
-        $_SESSION['error'] = 'Erreur lors de l\'inscription.';
-        header('Location: /view/invitation/register-form.php?token=' . $invitation['token']);
+        // En cas d'erreur d'inscription
+        $_SESSION['error'] = "Une erreur est survenue lors de l'inscription. Veuillez réessayer.";
+        include $_SERVER['DOCUMENT_ROOT'] . '/view/invitation/establisment-ch-register-form.php';
         exit();
     }
 }

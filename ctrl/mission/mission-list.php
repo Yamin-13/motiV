@@ -25,8 +25,7 @@ $missions = getMissionsByAssociation($idAssociation, $dbConnection);
 
 // Formate les date et heure pour chaque mission
 foreach ($missions as $key => $mission) {
-    var_dump($mission['start_date_mission'], $mission['end_date_mission']);
-
+    
     $startTimestamp = strtotime($mission['start_date_mission']);
     $endTimestamp = strtotime($mission['end_date_mission']);
 

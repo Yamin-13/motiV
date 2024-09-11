@@ -159,9 +159,11 @@ function getRegisteredUsersByMission($idMission, $dbConnection)
 
 function getMissionById($idMission, $dbConnection)
 {
-    $query = "SELECT id, title, description, point_award, start_date_mission, end_date_mission, number_of_places, status, image_filename, idAssociation 
-              FROM mission 
-              WHERE id = :idMission";
+    $query = "SELECT m.id, m.title, m.description, m.point_award, m.start_date_mission, m.end_date_mission, m.number_of_places, m.status, m.image_filename, m.idAssociation, a.name AS association_name
+              FROM mission m
+              JOIN association a ON m.idAssociation = a.id
+              WHERE m.id = :idMission";
+
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':idMission', $idMission, PDO::PARAM_INT);
     $statement->execute();

@@ -28,6 +28,8 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
 
         $_SESSION['user'] = $userData;  // <=======CEST ICI QUE LE STOCKAGE DE LUTILISATEUR SE FAIT DANS SESSION 
 
+        updateLastConnexion($_SESSION['user']['id'], $dbConnection);
+
         switch ($userData['idRole']) {
             case '10':
                 header('Location: /ctrl/admin/profile.php');
