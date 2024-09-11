@@ -24,8 +24,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
+    // Vérifie si l'email existe déjà
+    if (emailExists($email, $dbConnection)) {
+        $_SESSION['error'] = 'L\'email existe déjà. Veuillez en utiliser un autre.';
+        header('Location: /ctrl/professor/registration-form.php');
+        exit();
+    }
+
     // Ajouter l'utilisateur avec le rôle de professeur (idRole = 27)
-    $userId = addUser($email, $name, $first_name, $hashedPassword, 27, '', '', '', '','', $dbConnection);
+    $userId = addUser($email, $name, $first_name, $hashedPassword, 27, '', '', '', '', '', $dbConnection);
 
     if ($userId) {
         // Ajouter le professeur dans la table professor_user

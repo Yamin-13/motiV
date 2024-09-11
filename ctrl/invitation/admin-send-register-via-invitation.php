@@ -13,14 +13,16 @@ if (isset($_GET['token'])) {
 
     if ($invitation && strtotime($invitation['expiry']) > time()) {
         $_SESSION['invitation'] = $invitation;
-        include $_SERVER['DOCUMENT_ROOT'] . '/view/invitation/establisment-ch-register-form.php';
+        // Redirection vers la vue du formulaire d'inscription
+        header('Location: /view/invitation/establisment-ch-register-form.php');
+        exit();
     } else {
         $_SESSION['error'] = 'Invitation invalide ou expirée.';
-        header('Location: /view/login/login-display.php');
+        header('Location: /ctrl/login/login-display.php');
         exit();
     }
 } else {
     $_SESSION['error'] = 'Aucun token fourni.';
-    header('Location: /view/login/login-display.php');
+    header('Location: /ctrl/login/login-display.php');
     exit();
 }

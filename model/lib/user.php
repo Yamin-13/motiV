@@ -186,3 +186,23 @@ function getProfileLink($idRole)
             return "/ctrl/login/login-display.php";
     }
 }
+
+// Fonction pour vérifier si un email existe déjà
+function emailExists($email, $db)
+{
+    $query = 'SELECT email FROM user WHERE email = :email LIMIT 1';
+    $statement = $db->prepare($query);
+    $statement->bindParam(':email', $email);
+    $statement->execute();
+
+    // si une ligne est retournée l'email existe déjà
+    return $statement->fetch(PDO::FETCH_ASSOC) !== false;
+}
+
+function updateLastConnexion($userId, $dbConnection)
+{
+    $query = "UPDATE user SET last_connexion = CURRENT_TIMESTAMP WHERE id = :userId";
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':userId', $userId, PDO::PARAM_INT);
+    $statement->execute();
+}

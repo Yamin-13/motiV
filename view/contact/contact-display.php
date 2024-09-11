@@ -20,6 +20,12 @@
         <label for="body">Message :</label>
         <textarea id="body" name="body" rows="5" required></textarea><br>
 
-        <button type="submit">Envoyer</button>
+        <?php if ($isUserLoggedIn) : ?>
+            <!-- Si l'utilisateur est connecté on affiche le bouton pour envoyer -->
+            <button type="submit">Envoyer</button>
+        <?php else : ?>
+            <!-- Si l'utilisateur n'est pas connecté on lui propose de se connecter -->
+            <p><a href="/ctrl/login/login-display.php">Connectez-vous</a> pour envoyer un message.</p>
+        <?php endif; ?>
     </form>
 </div>

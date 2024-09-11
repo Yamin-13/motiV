@@ -1,24 +1,22 @@
- <h2>Bienvenue</h2>
- <div>
-     <form action="/ctrl/login/register.php" method="post" enctype="multipart/form-data">
-         <h2>Inscription</h2>
-         <div>
-             <input type="text" name="email" placeholder="Email">
-         </div>
-         <div>
-             <input type="password" name="password" placeholder="Mot de Passe">
-         </div>
-         <div>
-             <input type="file" id="file" name="file" onchange="updateFileName()">
-             <label for="file" class="inputfile-label-register">Votre avatar</label>
-             <span id="file-name">Aucun fichier sélectionné</span>
-         </div>
-         <button type="submit">Inscription</button>
-         <div>
-             <p>Déjà Inscrits? <a href="/ctrl/login/login-display.php">S'Identifier</a></p>
-         </div>
-     </form>
- </div>
+<h2>Bienvenue</h2>
+<div>
+    <form action="/ctrl/login/register.php" method="post">
+        <h2>Inscription</h2>
+        <div>
+            <input type="text" name="email" placeholder="Email" value="<?= ($_SESSION['form_data']['email'] ?? '') ?>" required>
+        </div>
+        <div>
+            <input type="password" name="password" placeholder="Mot de Passe" required>
+        </div>
+        <div>
+            <input type="password" name="confirm_password" placeholder="Confirmer le Mot de Passe" required>
+        </div>
+        <button type="submit">Inscription</button>
+        <div>
+            <p>Déjà Inscrits? <a href="/ctrl/login/login-display.php">S'Identifier</a></p>
+        </div>
+    </form>
+</div>
  <!-- Messages -->
  <div class="error-message">
      <?php

@@ -45,5 +45,5 @@ if ($ineNumber !== '') {
 $_SESSION['success'] = "Votre profil a été mis à jour avec succès.";
 
 // Rediriger vers la page de profil
-header('Location: /view/home/welcome.php');
+header('Location: /ctrl/young/profile.php');
 exit();

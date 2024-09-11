@@ -13,14 +13,14 @@ if ($_SESSION['user']['idRole'] != 60) {
     exit();
 }
 
-// Vérifie que l'ID de la mission est fourni
-if (!isset($_GET['id'])) {
+// Vérifie que l'ID de la mission est fourni avec POST
+if (!isset($_POST['idMission'])) {
     $_SESSION['error'] = 'Mission non spécifiée.';
-    header('Location: /ctrl/mission/mission-list.php');
+    header('Location: /ctrl/mission/mission-list-public.php');
     exit();
 }
 
-$missionId = $_GET['id'];
+$missionId = $_POST['idMission'];
 $userId = $_SESSION['user']['id'];
 
 // Inscrit l'utilisateur à la mission
@@ -30,5 +30,5 @@ if (registerForMission($missionId, $userId, $dbConnection)) {
     $_SESSION['error'] = 'Impossible d\'accepter la mission. Il n\'y a peut-être plus de places disponibles.';
 }
 
-header('Location: /ctrl/mission/mission-list.php');
+header('Location: /ctrl/mission/mission-list-public.php');
 exit();

@@ -4,6 +4,9 @@ include $_SERVER['DOCUMENT_ROOT'] . '/cfg/db-dev.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/db.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/user.php';
 
+// se connecte à la BDD
+$dbConnection = getConnection($dbConfig);
+
 $titrePage = "motiV";
 
 if (isset($_GET['role'])) {
@@ -15,28 +18,38 @@ if (isset($_GET['role'])) {
         $name = htmlspecialchars($_POST['name']);
         $firstName = htmlspecialchars($_POST['first_name']);
         $password = htmlspecialchars($_POST['password']);
-        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+        $confirmPassword = htmlspecialchars($_POST['confirm_password']);
         $dateOfBirth = htmlspecialchars($_POST['date_of_birth'] ?? '');
-        $address = htmlspecialchars($_POST['address'] ?? ''); 
-        $points = 0; 
-        $ine_number = htmlspecialchars($_POST['ine_number'] ?? ''); 
+        $address = htmlspecialchars($_POST['address'] ?? '');
+        $points = 0;
+        $ine_number = htmlspecialchars($_POST['ine_number'] ?? '');
 
-        // Traitement de l'upload du nouvel avatar
-        $fileName = ''; // initialise la variable $fileName
-        if (!empty($_FILES['file']['name'])) {
-            $uploadDirectory = $_SERVER['DOCUMENT_ROOT'] . '/upload/';
-            $fileName = basename($_FILES['file']['name']);
-            $uploadPath = $uploadDirectory . $fileName;
+        // Enregistre les donnée du formulaire dans la session pour les pré remplir en cas d'erreur
+        $_SESSION['form_data'] = [
+            'name' => $name,
+            'first_name' => $firstName,
+            'email' => $email,
+        ];
 
-            if (!move_uploaded_file($_FILES['file']['tmp_name'], $uploadPath)) {
-                die('Erreur lors de l\'upload de l\'avatar.');
-            }
+        // Vérification des mots de passe
+        if ($password !== $confirmPassword) {
+            $_SESSION['error'] = 'Les mots de passe ne correspondent pas.';
+            include $_SERVER['DOCUMENT_ROOT'] . '/ctrl/register/register-entity.php';
+            exit();
         }
 
-        $dbConnection = getConnection($dbConfig);
+        // Vérifie si l'email existe déjà
+        if (emailExists($email, $dbConnection)) {
+            $_SESSION['error'] = 'L\'email existe déjà. Veuillez en utiliser un autre.';
+            include $_SERVER['DOCUMENT_ROOT'] . '/ctrl/register/register-entity.php';
+            exit();
+        }
+
+        // Hash du mot de passe
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
         if ($dbConnection) {
-            if (addUser($email, $name, $firstName, $hashedPassword, $idRole, $fileName, $dateOfBirth, $address, $points, $ine_number, $dbConnection)) {
+            if (addUser($email, $name, $firstName, $hashedPassword, $idRole, "", $dateOfBirth, $address, $points, $ine_number, $dbConnection)) {
                 $user = getUser($email, $password, $dbConnection);
                 if ($user) {
                     $_SESSION['user'] = $user;
@@ -48,17 +61,17 @@ if (isset($_GET['role'])) {
                     exit();
                 } else {
                     $_SESSION['error'] = 'Erreur lors de la récupération de l\'utilisateur.';
-                    header('Location: /view/register/register-display.php?role=' . $role);
+                    include $_SERVER['DOCUMENT_ROOT'] . '/ctrl/register/register-entity.php';
                     exit();
                 }
             } else {
                 $_SESSION['error'] = 'Erreur lors de l\'inscription.<br> Veuillez réessayer.';
-                header('Location: /view/register/register-display.php?role=' . $role);
+                include $_SERVER['DOCUMENT_ROOT'] . '/ctrl/register/register-entity.php';
                 exit();
             }
         } else {
             $_SESSION['error'] = 'Erreur de connexion à la base de données.';
-            header('Location: /view/register/register-display.php?role=' . $role);
+            include $_SERVER['DOCUMENT_ROOT'] . '/ctrl/register/register-entity.php';
             exit();
         }
     } else {

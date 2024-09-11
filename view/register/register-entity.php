@@ -1,29 +1,23 @@
 <h2>Inscription de l'utilisateur</h2>
-<form action="" method="post" enctype="multipart/form-data">
+<form action="" method="post">
     <input type="hidden" name="role" value="<?=($_GET['role']) ?>">
     <label for="email">Email:</label>
-    <input type="text" id="email" name="email"><br>
+    <input type="text" id="email" name="email" required><br>
+    
     <label for="name">Nom:</label>
     <input type="text" name="name" id="name"><br>
+    
     <label for="first_name">Prénom:</label>
     <input type="text" name="first_name" id="first_name"><br>
+    
     <label for="password">Mot de passe:</label>
-    <input type="password" id="password" name="password"><br>
-    <div>
-        <input type="file" id="file" name="file" onchange="updateFileName()">
-        <label for="file" class="inputfile-label-register">Votre avatar</label>
-        <span id="file-name">Aucun fichier sélectionné</span>
-    </div>
+    <input type="password" id="password" name="password" required><br>
+    
+    <label for="confirm_password">Confirmer le mot de passe:</label>
+    <input type="password" id="confirm_password" name="confirm_password" required><br>
+    
     <input type="submit" value="S'inscrire">
 </form>
-
-<script>
-function updateFileName() {
-    const input = document.getElementById('file');
-    const fileNameSpan = document.getElementById('file-name');
-    fileNameSpan.textContent = input.files[0] ? input.files[0].name : 'Aucun fichier sélectionné';
-}
-</script>
 
 <!-- Messages -->
 <div class="error-message">

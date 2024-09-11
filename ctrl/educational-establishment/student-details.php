@@ -7,10 +7,10 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/user.php';
 $dbConnection = getConnection($dbConfig);
 $titrePage = "motiV";
 
-// Vérification du rôle de l'utilisateur
+// Vérification du role de l'utilisateur
 $idRole = $_SESSION['user']['idRole'];
-if ($idRole != [20, 25]) {
-    // Si l'utilisateur n'est pas un admin, redirige vers la page de connexion
+if (!in_array($idRole, [20, 25, 27])) {
+    // Si l'utilisateur n'est pas un membre d'un établissement scolaire
     header('Location: /ctrl/login/login-display.php');
     exit();
 }
