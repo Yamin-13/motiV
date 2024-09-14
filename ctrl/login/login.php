@@ -62,10 +62,10 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
                 header('Location: /ctrl/profile/display.php');
                 break;
             case '60':
-                header('Location: /ctrl/home/welcome.php');
+                header('Location: /ctrl/home/display.php');
                 break;
             default:
-                header('Location: /ctrl/home/welcome.php');
+                header('Location: /ctrl/home/display.php');
                 break;
         }
         exit();

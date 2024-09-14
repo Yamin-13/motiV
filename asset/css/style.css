@@ -1,10 +1,32 @@
+@import url(./header.css);
 @import url(./modal.css);
 @import url(./message.css);
 @import url(./reward.css);
 @import url(./mission.css);
 @import url(./comment.css);
 
+/* variable CSS */
+:root {
+    --color-primary: #f78a3c;
+    --color-secondary: #0e2d3e;
+    --color-white: #ffffff;
+    --color-platinium: #e1e1de;
+    --color-verdigris: #04b8c4;
+    --color-lightBlue: #aac9cb;
+    --font-size-large: 1.5rem;
+    --font-size-medium: 1.2rem;
+    --font-size-small: 0.8rem;
+    --transition-speed: 0.3s;
+}
+
+/* Style général pour tout le site */
+
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
 }
