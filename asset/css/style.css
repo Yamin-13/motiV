@@ -1,9 +1,14 @@
 @import url(./header.css);
+@import url(./home.css);
 @import url(./modal.css);
 @import url(./message.css);
 @import url(./reward.css);
 @import url(./mission.css);
 @import url(./comment.css);
+
+/* Importation des polices et des icone */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
 
 /* variable CSS */
 :root {
@@ -13,6 +18,8 @@
     --color-platinium: #e1e1de;
     --color-verdigris: #04b8c4;
     --color-lightBlue: #aac9cb;
+    --color-grey: #f5f5f5;
+    --font-family: 'Poppins', sans-serif;
     --font-size-large: 1.5rem;
     --font-size-medium: 1.2rem;
     --font-size-small: 0.8rem;
@@ -29,4 +36,6 @@
 
 body {
     font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    color: #333;
 }

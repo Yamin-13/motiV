@@ -389,3 +389,18 @@ function getCompletedMissionsByUser($idUser, $dbConnection)
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function getLatestMissions($dbConnection, $limit = 5)
+{
+    $query = "SELECT id, title, point_award, start_date_mission, end_date_mission, number_of_places, image_filename
+              FROM mission
+              WHERE end_date_mission > NOW() -- exclut les missions expiré
+              AND number_of_places > 0 -- exclut les missions sans places dispo
+              ORDER BY start_date_mission DESC
+              LIMIT :limit";
+
+    $statement = $dbConnection->prepare($query);
+    $statement->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}

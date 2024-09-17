@@ -9,7 +9,7 @@
     margin: 0;
 }
 
-button {
+.button-comment {
     background-color: #4CAF50;
     color: white;
     border: none;
@@ -17,7 +17,7 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+.button-comment:hover {
     background-color: #45a049;
 }
 /* Style pour la section des commentaires */

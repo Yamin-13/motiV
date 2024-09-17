@@ -67,14 +67,14 @@ $user = $isLoggedIn ? $_SESSION['user'] : null;
                 </li>
 
                 <!-- Informations utilisateur -->
-                <div class="user-info">
+                <li class="user-info">
                     <?php if ($isLoggedIn && isset($user['points']) && $user['idRole'] == 60) : ?>
                         <div class="points-display-destkop">
                             <i class="fas fa-star"></i>
                             <span><?= ($user['points']) ?> Vpoints</span>
                         </div>
                     <?php endif; ?><!-- endif améliore la visibilité quand le php est mélangé à l'html -->
-                </div>
+                    </li>
                 
                 <!-- Avatar de l'utilisateur dans la barre de navigation mobile -->
                 <?php if ($isLoggedIn) : ?>
