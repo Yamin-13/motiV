@@ -281,6 +281,10 @@ header h1 {
     .nav-principale ul li a span {
         font-size: 0.7rem;
     }
+
+    footer {
+        display: none;
+    }
 }
 
 /* Responsive pour tablette (769px à 1024px) ---------------- TABLETTE --------------------------------------------------------------- */
@@ -344,11 +348,11 @@ header h1 {
         background-color: rgba(255, 255, 255, 0.1);
         border-radius: 5px;
     }
-    
+
     .nav-principale .dropdown {
         display: block;
     }
-    
+
     /* menu déroulant pour le lien Acteurs dans la nav -------------------- */
     .dropdown {
         position: relative;
@@ -430,7 +434,7 @@ header h1 {
         display: flex;
         align-items: center;
     }
-    
+
     /* Avatar rond sur desktop  */
     .image-avatar-nav {
         display: block;

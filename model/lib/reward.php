@@ -307,3 +307,18 @@ function getUserCodes($idUser, $dbConnection)
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function getRandomRewards($dbConnection, $limit = 3)
+{
+    $query = "SELECT id, title, description, reward_price, image_filename, idCityHall, idPartner, expiration_date, quantity_available
+              FROM reward
+              WHERE (expiration_date IS NULL OR expiration_date > NOW())
+              AND quantity_available > 0
+              ORDER BY RAND() 
+              LIMIT :limit";
+
+    $statement = $dbConnection->prepare($query);
+    $statement->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
