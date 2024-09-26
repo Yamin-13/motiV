@@ -20,14 +20,14 @@ INSERT INTO site_configuration (key_name, key_value, description) VALUES
     ,('ine_validation_points', '1000', 'Nombre de points attribués pour la validation du numéro INE')
 ;
 
-INSERT INTO category (id, name) VALUES
-     (1, 'Événements et Activités')
-    ,(2, 'Bons d\'Achat')
-    ,(3, 'Produits et Gadgets')
-    ,(4, 'Repas et Boissons')
-    ,(5, 'Sports et Loisirs')
-    ,(6, 'Voyages et Séjours')
-    ,(7, 'Éducation et Apprentissage')
-    ,(8, 'Bien-être et Santé')
-    ,(9, 'Culture et Divertissement')
+INSERT INTO category (id, name, image_filename) VALUES
+     (1, 'Événements et Activités', 'image-categorie-evenements.webp')
+    ,(2, "Bons d\'Achat", 'image-categorie-bons.webp')
+    ,(3, 'Produits et Gadgets', 'image-categorie-produits.webp')
+    ,(4, 'Repas et Boissons', 'image-categorie-repas.webp')
+    ,(5, 'Sports et Loisirs', 'image-categorie-sports.webp')
+    ,(6, 'Voyages et Séjours', 'image-categorie-voyages.webp')
+    ,(7, 'Éducation et Apprentissage', 'image-categorie-education.webp')
+    ,(8, 'Bien-être et Santé', 'image-categorie-bien-etre.webp')
+    ,(9, 'Culture et Divertissement', 'image-categorie-culture.webp')
 ;
