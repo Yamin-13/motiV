@@ -10,8 +10,19 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/user.php';
 $dbConnection = getConnection($dbConfig);
 $titrePage = "motiV";
 
-// Récupére toute les récompense disponible
-$rewards = getAllRewards($dbConnection);
+// Vérifie si un category_id est passé dans l'URL
+$categoryId = isset($_GET['category_id']) ? intval($_GET['category_id']) : null;
+
+// Si une catégorie est sélectionnée, récupère les récompenses de cette catégorie
+if ($categoryId) {
+    $rewards = getRewardsByCategory($categoryId, $dbConnection);
+} else {
+    // Si aucune catégorie n'est sélectionnée, récupère toutes les récompenses
+    $rewards = getAllRewards($dbConnection);
+}
+
+// Récupère toutes les catégories
+$categories = getAllCategories($dbConnection);
 
 // Récupére le nom du submiteur (partenaire ou mairie) pour chaque récompense
 foreach ($rewards as $key => $reward) {

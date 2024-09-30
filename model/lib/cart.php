@@ -18,7 +18,7 @@ function removeFromCart($idReward) {
     }
 }
 
-// récupére toutes les récompenses dans le panier
+// récupére toutes les récompense dans le panier
 function getCartItems() {
     return $_SESSION['cart'] ?? []; // retourne le panier ou un tableau vide s'il est vide
 }
