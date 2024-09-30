@@ -2,7 +2,7 @@
 
 function getAllCategories($dbConnection)
 {
-    $query = "SELECT id, name FROM category ORDER BY name ASC";
+    $query = "SELECT id, name, image_filename FROM category ORDER BY name ASC";
     $statement = $dbConnection->prepare($query);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -51,16 +51,17 @@ function submitReward($title, $description, $reward_price, $quantity_available, 
     return $statement->execute();
 }
 
-function getAllRewards($dbConnection)
-{
-    $query = "SELECT id, title, date, description, reward_price, quantity_available, image_filename, idUser, idCategory, idCityHall, idPartner, expiration_date 
-              FROM reward 
-              ORDER BY date DESC";
+function getAllRewards($dbConnection) {
+    $query = "SELECT r.id, r.title, r.date, r.description, r.reward_price, r.quantity_available, r.image_filename, r.idUser, r.idCategory, r.idCityHall, r.idPartner, r.expiration_date, c.name AS category_name
+              FROM reward r
+              JOIN category c ON r.idCategory = c.id
+              ORDER BY r.date DESC";
 
     $statement = $dbConnection->prepare($query);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
+
 
 function updateReward($idReward, $title, $description, $reward_price, $quantity_available, $idCategory, $dbConnection)
 {
@@ -322,3 +323,21 @@ function getRandomRewards($dbConnection, $limit = 3)
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function getRewardsByCategory($categoryId, $dbConnection) {
+    $query = "SELECT r.id, r.title, r.date, r.description, r.reward_price, 
+                     r.quantity_available, r.image_filename, r.idUser, 
+                     r.expiration_date, r.start_date_usage, 
+                     c.name AS category_name
+              FROM reward r
+              JOIN category c ON r.idCategory = c.id
+              WHERE r.idCategory = :idCategory 
+              AND (r.expiration_date IS NULL OR r.expiration_date > NOW()) 
+              AND r.quantity_available > 0";
+
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':idCategory', $categoryId, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+

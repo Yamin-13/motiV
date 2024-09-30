@@ -20,9 +20,9 @@ function getMessagesForAdmin($dbConnection)
     // prépare une requête SQL qui va sélectionner des information dans la BDD
     $query = "SELECT cm.id, cm.subject, cm.body, cm.sent_at, u.first_name, u.name, u.idRole,
     
-        -- Le mot CASE commence une condition qui va renvoyer une valeur en fonction du rôle de l'utilisateur (idRole).
+        -- Le mot CASE commence une condition qui va renvoyé une valeur en fonction du rôle de l'utilisateur (idRole).
         CASE 
-            -- si le rôle de l'utilisateur est 50 ou 55 (membre ou admin d'une association) ca récupère le nom de l'association
+            -- si le role de l'utilisateur est 50 ou 55 (membre ou admin d'une association) ca récupère le nom de l'association
             WHEN u.idRole IN (50, 55) THEN (
                 SELECT a.name FROM association a WHERE a.idUser = u.id
             )

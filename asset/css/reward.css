@@ -1,13 +1,307 @@
-/* Ajoute un effet de filtre grisé sur les image pour les code utilisés ou expiré */
-.reward-image.grayscale {
-    filter: grayscale(100%);
-    opacity: 0.6;
-    cursor: not-allowed;
+/* reward.css */
+
+/* Importation des variables de style */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+
+/* Définition des variables CSS */
+:root {
+    --color-primary: #f78a3c;
+    --color-secondary: #0e2d3e;
+    --color-white: #ffffff;
+    --color-platinium: #e1e1de;
+    --color-verdigris: #04b8c4;
+    --color-lightBlue: #aac9cb;
+    --color-grey: #f5f5f5;
+    --font-family: 'Poppins', sans-serif;
 }
-.grayscale-reward-page {
-    filter: grayscale(100%);
-    opacity: 0.5;
+
+/* Réinitialisation des marges et paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-.reward-image{
+
+/* Style du corps de la page */
+body {
+    font-family: var(--font-family);
+    background-color: var(--color-grey);
+    color: #333;
+}
+
+/* --- Section hero  -------------------------------------------- */
+.reward-hero {
+    background-image: url('/asset/img/image-page-reward.webp');
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--color-white);
+    position: relative;
+}
+
+.reward-hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(14, 45, 62, 0.6);
+}
+
+.reward-hero h2 {
+    position: relative;
+    font-size: 2em;
+    margin-bottom: 10px;
+    z-index: 1;
+}
+
+.reward-hero p {
+    position: relative;
+    font-size: 1.2em;
+    z-index: 1;
+}
+
+/* --- Messages de succès et d'erreur ------------------------------- */
+.success-message,
+.error-message {
+    margin: 20px auto;
+    padding: 10px;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* --- Section Categorie  ------------------------------------------- */
+.reward-categories {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px 10px;
+}
+
+.reward-category-card {
+    flex: 0 0 45%;
+    margin: 10px;
+    text-align: center;
+    background-color: var(--color-white);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.reward-category-card:hover {
+    transform: scale(1.05);
+}
+
+.reward-category-card img {
+    width: 100%;
+    height: auto;
+}
+
+.reward-category-card h3 {
+    margin: 10px 0;
+    color: var(--color-secondary);
+}
+
+/* Media Queries pour les catégories */
+
+@media (max-width: 599px) {
+    .reward-category-card {
+        flex: 0 0 100%;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 899px) {
+    .reward-category-card {
+        flex: 0 0 30%;
+    }
+}
+
+@media (min-width: 900px) {
+    .reward-category-card {
+        flex: 0 0 20%;
+    }
+}
+
+/* --- Rewards Grid --- */
+
+.rewards-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin: 20px 10px;
+}
+
+/* Media Queries pour les récompenses */
+
+@media (min-width: 600px) and (max-width: 899px) {
+    .rewards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 900px) {
+    .rewards-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+/* --- Reward Card ----------------------------------------------- */
+
+.reward-card {
+    background-color: var(--color-white);
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    position: relative;
+    height: 100%;
+    max-height: 500px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.reward-card:hover {
+    transform: translateY(-5px);
+}
+
+.reward-card img {
+    width: 100%;
+    height: 60%;
+    max-height: 200px;
+    object-fit: cover;
+    transition: filter 0.3s;
+    border-bottom: 1px solid #e1e1de;
+}
+
+.reward-card img.grayscale {
+    filter: grayscale(100%);
+}
+
+.reward-card h2 {
+    font-size: 1.2em;
+    margin: 10px 0;
+    color: var(--color-secondary);
+}
+
+.reward-card p {
+    font-size: 1em;
+    margin: 5px 0;
+}
+
+.reward-card .details-button,
+.reward-card .action-button {
+    display: inline-block;
+    margin: 10px 5px;
+    padding: 10px 15px;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.reward-card .details-button:hover,
+.reward-card .action-button:hover {
+    background-color: var(--color-verdigris);
+}
+
+/* --- Indicateurs d'état --- */
+
+.reward-card .status-badge {
+    position: absolute;
+    top: 10px;
+    left: -40px;
+    background: red;
+    color: #fff;
+    padding: 5px 40px;
+    transform: rotate(-45deg);
+    font-size: 0.8em;
+}
+
+.reward-card.expired .status-badge {
+    background: #721c24;
+}
+
+.reward-card.out-of-stock .status-badge {
+    background: #6c757d;
+}
+
+/* --- Boutons Supprimer et Modifier --- */
+
+.reward-card .admin-buttons {
+    margin: 10px 0;
+}
+
+.reward-card .admin-buttons form,
+.reward-card .admin-buttons a {
+    display: inline-block;
+}
+
+.reward-card .delete-button,
+.reward-card .edit-button {
+    background-color: #dc3545;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
+    text-decoration: none;
+    margin: 5px;
+}
+
+.reward-card .edit-button {
+    background-color: #007bff;
+}
+
+.reward-card .delete-button:hover {
+    background-color: #c82333;
+}
+
+.reward-card .edit-button:hover {
+    background-color: #0056b3;
+}
+
+/* --- Texte Expiré ou Indisponible --- */
+
+.reward-card .expired-text,
+.reward-card .unavailable-text,
+.reward-card .redeemed-text {
+    color: #721c24;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+/* --- Effet au survol des images --- */
+
+.reward-card img:hover {
+    transform: scale(1.05);
+}
+
+/* --- Scroll Reveal --- */
+
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.scroll-reveal.active {
+    opacity: 1;
+    transform: translateY(0);
 }

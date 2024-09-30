@@ -127,7 +127,7 @@
     <!-- Appel à l'Action -->
     <section class="call-to-action">
         <h2>Prêt à commencer ton aventure&nbsp;?</h2>
-        <a href="/ctrl/register/register.php" class="cta-button">Inscris-toi dès maintenant</a>
+        <a href="/ctrl/login/register-display.php" class="cta-button">Inscris-toi dès maintenant</a>
     </section>
 </main>
 
