@@ -1,8 +1,60 @@
 <h1>Profil de <?= ($user['first_name'] . ' ' . $user['name']) ?></h1>
-<img width = "150px;" src="/upload/<?= !empty($user['avatar_filename']) ? $user['avatar_filename'] : '/asset/img/profil-par-defaut.jpeg' ?>" alt="Avatar de l'utilisateur">
+<img width="150px;" src="/upload/<?= !empty($user['avatar_filename']) ? $user['avatar_filename'] : '/asset/img/profil-par-defaut.jpeg' ?>" alt="Avatar de l'utilisateur">
 <p>Email: <?= ($user['email']) ?></p>
 <p>Prénom: <?= ($user['first_name']) ?></p>
 <p>Nom: <?= ($user['name']) ?></p>
+
+<a href="/ctrl/mission/add-mission-display.php">Ajouter une mission</a>
+<a href="/ctrl/mission/mission-list.php">Liste des missions</a>
+<a href="/ctrl/mission/history-mission.php">Voir l'historique des missions</a>
+<a href="/ctrl/mission/participant-list.php">Voir les Jeunes ayant Participé aux Missions</a>
+
+<!-- Ajout du lien de validation des missions -->
+<h2>Valider les Missions</h2>
+<?php
+$missions = getCompleteMissionsByAssociation($association['id'], $dbConnection); // Recupère les mission complètes de l'association
+if ($missions && count($missions) > 0): ?>
+    <ul>
+        <?php foreach ($missions as $mission): ?>
+            <li>
+                <a href="/ctrl/mission/validate-mission.php?id=<?= $mission['id'] ?>">
+                    Valider la mission : <?= $mission['title'] ?>
+                </a>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+<?php else: ?>
+    <p>Aucune mission à valider.</p>
+<?php endif; ?>
+
+<?php if (($association && is_array($association) && $association['status'] == 'rejected' && $user['idRole'] == 50) || (!$association && $user['idRole'] == 50)) : ?>
+    <h2>Ajouter une Nouvelle Association</h2>
+    <form action="/ctrl/association/add-association.php" method="POST">
+        <label for="association_name">Nom de l'Association:</label>
+        <input type="text" id="association_name" name="association_name" required><br>
+        <label for="association_email">Email de l'Association:</label>
+        <input type="email" id="association_email" name="association_email" required><br>
+        <label for="association_rne">Numéro RNE:</label>
+        <input type="text" id="association_rne" name="association_rne" required><br>
+        <label for="association_address">Adresse:</label>
+        <input type="text" id="association_address" name="association_address" required><br>
+        <button type="submit">Ajouter l'Association</button>
+    </form>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['success'])) : ?>
+    <div class="success-message">
+        <?= ($_SESSION['success']) ?>
+        <?php unset($_SESSION['success']); ?>
+    </div>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['error'])) : ?>
+    <div class="error-message">
+        <?= ($_SESSION['error']) ?>
+        <?php unset($_SESSION['error']); ?>
+    </div>
+<?php endif; ?>
 
 <?php if ($association && is_array($association)) : ?>
     <h2>Informations sur l'Association</h2>
@@ -44,59 +96,6 @@
             <?php endforeach; ?>
         </ul>
     <?php endif; ?>
-<?php endif; ?>
-
-<a href="/ctrl/mission/add-mission-display.php">Ajouter une mission</a>
-<a href="/ctrl/mission/mission-list.php">Liste des missions</a>
-<a href="/ctrl/mission/history-mission.php">Voir l'historique des missions</a>
-<a href="/ctrl/mission/participant-list.php">Voir les Jeunes ayant Participé aux Missions</a>
-
-<!-- Ajout du lien de validation des missions -->
-<h2>Valider les Missions</h2>
-<?php
-$missions = getCompleteMissionsByAssociation($association['id'], $dbConnection); // Recupère les mission complètes de l'association
-if ($missions && count($missions) > 0): ?>
-    <ul>
-        <?php foreach ($missions as $mission): ?>
-            <li>
-                <a href="/ctrl/mission/validate-mission.php?id=<?= $mission['id'] ?>">
-                    Valider la mission : <?= $mission['title'] ?>
-                </a>
-            </li>
-        <?php endforeach; ?>
-    </ul>
-<?php else: ?>
-    <p>Aucune mission à valider.</p>
-<?php endif; ?>
-
-
-<?php if (($association && is_array($association) && $association['status'] == 'rejected' && $user['idRole'] == 50) || (!$association && $user['idRole'] == 50)) : ?>
-    <h2>Ajouter une Nouvelle Association</h2>
-    <form action="/ctrl/association/add-association.php" method="POST">
-        <label for="association_name">Nom de l'Association:</label>
-        <input type="text" id="association_name" name="association_name" required><br>
-        <label for="association_email">Email de l'Association:</label>
-        <input type="email" id="association_email" name="association_email" required><br>
-        <label for="association_rne">Numéro RNE:</label>
-        <input type="text" id="association_rne" name="association_rne" required><br>
-        <label for="association_address">Adresse:</label>
-        <input type="text" id="association_address" name="association_address" required><br>
-        <button type="submit">Ajouter l'Association</button>
-    </form>
-<?php endif; ?>
-
-<?php if (isset($_SESSION['success'])) : ?>
-    <div class="success-message">
-        <?= ($_SESSION['success']) ?>
-        <?php unset($_SESSION['success']); ?>
-    </div>
-<?php endif; ?>
-
-<?php if (isset($_SESSION['error'])) : ?>
-    <div class="error-message">
-        <?= ($_SESSION['error']) ?>
-        <?php unset($_SESSION['error']); ?>
-    </div>
 <?php endif; ?>
 
 <h2>Messages</h2>

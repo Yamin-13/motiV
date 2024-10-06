@@ -1,5 +1,3 @@
-/* reward.css */
-
 /* Importation des variables de style */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
 
@@ -15,14 +13,6 @@
     --font-family: 'Poppins', sans-serif;
 }
 
-/* Réinitialisation des marges et paddings */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Style du corps de la page */
 body {
     font-family: var(--font-family);
     background-color: var(--color-grey);
@@ -84,73 +74,105 @@ body {
     color: #721c24;
 }
 
+/* section descriptive --------------------------------------------------   */
+.para-reward {
+    background: var(--color-secondary);
+    padding: 40px 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.para-reward p {
+    font-size: 1.5rem;
+    color: var(--color-secondary);
+    line-height: 1.8;
+    margin-bottom: 20px;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+}
+
+.para-reward p span {
+    font-weight: 700;
+    color: var(--color-primary);
+    transition: color 0.3s ease;
+}
+
+.para-reward p span:hover {
+    color: var(--color-verdigris);
+    cursor: pointer;
+}
+
+/*  animation d'apparition */
+.para-reward {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s ease forwards;
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation  des éléments au survol */
+.para-reward:hover {
+    transform: scale(1.02);
+}
+
 /* --- Section Categorie  ------------------------------------------- */
 .reward-categories {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
     justify-content: center;
-    margin: 20px 10px;
+    padding: 20px;
 }
 
 .reward-category-card {
-    flex: 0 0 45%;
-    margin: 10px;
-    text-align: center;
     background-color: var(--color-white);
     border-radius: 10px;
+    text-align: center;
+    padding: 10px;
+    width: 100%;
+    max-width: 200px;
     overflow: hidden;
     transition: transform 0.3s;
-}
-
-.reward-category-card:hover {
-    transform: scale(1.05);
 }
 
 .reward-category-card img {
     width: 100%;
     height: auto;
+    border-bottom: 1px solid var(--color-platinium);
 }
 
 .reward-category-card h3 {
     margin: 10px 0;
     color: var(--color-secondary);
+    font-size: 1rem;
 }
 
-/* Media Queries pour les catégories */
-
-@media (max-width: 599px) {
-    .reward-category-card {
-        flex: 0 0 100%;
-    }
-}
-
-@media (min-width: 600px) and (max-width: 899px) {
-    .reward-category-card {
-        flex: 0 0 30%;
-    }
-}
-
-@media (min-width: 900px) {
-    .reward-category-card {
-        flex: 0 0 20%;
-    }
-}
-
-/* --- Rewards Grid --- */
-
+/* --- Section des récompenses ---------------------------------- */
 .rewards-grid {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 20px;
-    margin: 20px 10px;
+    margin: 20px;
+    max-width: 1200px;
+    padding: 20px;
 }
 
 /* Media Queries pour les récompenses */
-
 @media (min-width: 600px) and (max-width: 899px) {
     .rewards-grid {
         grid-template-columns: repeat(2, 1fr);
     }
+    
 }
 
 @media (min-width: 900px) {
@@ -160,7 +182,6 @@ body {
 }
 
 /* --- Reward Card ----------------------------------------------- */
-
 .reward-card {
     background-color: var(--color-white);
     border-radius: 10px;
@@ -168,22 +189,16 @@ body {
     text-align: center;
     position: relative;
     height: 100%;
-    max-height: 500px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
+    max-height: 400px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-}
-
-.reward-card:hover {
-    transform: translateY(-5px);
+    padding: 15px;
 }
 
 .reward-card img {
     width: 100%;
-    height: 60%;
-    max-height: 200px;
+    height: 120px;
     object-fit: cover;
     transition: filter 0.3s;
     border-bottom: 1px solid #e1e1de;
@@ -194,26 +209,40 @@ body {
 }
 
 .reward-card h2 {
-    font-size: 1.2em;
-    margin: 10px 0;
+    font-size: 1rem;
+    margin: 5px 0;
     color: var(--color-secondary);
 }
 
 .reward-card p {
-    font-size: 1em;
-    margin: 5px 0;
+    font-size: 0.9rem;
+    margin: 3px 0;
+    line-height: 1.2;
+}
+
+/* --- Conteneur des boutons pour éviter le décalage --- */
+.reward-card .actions-container {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: stretch;
 }
 
 .reward-card .details-button,
 .reward-card .action-button {
-    display: inline-block;
-    margin: 10px 5px;
-    padding: 10px 15px;
+    padding: 5px 10px;
+    font-size: 0.85rem;
     background-color: var(--color-primary);
     color: var(--color-white);
     text-decoration: none;
     border-radius: 5px;
     transition: background-color 0.3s;
+    width: 100%;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .reward-card .details-button:hover,
@@ -222,7 +251,6 @@ body {
 }
 
 /* --- Indicateurs d'état --- */
-
 .reward-card .status-badge {
     position: absolute;
     top: 10px;
@@ -243,14 +271,12 @@ body {
 }
 
 /* --- Boutons Supprimer et Modifier --- */
-
 .reward-card .admin-buttons {
     margin: 10px 0;
-}
-
-.reward-card .admin-buttons form,
-.reward-card .admin-buttons a {
-    display: inline-block;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 5px;
 }
 
 .reward-card .delete-button,
@@ -262,7 +288,7 @@ body {
     border-radius: 5px;
     cursor: pointer;
     text-decoration: none;
-    margin: 5px;
+    margin: 0;
 }
 
 .reward-card .edit-button {
@@ -278,23 +304,21 @@ body {
 }
 
 /* --- Texte Expiré ou Indisponible --- */
-
 .reward-card .expired-text,
 .reward-card .unavailable-text,
 .reward-card .redeemed-text {
     color: #721c24;
     font-weight: bold;
     margin: 10px 0;
+    text-align: center;
 }
 
 /* --- Effet au survol des images --- */
-
 .reward-card img:hover {
     transform: scale(1.05);
 }
 
 /* --- Scroll Reveal --- */
-
 .scroll-reveal {
     opacity: 0;
     transform: translateY(20px);

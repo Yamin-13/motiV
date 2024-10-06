@@ -67,9 +67,8 @@ function registerForMission($idMission, $idUser, $dbConnection)
         $statement->execute();
 
         return true;
-    } else {
-        return false; // Pas de place disponible
     }
+    return false; // Pas de place disponible
 }
 
 // marque une mission comme accomplie, calcule les points à attribuer.... 
@@ -263,8 +262,8 @@ function getMissionDetailsWithRegistrations($idMission, $dbConnection)
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
-
-function unregisterFromMission($idMission, $idUser, $dbConnection)
+/**  */
+function unregisterFromMission(string $idMission, string $idUser, \PDO $dbConnection): bool
 {
     // Supprime l'inscription de l'utilisateur à la mission
     $query = "DELETE FROM mission_registration WHERE idMission = :idMission AND idUser = :idUser";
@@ -274,6 +273,7 @@ function unregisterFromMission($idMission, $idUser, $dbConnection)
     $statement->execute();
 
     if ($statement->rowCount() > 0) {
+
         // Augmente le nombre de places disponibles
         $query = "UPDATE mission SET number_of_places = number_of_places + 1 WHERE id = :idMission";
         $statement = $dbConnection->prepare($query);
@@ -287,9 +287,8 @@ function unregisterFromMission($idMission, $idUser, $dbConnection)
         $statement->execute();
 
         return true;
-    } else {
-        return false;
     }
+    return false;
 }
 
 function isUserRegisteredForMission($idUser, $idMission, $dbConnection)
@@ -431,4 +430,45 @@ function getLatestMissions($dbConnection, $limit = 5)
     $statement->bindValue(':limit', $limit, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Marque la mission comme accomplie
+function markMissionAsAccomplished($missionId, $dbConnection) {
+    $query = "UPDATE mission SET status = 'accomplished' WHERE id = :idMission";
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':idMission', $missionId, PDO::PARAM_INT);
+    $statement->execute();
+}
+
+// Marque la mission comme accomplie pour un utilisateur et attribue des points
+function completeMissionForUser($missionId, $userId, $points, $dbConnection) {
+    $query = "UPDATE mission_registration SET status = 'completed' 
+              WHERE idMission = :idMission AND idUser = :idUser";
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':idMission', $missionId, PDO::PARAM_INT);
+    $statement->bindParam(':idUser', $userId, PDO::PARAM_INT);
+    $statement->execute();
+
+    // Attribue les points au jeune
+    awardPoints($userId, $points, 'Mission accomplie', $dbConnection);
+
+    // Envoie un message au jeune
+    sendMessage($userId, 'Mission accomplie', 'Vous avez reçu ' . $points . ' points pour avoir complété la mission.', $dbConnection);
+}
+
+// Marque la mission comme annulée pour un utilisateur et retire des points
+function cancelMissionForUser($missionId, $userId, $dbConnection) {
+    $query = "UPDATE mission_registration SET status = 'canceled', marked_absent = 1 
+              WHERE idMission = :idMission AND idUser = :idUser";
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':idMission', $missionId, PDO::PARAM_INT);
+    $statement->bindParam(':idUser', $userId, PDO::PARAM_INT);
+    $statement->execute();
+
+    // Retire 50 points sans descendre en dessous de 0
+    $pointsToRemove = min(50, getUserPoints($userId, $dbConnection));
+    awardPoints($userId, -$pointsToRemove, 'Absence à la mission', $dbConnection);
+
+    // Envoie un message au jeune
+    sendMessage($userId, 'Absence à la mission', 'Vous avez perdu ' . $pointsToRemove . ' points pour absence à la mission.', $dbConnection);
 }
