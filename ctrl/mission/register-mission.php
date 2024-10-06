@@ -25,7 +25,7 @@ $userId = $_SESSION['user']['id'];
 
 // Inscrit l'utilisateur à la mission
 if (registerForMission($missionId, $userId, $dbConnection)) {
-    $_SESSION['success'] = 'Vous avez accepté la mission avec succès.';
+    $_SESSION['success'] = 'Vous avez accepté la mission.';
 } else {
     $_SESSION['error'] = 'Impossible d\'accepter la mission. Il n\'y a peut-être plus de places disponibles.';
 }

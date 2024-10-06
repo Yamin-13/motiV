@@ -1,16 +1,255 @@
-
-/* grise les missions plus dispo */
+/* Grise les missions plus dispo */
 .grayscale-mission-page {
     filter: grayscale(100%);
     opacity: 0.6;
 }
 
+/* --- Transition d'apparition pour les missions --- */
 .mission-item {
-    margin-bottom: 20px;
+    background-color: var(--color-white);
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.6s ease, transform 0.6s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px;
+    opacity: 0; /* Initialement invisible */
+    transform: translateY(20px); /* Légère translation vers le bas pour l'effet d'entrée */
+}
+
+.mission-item.visible {
+    opacity: 1; /* Visibilité lorsqu'ils apparaissent */
+    transform: translateY(0); /* Retour à sa position d'origine */
+}
+
+
+
+/* Importation des variables de style */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+
+/* Définition des variables CSS */
+:root {
+    --color-primary: #f78a3c;
+    --color-secondary: #0e2d3e;
+    --color-white: #ffffff;
+    --color-platinium: #e1e1de;
+    --color-verdigris: #04b8c4;
+    --color-lightBlue: #aac9cb;
+    --color-grey: #f5f5f5;
+    --font-family: 'Poppins', sans-serif;
+}
+
+/* --- Section hero -------------------------------------------- */
+.mission-hero {
+    background-image: url('/asset/img/image-page-reward.webp');
+    background-size: cover; 
+    background-position: center top; 
+    text-align: center;
+    padding: 60px 20px; 
+    color: var(--color-white);
+    position: relative;
+    /* margin-top: -10px;
+    height: 450px;  */
+}
+
+.mission-hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(14, 45, 62, 0.6);
+    /* z-index: 1; */
+}
+
+.mission-hero h2 {
+    position: relative;
+    font-size: 2em;
+    margin-bottom: 10px;
+    z-index: 2;
+}
+
+.mission-hero p {
+    position: relative;
+    font-size: 1.2em;
+    z-index: 2;
+    margin-top: 10px; 
+}
+
+
+
+/* --- Messages de succès et d'erreur ------------------------------- */
+.success-message,
+.error-message {
+    margin: 20px auto;
     padding: 10px;
-    border: 1px solid #ddd;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* --- Section des missions - Style basé sur la page rewards --------------------- */
+.missions-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+.mission-item {
+    background-color: var(--color-white);
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px;
+}
+
+.mission-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
 .mission-item img {
-    border-radius: 8px;
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-bottom: 2px solid var(--color-platinium);
+    margin-bottom: 10px;
+}
+
+.mission-content {
+    flex-grow: 1;
+}
+
+.mission-title {
+    font-size: 1.1em;
+    color: var(--color-secondary);
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.mission-item p {
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+    line-height: 1.5;
+}
+
+/* Bouton Voir Détails */
+.details-button {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    padding: 10px 15px;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    font-size: 0.9em;
+    width: 100%;
+    margin-top: 10px;
+    box-sizing: border-box;
+}
+
+.details-button:hover {
+    background-color: var(--color-verdigris);
+}
+
+/* Bouton S'inscrire */
+.action-button {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 0.9em;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 10px;
+}
+
+.action-button:hover {
+    background-color: var(--color-verdigris);
+}
+
+/* Texte pour les missions terminées ou sans places */
+.status-text {
+    color: #721c24;
+    font-weight: bold;
+    text-align: left;
+    margin-top: 10px;
+    font-size: 0.9em;
+}
+
+/* Grise les missions plus disponibles */
+.grayscale-mission-page {
+    filter: grayscale(100%);
+    opacity: 0.6;
+}
+
+
+/* Uniformisation de la taille des boutons */
+.mission-actions {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.admin-buttons {
+    margin-top: 10px;
+    display: flex;
+    gap: 5px;
+}
+
+.delete-button,
+.edit-button {
+    background-color: #d9534f;
+    color: var(--color-white);
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    font-size: 0.85em;
+    transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+    background-color: #c9302c;
+}
+
+.edit-button {
+    background-color: #5bc0de;
+}
+
+.edit-button:hover {
+    background-color: #31b0d5;
+}
+
+/* --- Animation de chargement pour les missions --- */
+.mission-item {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.9s ease-out, transform 0.6s ease-out;
 }

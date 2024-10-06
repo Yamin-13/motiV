@@ -41,3 +41,29 @@ window.addEventListener('load', function() {
 
     scrollContent.style.width = `${scrollWidth}px`;
 });
+
+
+//  gére l'animation au scroll pour les missions
+document.addEventListener("DOMContentLoaded", function() {
+    const missionItems = document.querySelectorAll('.mission-item');
+
+    // Observer pour l'animation d'apparition
+    const observerOptions = {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.2
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible'); // Ajoute la classe qui rend visible l'élément
+                observer.unobserve(entry.target); // Une fois visible, on arrête l'observation
+            }
+        });
+    }, observerOptions);
+
+    missionItems.forEach(item => {
+        observer.observe(item);
+    });
+});

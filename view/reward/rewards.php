@@ -18,6 +18,13 @@
     </div>
 <?php endif; ?>
 
+<div class="para-reward">
+    <p><span> Passionné</span> par une activités?<br>
+        <span> Envie</span> de découverte?<br>
+        Ou simplement de <span>t'ammuser</span> ?<br>
+        Les <span>partenaires</span> culturels te proposes de nombreux cadeau pour récompenser ta motivation.</p>
+</div>
+
 <!-- Catégories -->
 <h2 class="scroll-reveal">Catégories</h2>
 <section class="reward-categories">
@@ -117,4 +124,3 @@
 <?php else : ?>
     <p>Aucune récompense disponible pour le moment.</p>
 <?php endif; ?>
-<script src="/asset/js/reward.js"></script>

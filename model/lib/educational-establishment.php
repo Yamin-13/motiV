@@ -141,7 +141,7 @@ function getEducationalEstablishmentsWithAdmins($dbConnection)
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 
-// Cette fonction récupère tous les établissements éducatifs avec des détails supplémentaires, tels que le numéro de téléphone
+// Cette fonction récupère tous les établissements éducatifs avec des détails supplémentaires tels que le numéro de téléphone
 function getEducationalEstablishmentsWithDetails($dbConnection)
 {
     // Prépare une requête SQL pour sélectionner les établissements avec des informations supplémentaires

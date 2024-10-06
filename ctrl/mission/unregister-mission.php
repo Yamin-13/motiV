@@ -25,7 +25,7 @@ $userId = $_SESSION['user']['id'];
 
 // Annule l'inscription de l'utilisateur à la mission
 if (unregisterFromMission($missionId, $userId, $dbConnection)) {
-    $_SESSION['success'] = 'Vous avez annulé votre inscription à la mission.';
+    $_SESSION['success'] = 'Tu as annulé ton inscription à la mission.';
 } else {
     $_SESSION['error'] = 'Impossible d\'annuler votre inscription.';
 }

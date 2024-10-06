@@ -1,4 +1,8 @@
-<h1>Missions Disponibles</h1>
+<!-- Hero Section -->
+<div class="mission-hero">
+    <h2 class="page-title">Missions Disponibles</h2>
+    <p>Rejoins les MotiV et Active le Changement</p>
+</div>
 
 <!-- Message de succès ou d'erreur -->
 <?php if (isset($_SESSION['success'])) : ?>
@@ -15,8 +19,9 @@
     </div>
 <?php endif; ?>
 
+<!-- Liste des Missions -->
 <?php if ($missions && count($missions) > 0) : ?>
-    <div class="missions-list">
+    <div class="missions-container">
         <?php foreach ($missions as $mission) : ?>
             <?php
             // Calcul si la mission est déjà passée ou si elle n'a plus de places
@@ -29,33 +34,35 @@
 
             <div class="mission-item <?= $grayscaleClass ?>">
                 <?php if (!empty($mission['image_filename'])) : ?>
-                    <img src="/upload/<?= $mission['image_filename'] ?>" alt="<?= $mission['title'] ?>" width="200">
+                    <img src="/upload/<?= $mission['image_filename'] ?>" alt="<?= ($mission['title']) ?>">
                 <?php endif; ?>
 
-                <h2><?= $mission['title'] ?></h2>
-                <p><strong>Points :</strong> <?= $mission['point_award'] ?></p>
-                <p><strong>Description :</strong> <?= $mission['description'] ?></p>
-                <p><strong>Date de début :</strong> <?= $mission['start_date_formatted'] ?> à <?= $mission['start_time_formatted'] ?></p>
-                <p><strong>Date de fin :</strong> <?= $mission['end_date_formatted'] ?> à <?= $mission['end_time_formatted'] ?></p>
-                <p><strong>Nombre de places :</strong> <?= $mission['number_of_places'] ?></p>
-                <p><strong>Association :</strong> <?= $mission['association_name'] ?></p>
+                <div class="mission-content">
+                    <h2 class="mission-title"> <?= ($mission['title']) ?> </h2>
+                    <p><strong>Le :</strong> <?= $mission['start_date_formatted'] ?> de <?= $mission['start_time_formatted'] ?> à <?= $mission['end_time_formatted'] ?></p>
+                    <p><strong>Remporte :</strong> <?= ($mission['point_award']) ?> Vpoints</p>
+                    <p><strong>Nombre de places :</strong> <?= ($mission['number_of_places']) ?></p>
+                    <p><strong>Association :</strong> <?= ($mission['association_name']) ?></p>
+                </div>
 
-                <a href="/ctrl/mission/details-mission.php?id=<?= $mission['id'] ?>" class="details-button">Voir Détails</a>
+                <div class="mission-actions">
+                    <a href="/ctrl/mission/details-mission.php?id=<?= $mission['id'] ?>" class="details-button">Voir Détails</a>
 
-                <?php if ($isPastMission) : ?>
-                    <p class="past-mission-text"><strong>Mission terminée</strong></p>
-                <?php elseif ($isNoMorePlaces) : ?>
-                    <p class="unavailable-text"><strong>Aucune place disponible.</strong></p>
-                <?php else : ?>
-                    <?php if (isset($_SESSION['user']) && isUserRegisteredForMission($_SESSION['user']['id'], $mission['id'], $dbConnection)) : ?>
-                        <p class="registered-text"><strong>Vous êtes inscrit à cette mission.</strong></p>
+                    <?php if ($isPastMission) : ?>
+                        <p class="status-text"><strong>Mission terminée</strong></p>
+                    <?php elseif ($isNoMorePlaces) : ?>
+                        <p class="status-text"><strong>Aucune place disponible.</strong></p>
                     <?php else : ?>
-                        <form action="/ctrl/mission/register-mission.php" method="POST">
-                            <input type="hidden" name="idMission" value="<?= $mission['id'] ?>">
-                            <button type="submit">S'inscrire à la mission</button>
-                        </form>
+                        <?php if (isset($_SESSION['user']) && isUserRegisteredForMission($_SESSION['user']['id'], $mission['id'], $dbConnection)) : ?>
+                            <p class="status-text"><strong>Vous êtes inscrit à cette mission.</strong></p>
+                        <?php else : ?>
+                            <form action="/ctrl/mission/register-mission.php" method="POST">
+                                <input type="hidden" name="idMission" value="<?= $mission['id'] ?>">
+                                <button type="submit" class="action-button">S'inscrire à la mission</button>
+                            </form>
+                        <?php endif; ?>
                     <?php endif; ?>
-                <?php endif; ?>
+                </div>
             </div>
         <?php endforeach; ?>
     </div>
