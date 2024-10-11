@@ -262,7 +262,15 @@ function getMissionDetailsWithRegistrations($idMission, $dbConnection)
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
-/**  */
+
+/**
+ * Permet de désinscrire un utilisateur d'une mission
+ * 
+ * @param string $idMission L'identifiant de la mission
+ * @param string $idUser L'identifiant de l'utilisateur
+ * @param \PDO $dbConnection Connexion à la base de données
+ * @return bool Retourne true si la désinscription est réussie, sinon false
+ */
 function unregisterFromMission(string $idMission, string $idUser, \PDO $dbConnection): bool
 {
     // Supprime l'inscription de l'utilisateur à la mission

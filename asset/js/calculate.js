@@ -35,3 +35,20 @@ document.getElementById('start_date').addEventListener('change', calculatePoints
 
 // On écoute les changements dans l'input 'end_date' et on appelle calculatePoints quand ça change
 document.getElementById('end_date').addEventListener('change', calculatePoints);
+
+
+function calculatePoints() {
+    let startDate = new Date(document.getElementById('start_date').value);
+    let endDate = new Date(document.getElementById('end_date').value);
+    let pointsPerHour = parseInt(document.getElementById('points_per_hour').value, 10);
+
+    if (startDate && endDate && endDate > startDate) {
+        let durationInHours = Math.abs(endDate - startDate) / 36e5;
+        let totalPoints = durationInHours * pointsPerHour;
+        document.getElementById('total_points').value = Math.round(totalPoints);
+    } else {
+        document.getElementById('total_points').value = 0;
+    }
+}
+document.getElementById('start_date').addEventListener('change', calculatePoints);
+document.getElementById('end_date').addEventListener('change', calculatePoints);

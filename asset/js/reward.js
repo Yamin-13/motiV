@@ -24,7 +24,7 @@ window.addEventListener('load', revealElements);
 
 // Exemple d'interaction pour le bouton 'Ajouter au panier'
 document.addEventListener('DOMContentLoaded', function() {
-    const addToCartButtons = document.querySelectorAll('.action-button');
+    let addToCartButtons = document.querySelectorAll('.action-button');
 
     addToCartButtons.forEach(function(button) {
         button.addEventListener('click', function(event) {
