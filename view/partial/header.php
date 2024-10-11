@@ -13,6 +13,7 @@ $user = $isLoggedIn ? $_SESSION['user'] : null;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MotiV est une plateforme qui récompense les jeunes pour leurs efforts scolaires et sociaux, en les motivant à s'engager activement dans leur communauté.">
     <link rel="stylesheet" href="/asset/css/style.css">
     <!-- icon Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -26,8 +27,8 @@ $user = $isLoggedIn ? $_SESSION['user'] : null;
             <a href="/ctrl/home/display.php" class="logo-container">
                 <h1>
                     <img src="/asset/images/logo.png" alt="MotiV">
-                    <!-- Text masqué pour l'accessibilité et SEO -->
-                    <span class="sr-only">MotiV</span>
+                    <!-- Texte masqué pour l'accessibilité et SEO -->
+                    <span class="sr-only">MotiV pour ton mash'af</span>
                 </h1>
             </a>
             <!-- Affichage des points utilisateur su mobile -->
@@ -74,8 +75,8 @@ $user = $isLoggedIn ? $_SESSION['user'] : null;
                             <span><?= ($user['points']) ?> Vpoints</span>
                         </div>
                     <?php endif; ?><!-- endif améliore la visibilité quand le php est mélangé à l'html -->
-                    </li>
-                
+                </li>
+
                 <!-- Avatar de l'utilisateur dans la barre de navigation mobile -->
                 <?php if ($isLoggedIn) : ?>
                     <li><a href="<?= (getProfileLink($user['idRole'])) ?>" class="image-avatar-nav">
@@ -87,7 +88,7 @@ $user = $isLoggedIn ? $_SESSION['user'] : null;
             </ul>
         </nav>
 
-      <!-- Menu pour mobile burger -->
+        <!-- Menu pour mobile burger -->
         <nav class="menu-burger-hidden">
             <ul>
                 <li><a href="/ctrl/register/register-entity.php?role=partner">Partenaires</a></li>

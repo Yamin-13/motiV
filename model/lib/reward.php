@@ -264,7 +264,7 @@ function updateCodeStatusToUsed($code, $dbConnection)
 {
     $query = "UPDATE unique_codes 
               SET status = 'used', used_at = NOW() 
-              WHERE code = :code AND status = 'valid'"; // ca met à jour uniquement les code qui sont encore valide
+              WHERE code = :code AND status = 'valid'";
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':code', $code, PDO::PARAM_STR);
     return $statement->execute();
@@ -273,7 +273,7 @@ function updateCodeStatusToUsed($code, $dbConnection)
 function generateQRCodeUrl($uniqueCode)
 {
     $baseUrl = "https://api.qrserver.com/v1/create-qr-code/";
-    $dataUrl = "http://localhost:49937/ctrl/reward/validate.php?code=" . $uniqueCode; // Construit l'URL complète sans encodage
+    $dataUrl = "http://localhost:60113/ctrl/reward/validate.php?code=" . $uniqueCode; // Construit l'URL complète sans encodage
     $params = [
         'size' => '300x300',
         'data' => $dataUrl // passe l'URL sans l'encoder
