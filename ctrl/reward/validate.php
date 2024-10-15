@@ -7,12 +7,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/reward.php';
 
 $dbConnection = getConnection($dbConfig); // Connexion à la base de données
 
-// Vérifie que l'utilisateur est connecté et est bien un jeune
-if (!isset($_SESSION['user']) || $_SESSION['user']['idRole'] != 60) {
-    $_SESSION['error'] = "Vous n'avez pas la permission d'accéder à cette page.";
-    header('Location: /ctrl/login/login-display.php');
-    exit();
-}
+
 
 $code = $_GET['code'] ?? null; // Récupère le code depuis l'URL
 

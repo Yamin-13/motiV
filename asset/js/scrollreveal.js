@@ -1,6 +1,6 @@
 // scrollreveal
 
-// Fonction pour détecter si un élément est visible dans la fenêtre
+// Fonction pour détecté si un élément est visible dans la fenêtre
 function isElementInViewport(el) {
     let rect = el.getBoundingClientRect();
     return (
@@ -8,7 +8,7 @@ function isElementInViewport(el) {
     );
 }
 
-// Fonction pour ajouter la classe active au éléments en vue
+// fonction pour ajouté la classe active au éléments en vue
 function revealElements() {
     let reveals = document.querySelectorAll('.scroll-reveal');
     reveals.forEach(function (el) {
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible'); // Ajoute la classe qui rend visible l'élément
-                observer.unobserve(entry.target); // Une fois visible, on arrête l'observation
+                observer.unobserve(entry.target); // Une fois visible on arrete l'observation
             }
         });
     }, observerOptions);

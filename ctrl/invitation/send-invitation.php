@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (createInvitation($email, $token, $expiry, $associationId, $partnerId, $educationalEstablishmentId, $cityHallId, $entityType, $idRole, $dbConnection)) {
         $subject = 'Invitation à rejoindre motiV';
-        $message = "Cliquez sur le lien pour vous inscrire : http://localhost:50052/ctrl/invitation/register-form.php?token=$token";
+        $message = "Cliquez sur le lien pour vous inscrire : https://motiv.alwaysdata.net/ctrl/invitation/register-form.php?token=$token";
 
         $mail = new PHPMailer(true);
 

@@ -9,7 +9,7 @@
  */
 function getConnection(array $params) : PDO
 {
-    $dataSourceName = 'mysql:host=' . $params['host'] . ';port=' . $params['port'] . ';dbname=' . $params['dbname'];
+    $dataSourceName = 'mysql:host=' . ConfigDb::HOST . ';port=' . $params['port'] . ';dbname=' . $params['dbname'];
     $connection = new PDO($dataSourceName, $params['user'], $params['password']);
 
     // Configure la connexion pour afficher toutes les erreurs (quand il y en a)
@@ -17,6 +17,3 @@ function getConnection(array $params) : PDO
 
     return $connection;
 }
-
-
-

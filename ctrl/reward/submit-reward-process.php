@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Insère la récompense dans la base de données
-    $insertedRewardId = submitReward($title, $description, $reward_price, $quantity_available, $image_filename, $idUser, $idCategory, $idCityHall, $idPartner, $start_date_usage, $expiration_date, $dbConnection);
+    $insertedRewardId = submitReward($title, $description, $reward_price, $quantity_available, $image_filename, $idUser, $idCategory, $dbConnection, $idCityHall, $idPartner, $start_date_usage, $expiration_date);
 
     if ($insertedRewardId) {
         $_SESSION['success'] = "Récompense soumise avec succès.";

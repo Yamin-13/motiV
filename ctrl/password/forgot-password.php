@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         savePasswordResetToken($email, $token, $expiry, $dbConnection);
         
-        $resetLink = " http://localhost:61206/ctrl/password/display-reset-password.php?token=$token";
+        $resetLink = " https://motiv.alwaysdata.net/ctrl/password/display-reset-password.php?token=$token";
         
         $mail = new PHPMailer(true);
         try {

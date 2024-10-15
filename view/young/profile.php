@@ -23,8 +23,8 @@
 <section class="rewards-section">
     <h2>Récompenses</h2>
     <div class="rewards-links">
-        <a href="/ctrl/reward/my-unique-code.php" class="reward-link">Mes codes et QR codes</a>
-        <a href="/ctrl/reward/purchase-history.php" class="reward-link">Historique des Achats</a>
+        <a href="/ctrl/reward/my-unique-code.php" class="reward-link">Mes Récompenses échanger</a>
+        <a href="/ctrl/reward/purchase-history.php" class="reward-link">Historique des échanges</a>
     </div>
 </section>
 
@@ -157,15 +157,15 @@
     <form action="/ctrl/login/update.php" method="post" enctype="multipart/form-data" class="update-form">
         <div class="form-group">
             <label for="email">Nouvel Email :</label>
-            <input type="email" id="email" name="email" value="<?= ($_SESSION['user']['email']) ?>" required>
+            <input type="email" id="email" name="email" value="<?= ($_SESSION['user']['email']) ?>" >
         </div>
         <div class="form-group">
             <label for="name">Nouveau Nom :</label>
-            <input type="text" id="name" name="name" value="<?= ($_SESSION['user']['name']) ?>" required>
+            <input type="text" id="name" name="name" value="<?= ($_SESSION['user']['name']) ?>" >
         </div>
         <div class="form-group">
             <label for="first_name">Nouveau Prénom :</label>
-            <input type="text" id="first_name" name="first_name" value="<?= ($_SESSION['user']['first_name']) ?>" required>
+            <input type="text" id="first_name" name="first_name" value="<?= ($_SESSION['user']['first_name']) ?>" >
         </div>
         <div class="form-group">
             <label for="address">Nouvelle Adresse :</label>
