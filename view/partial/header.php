@@ -1,10 +1,15 @@
 <?php
-// inclusion des fonctions lié à l'utilisateur
+// Démarrer la session si elle n'est pas déjà démarrée
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Inclusion des fonctions liées à l'utilisateur
 include_once $_SERVER['DOCUMENT_ROOT'] . '/model/lib/user.php';
 
-// vérification de l'authentification de l'utilisateur
-$isLoggedIn = isset($_SESSION['user']);
-$user = $isLoggedIn ? $_SESSION['user'] : null;
+// Vérifier si l'utilisateur est connecté
+$loggedInUser = isset($_SESSION['user']) ? $_SESSION['user'] : null;
+$isLoggedIn = !is_null($loggedInUser);
 ?>
 
 <!DOCTYPE html>
@@ -26,16 +31,14 @@ $user = $isLoggedIn ? $_SESSION['user'] : null;
         <div class="logo-points-container">
             <a href="/ctrl/home/display.php" class="logo-container">
                 <h1>
-                    <img src="/asset/images/logo.png" alt="MotiV">
-                    <!-- Texte masqué pour l'accessibilité et SEO -->
-                    <span class="sr-only">MotiV pour ton mash'af</span>
+                    <img src="/asset/img/motiV-logo-blanc.png" alt="MotiV">
                 </h1>
             </a>
-            <!-- Affichage des points utilisateur su mobile -->
-            <?php if ($isLoggedIn && isset($user['points']) && $user['idRole'] == 60) : ?>
+            <!-- Affichage des points utilisateur sur mobile -->
+            <?php if ($isLoggedIn && isset($loggedInUser['points']) && $loggedInUser['idRole'] == 60) : ?>
                 <div class="points-display">
                     <i class="fas fa-star"></i>
-                    <span><?= ($user['points']) ?> Vpoints</span>
+                    <span><?= ($loggedInUser['points']) ?> Vpoints</span>
                 </div>
             <?php endif; ?>
         </div>
@@ -50,7 +53,6 @@ $user = $isLoggedIn ? $_SESSION['user'] : null;
         <!-- Navigation principale -->
         <nav class="nav-principale">
             <ul>
-                <!--  icone supprimer seulement sur desktop avec CSS -->
                 <li><a href="/ctrl/home/display.php"><i class="fas fa-home"></i><span>Accueil</span></a></li>
                 <li><a href="/ctrl/mission/mission-list-public.php"><i class="fas fa-tasks"></i><span>Missions</span></a></li>
                 <li><a href="/ctrl/reward/rewards.php"><i class="fas fa-gift"></i><span>Récompenses</span></a></li>
@@ -69,18 +71,18 @@ $user = $isLoggedIn ? $_SESSION['user'] : null;
 
                 <!-- Informations utilisateur -->
                 <li class="user-info">
-                    <?php if ($isLoggedIn && isset($user['points']) && $user['idRole'] == 60) : ?>
+                    <?php if ($isLoggedIn && isset($loggedInUser['points']) && $loggedInUser['idRole'] == 60) : ?>
                         <div class="points-display-destkop">
                             <i class="fas fa-star"></i>
-                            <span><?= ($user['points']) ?> Vpoints</span>
+                            <span><?= ($loggedInUser['points']) ?> Vpoints</span>
                         </div>
-                    <?php endif; ?><!-- endif améliore la visibilité quand le php est mélangé à l'html -->
+                    <?php endif; ?>
                 </li>
 
                 <!-- Avatar de l'utilisateur dans la barre de navigation mobile -->
                 <?php if ($isLoggedIn) : ?>
-                    <li><a href="<?= (getProfileLink($user['idRole'])) ?>" class="image-avatar-nav">
-                            <img class="image-avatar-nav" src="/upload/<?= ($user['avatar_filename']) ?>" alt="Avatar">
+                    <li><a href="<?= (getProfileLink($loggedInUser['idRole'])) ?>" class="image-avatar-nav">
+                            <img class="image-avatar-nav" src="/upload/<?= ($loggedInUser['avatar_filename']) ?>" alt="Avatar">
                         </a></li>
                 <?php else : ?>
                     <li><a href="/ctrl/login/login-display.php"><i class="fas fa-sign-in-alt"></i><span>Se connecter</span></a></li>
@@ -100,3 +102,5 @@ $user = $isLoggedIn ? $_SESSION['user'] : null;
     </header>
     <!-- Script JS -->
     <script src="/asset/js/header.js"></script>
+</body>
+</html>

@@ -14,7 +14,7 @@ if (isset($_GET['token'])) {
     if ($invitation && strtotime($invitation['expiry']) > time()) {
         $_SESSION['invitation'] = $invitation;
         // Redirection vers la vue du formulaire d'inscription
-        header('Location: /view/invitation/establisment-ch-register-form.php');
+        header('Location: /ctrl/invitation/establisment-ch-register-form.php');
         exit();
     } else {
         $_SESSION['error'] = 'Invitation invalide ou expirée.';

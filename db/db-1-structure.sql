@@ -26,7 +26,7 @@ CREATE TABLE user (
     registration_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_connexion timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     profile_complete TINYINT(1) NOT NULL DEFAULT 0,
-    point varchar(20) DEFAULT 0,
+    points varchar(20) DEFAULT 0,
     idRole bigint(20)
 )
 ;
@@ -127,6 +127,9 @@ CREATE TABLE student (
     idProfessor BIGINT(20) NOT NULL,
     idEducationalEstablishment BIGINT(20) NOT NULL,
     status ENUM('pending', 'validated') NOT NULL DEFAULT 'pending'
+    first_name varchar(50) NOT NULL,
+    name varchar(50) NOT NULL
+    email varchar(50) NOT NULL
 )
 ;
 

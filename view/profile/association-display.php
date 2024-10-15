@@ -4,15 +4,22 @@
 <p>Prénom: <?= ($user['first_name']) ?></p>
 <p>Nom: <?= ($user['name']) ?></p>
 
-<a href="/ctrl/mission/add-mission-display.php">Ajouter une mission</a>
-<a href="/ctrl/mission/mission-list.php">Liste des missions</a>
-<a href="/ctrl/mission/history-mission.php">Voir l'historique des missions</a>
-<a href="/ctrl/mission/participant-list.php">Voir les Jeunes ayant Participé aux Missions</a>
+<h2>Actions de l'association</h2>
+<?php
+// Vérifie si l'association est validée
+if ($association['status'] == 'approved') : ?>
+    <a href="/ctrl/mission/add-mission-display.php">Ajouter une mission</a>
+    <a href="/ctrl/mission/mission-list.php">Liste des missions</a>
+    <a href="/ctrl/mission/history-mission.php">Voir l'historique des missions</a>
+    <a href="/ctrl/mission/participant-list.php">Voir les Jeunes ayant Participé aux Missions</a>
+<?php else : ?>
+    <p>Votre association doit être validée par un administrateur avant de pouvoir soumettre des missions.</p>
+<?php endif; ?>
 
-<!-- Ajout du lien de validation des missions -->
+<!-- Lien de validation des missions -->
 <h2>Valider les Missions</h2>
 <?php
-$missions = getCompleteMissionsByAssociation($association['id'], $dbConnection); // Recupère les mission complètes de l'association
+$missions = getCompleteMissionsByAssociation($association['id'], $dbConnection); // Récupère les missions complètes de l'association
 if ($missions && count($missions) > 0): ?>
     <ul>
         <?php foreach ($missions as $mission): ?>
@@ -27,35 +34,50 @@ if ($missions && count($missions) > 0): ?>
     <p>Aucune mission à valider.</p>
 <?php endif; ?>
 
-<?php if (($association && is_array($association) && $association['status'] == 'rejected' && $user['idRole'] == 50) || (!$association && $user['idRole'] == 50)) : ?>
-    <h2>Ajouter une Nouvelle Association</h2>
-    <form action="/ctrl/association/add-association.php" method="POST">
-        <label for="association_name">Nom de l'Association:</label>
-        <input type="text" id="association_name" name="association_name" required><br>
-        <label for="association_email">Email de l'Association:</label>
-        <input type="email" id="association_email" name="association_email" required><br>
-        <label for="association_rne">Numéro RNE:</label>
-        <input type="text" id="association_rne" name="association_rne" required><br>
-        <label for="association_address">Adresse:</label>
-        <input type="text" id="association_address" name="association_address" required><br>
-        <button type="submit">Ajouter l'Association</button>
-    </form>
+<!-- Actions spécifiques à l'administrateur de l'association -->
+<?php if ($user['idRole'] == 50) : ?>
+    <a href="/ctrl/association/delete.php?id=<?= $association['id'] ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette association ?');">
+        <button>Supprimer l'Association</button>
+    </a>
+    <a href="/ctrl/association/update-display.php?id=<?= $association['id'] ?>"><button>Modifier l'Association</button></a>
+    <a href="/ctrl/invitation/send-invitation-form.php?entity_type=association&entity_id=<?= $association['id'] ?>"><button>Inviter un Membre</button></a>
 <?php endif; ?>
 
-<?php if (isset($_SESSION['success'])) : ?>
-    <div class="success-message">
-        <?= ($_SESSION['success']) ?>
-        <?php unset($_SESSION['success']); ?>
+<!-- Liste des membres de l'association -->
+<?php if (is_array($members) && count($members) > 0) : ?>
+    <h2>Liste des membres</h2>
+    <ul>
+        <?php foreach ($members as $member) : ?>
+            <li>
+                <?= ($member['first_name'] . ' ' . $member['name'] . ' (' . $member['email'] . ')') ?>
+                <?php if ($user['idRole'] == 50) : ?>
+                    <form action="/ctrl/profile/delete-user.php" method="POST" style="display:inline;">
+                        <input type="hidden" name="idUser" value="<?= $member['id'] ?>">
+                        <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce membre ?');">Supprimer</button>
+                    </form>
+                <?php endif; ?>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>
+
+<!-- Messages reçus de l'administrateur -->
+<h2>Messages reçus</h2>
+<?php if (!empty($receivedMessages)) : ?>
+    <div class="message-list">
+        <?php foreach ($receivedMessages as $message) : ?>
+            <div class="message-item">
+                <h4><?= ($message['subject']) ?></h4>
+                <p><?= nl2br(($message['body'])) ?></p>
+                <small class="message-date"><?= date('d/m/Y H:i', strtotime($message['sent_at'])) ?></small>
+            </div>
+        <?php endforeach; ?>
     </div>
+<?php else : ?>
+    <p>Vous n'avez reçu aucun message de l'admin.</p>
 <?php endif; ?>
 
-<?php if (isset($_SESSION['error'])) : ?>
-    <div class="error-message">
-        <?= ($_SESSION['error']) ?>
-        <?php unset($_SESSION['error']); ?>
-    </div>
-<?php endif; ?>
-
+<!-- Affichage des informations de l'association si elle existe -->
 <?php if ($association && is_array($association)) : ?>
     <h2>Informations sur l'Association</h2>
     <p>Nom de l'association: <?= ($association['name']) ?></p>
@@ -65,6 +87,8 @@ if ($missions && count($missions) > 0): ?>
     <p>Adresse: <?= ($association['address']) ?></p>
     <p>Email de l'association: <?= ($association['email']) ?></p>
     <p>Statut: <?= ($association['status']) ?></p>
+
+    <!-- Affichage du statut de l'association -->
     <?php if ($association['status'] == 'pending') : ?>
         <p>Votre association est en attente d'acceptation.</p>
     <?php elseif ($association['status'] == 'approved') : ?>
@@ -72,6 +96,8 @@ if ($missions && count($missions) > 0): ?>
     <?php elseif ($association['status'] == 'rejected') : ?>
         <p>Votre association a été rejetée. Raison: <?= (getRejectionReason($association['id'], 'association', $dbConnection)) ?></p>
     <?php endif; ?>
+
+    <!-- Actions spécifiques à l'administrateur de l'association -->
     <?php if ($user['idRole'] == 50) : ?>
         <a href="/ctrl/association/delete.php?id=<?= $association['id'] ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette association ?');">
             <button>Supprimer l'Association</button>
@@ -79,41 +105,29 @@ if ($missions && count($missions) > 0): ?>
         <a href="/ctrl/association/update-display.php?id=<?= $association['id'] ?>"><button>Modifier l'Association</button></a>
         <a href="/ctrl/invitation/send-invitation-form.php?entity_type=association&entity_id=<?= $association['id'] ?>"><button>Inviter un Membre</button></a>
     <?php endif; ?>
-
-    <?php if (is_array($members) && count($members) > 0) : ?>
-        <h2>Liste des membres</h2>
-        <ul>
-            <?php foreach ($members as $member) : ?>
-                <li>
-                    <?= ($member['first_name'] . ' ' . $member['name'] . ' (' . $member['email'] . ')') ?>
-                    <?php if ($user['idRole'] == 50) : ?>
-                        <form action="/ctrl/profile/delete-user.php" method="POST" style="display:inline;">
-                            <input type="hidden" name="idUser" value="<?= $member['id'] ?>">
-                            <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce membre ?');">Supprimer</button>
-                        </form>
-                    <?php endif; ?>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    <?php endif; ?>
 <?php endif; ?>
 
-<h2>Messages</h2>
-<?php
-$messages = getMessagesByidUser($user['id'], $dbConnection);
-if ($messages) :
-    foreach ($messages as $message) :
-?>
-        <div>
-            <h3><?= ($message['subject']) ?></h3>
-            <p><?= ($message['body']) ?></p>
-            <small><?= ($message['sent_at']) ?></small>
-        </div>
-    <?php endforeach; ?>
+<!-- Messages envoyés à l'administrateur -->
+<h2>Vos messages envoyés</h2>
+<?php if (!empty($sentMessages)) : ?>
+    <div class="message-list">
+        <?php foreach ($sentMessages as $message) : ?>
+            <div class="message-item">
+                <h4><?= ($message['subject']) ?></h4>
+                <p><?= nl2br(($message['body'])) ?></p>
+                <small>Envoyé le : <?= date('d/m/Y H:i', strtotime($message['sent_at'])) ?></small>
+                <?php if (!empty($message['admin_response'])) : ?>
+                    <p><strong>Réponse de l'admin :</strong> <?= nl2br(($message['admin_response'])) ?></p>
+                    <small>Répondu le : <?= date('d/m/Y H:i', strtotime($message['response_at'])) ?></small>
+                <?php endif; ?>
+            </div>
+        <?php endforeach; ?>
+    </div>
 <?php else : ?>
-    <p>Vous n'avez aucun message.</p>
+    <p>Vous n'avez envoyé aucun message à l'admin.</p>
 <?php endif; ?>
 
+<!-- Mettre à jour le profil -->
 <section>
     <h2>Mettre à jour le profil</h2>
     <form action="/ctrl/profile/update-user.php" method="post" enctype="multipart/form-data">
@@ -148,39 +162,5 @@ if ($messages) :
         <button type="submit" class="update-button">Mettre à jour</button>
     </form>
 </section>
-
-<h2>Vos messages envoyés à l'admin</h2>
-<?php if (!empty($sentMessages)) : ?>
-    <div class="message-list">
-        <?php foreach ($sentMessages as $message) : ?>
-            <div class="message-item">
-                <h4><?= ($message['subject']) ?></h4>
-                <p><?= nl2br(($message['body'])) ?></p>
-                <small>Envoyé le : <?= date('d/m/Y H:i', strtotime($message['sent_at'])) ?></small>
-                <?php if (!empty($message['admin_response'])) : ?>
-                    <p><strong>Réponse de l'admin :</strong> <?= nl2br(($message['admin_response'])) ?></p>
-                    <small>Répondu le : <?= date('d/m/Y H:i', strtotime($message['response_at'])) ?></small>
-                <?php endif; ?>
-            </div>
-        <?php endforeach; ?>
-    </div>
-<?php else : ?>
-    <p>Vous n'avez envoyé aucun message à l'admin.</p>
-<?php endif; ?>
-
-<h2>Messages reçus de l'admin</h2>
-<?php if (!empty($receivedMessages)) : ?>
-    <div class="message-list">
-        <?php foreach ($receivedMessages as $message) : ?>
-            <div class="message-item">
-                <h4><?= ($message['subject']) ?></h4>
-                <p><?= nl2br(($message['body'])) ?></p>
-                <small class="message-date"><?= date('d/m/Y H:i', strtotime($message['sent_at'])) ?></small>
-            </div>
-        <?php endforeach; ?>
-    </div>
-<?php else : ?>
-    <p>Vous n'avez reçu aucun message de l'admin.</p>
-<?php endif; ?>
 
 <a href="/ctrl/login/logout.php">Se déconnecter</a>

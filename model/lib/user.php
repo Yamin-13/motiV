@@ -28,7 +28,7 @@ function addUser($email, $name, $firstName, $password, $idRole, $fileName, $date
 function getUser(string $email, string $password, PDO $db)
 {
     // - Prépare la requête
-    $query = 'SELECT user.name, user.email, user.first_name, user.password, user.idRole, user.id, user.registration_date, user.address, user.avatar_filename, user.date_of_birth, user.points';
+    $query = 'SELECT user.name, user.email, user.first_name, user.password, user.idRole, user.id, user.registration_date, user.address, user.avatar_filename, user.date_of_birth, user.points, user.profile_complete';
     $query .= ' FROM user';
     $query .= ' WHERE user.email = :email ';
     $statement = $db->prepare($query);
@@ -46,11 +46,10 @@ function getUser(string $email, string $password, PDO $db)
     }
 }
 
-function updateUserProfile($idUser, $name, $email, $avatarFilename, $firstName, $password, $idRole, $ineNumber = null, $address = null, $dateOfBirth = null, $dbConnection)
+function updateUserProfile($idUser, $name, $email, $avatarFilename, $firstName, $password, $idRole, $dbConnection, $ineNumber = null, $address = null, $dateOfBirth = null)
 {
     $query = 'UPDATE user SET name = :name, email = :email, avatar_filename = :avatar_filename, first_name = :first_name, password = :password, idRole = :idRole';
 
-    // Ajouter les champs optionnels
     if ($ineNumber !== null) {
         $query .= ', ine_number = :ine_number';
     }
@@ -61,10 +60,7 @@ function updateUserProfile($idUser, $name, $email, $avatarFilename, $firstName, 
         $query .= ', date_of_birth = :date_of_birth';
     }
 
-    // Marque le profil comme complet
-    $query .= ', profile_complete = 1';
-
-    $query .= ' WHERE id = :id';
+    $query .= ', profile_complete = 1 WHERE id = :id';
 
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':name', $name);
@@ -90,6 +86,7 @@ function updateUserProfile($idUser, $name, $email, $avatarFilename, $firstName, 
 
 
 
+
 // fonction pour récupérer les utilisateurs par rôle
 function getUsersByRole($dbConnection)
 {
@@ -100,6 +97,7 @@ function getUsersByRole($dbConnection)
             u.email,
             u.points, 
             u.idRole,
+            u.last_connexion,
             r.label AS role
         FROM user u
         JOIN role r ON u.idRole = r.id

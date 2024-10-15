@@ -16,7 +16,7 @@ function addCityHall($name, $email, $phoneNumber, $address, $idUser, $dbConnecti
     return $statement->execute();
 }
 
-function getCityHallByIdUser($idUser, $dbConnection)
+function getCityHallByIdUser(int $idUser, \PDO $dbConnection): array
 {
     // Récupère les informations de la mairie associée à un utilisateur spécifique
     $query = 'SELECT id, name, email, phone_number, address, image_filename, idUser 

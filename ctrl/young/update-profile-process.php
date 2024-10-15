@@ -30,7 +30,7 @@ if ($student && $student['status'] == 'validated') {
 }
 
 // Mets à jour le profil de l'utilisateur dans la table `user`
-updateUserProfile($userId, $newName, $_SESSION['user']['email'], $_SESSION['user']['avatar_filename'], $newFirstName, $_SESSION['user']['password'], $_SESSION['user']['idRole'], $ineNumber, $newAddress, $newDateOfBirth, $dbConnection);
+updateUserProfile($userId, $newName, $_SESSION['user']['email'], $_SESSION['user']['avatar_filename'], $newFirstName, $_SESSION['user']['password'], $_SESSION['user']['idRole'], $dbConnection, $ineNumber, $newAddress, $newDateOfBirth);
 
 // Mise à jour des informations de session
 $_SESSION['user']['name'] = $newName;

@@ -27,27 +27,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $statement->bindParam(':idRole', $role);
 
     if ($statement->execute()) {
-        $link = "http://localhost:50052/ctrl/invitation/admin-send-register-via-invitation.php?token=$token";
+        $link = "https://motiv.alwaysdata.net/ctrl/invitation/admin-send-register-via-invitation.php?token=$token";
         $subject = "Invitation à s'inscrire sur notre plateforme";
-        $message = "Bonjour,\n\nVeuillez utiliser le lien suivant pour vous inscrire : $link\n\nCe lien est valable pendant 24 heures.";
-        $headers = 'From: noreply.motiv@gmail.com';
+        $message = "Bonjour,<br><br>Veuillez utiliser le lien suivant pour vous inscrire sur la plateforme motiV :<br><br>$link<br><br>Ce lien est valable pendant 24 heures.";
 
-        $mail = new PHPMailer(true);
+        $mail = new PHPMailer(true); // ca initialise l'objet PHPMailer
 
         try {
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
             $mail->Username = 'noreply.motiv@gmail.com';
-            $mail->Password = 'znao dcgb lmxl dhuh'; 
+            $mail->Password = 'znao dcgb lmxl dhuh';
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
 
             $mail->setFrom('noreply.motiv@gmail.com', 'motiV');
             $mail->addAddress($email);
 
-            $mail->isHTML(true);
-            $mail->Subject = $subject;
+            $mail->isHTML(true); // ca active le format HTML pour l'email
+            $mail->Subject = "=?UTF-8?B?" . base64_encode($subject) . "?="; // encodage UTF-8 pour l'objet
             $mail->Body    = $message;
 
             $mail->send();
@@ -58,6 +57,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         $_SESSION['error'] = 'Erreur lors de la génération de l\'invitation.';
     }
+
+    header('Location: /ctrl/invitation/admin-invitation-form.php');
+    exit();
+
 
     header('Location: /ctrl/invitation/admin-invitation-form.php');
     exit();

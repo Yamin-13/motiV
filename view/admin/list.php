@@ -34,6 +34,7 @@ foreach ($users as $user) :
                     <th>Nom</th>
                     <th>Prénom</th>
                     <th>Email</th>
+                    <th>Dernière Connexion</th>
                     <?php if ($user['idRole'] == 60) : ?>
                         <th>Nombre de points</th>
                     <?php endif; ?>
@@ -48,6 +49,7 @@ foreach ($users as $user) :
         <td><?= $user['name'] ?></td>
         <td><?= $user['first_name'] ?></td>
         <td><?= $user['email'] ?></td>
+        <td><?= $user['last_connexion'] ?></td> 
         <?php if ($user['idRole'] == 60) : ?>
             <td><?= $user['points'] ?></td>
         <?php endif; ?>

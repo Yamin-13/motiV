@@ -8,7 +8,7 @@ function getAllCategories($dbConnection)
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function submitReward($title, $description, $reward_price, $quantity_available, $image_filename, $idUser, $idCategory, $idCityHall = null, $idPartner = null, $start_date_usage = null, $expiration_date = null, $dbConnection)
+function submitReward($title, $description, $reward_price, $quantity_available, $image_filename, $idUser, $idCategory, $dbConnection, $idCityHall = null, $idPartner = null, $start_date_usage = null, $expiration_date = null)
 {
     $query = "INSERT INTO reward (title, date, description, reward_price, quantity_available, image_filename, idUser, idCategory, idCityHall, idPartner, start_date_usage, expiration_date) 
               VALUES (:title, NOW(), :description, :reward_price, :quantity_available, :image_filename, :idUser, :idCategory, :idCityHall, :idPartner, :start_date_usage, :expiration_date)";
@@ -22,7 +22,6 @@ function submitReward($title, $description, $reward_price, $quantity_available, 
     $statement->bindParam(':idUser', $idUser, PDO::PARAM_INT);
     $statement->bindParam(':idCategory', $idCategory, PDO::PARAM_INT);
 
-    // Gère les valeur NULL pour idCityHall et idPartner
     if ($idCityHall !== null) {
         $statement->bindParam(':idCityHall', $idCityHall, PDO::PARAM_INT);
     } else {
@@ -35,7 +34,6 @@ function submitReward($title, $description, $reward_price, $quantity_available, 
         $statement->bindValue(':idPartner', null, PDO::PARAM_NULL);
     }
 
-    // Gère les date de début et d'expiration
     if ($start_date_usage !== null) {
         $statement->bindParam(':start_date_usage', $start_date_usage);
     } else {
@@ -50,6 +48,7 @@ function submitReward($title, $description, $reward_price, $quantity_available, 
 
     return $statement->execute();
 }
+
 
 function getAllRewards($dbConnection) {
     $query = "SELECT r.id, r.title, r.date, r.description, r.reward_price, r.quantity_available, r.image_filename, r.idUser, r.idCategory, r.idCityHall, r.idPartner, r.expiration_date, c.name AS category_name
@@ -273,7 +272,7 @@ function updateCodeStatusToUsed($code, $dbConnection)
 function generateQRCodeUrl($uniqueCode)
 {
     $baseUrl = "https://api.qrserver.com/v1/create-qr-code/";
-    $dataUrl = "http://localhost:60113/ctrl/reward/validate.php?code=" . $uniqueCode; // Construit l'URL complète sans encodage
+    $dataUrl = "https://motiv.alwaysdata.net/ctrl/reward/validate.php?code=" . $uniqueCode; // Construit l'URL complète sans encodage
     $params = [
         'size' => '300x300',
         'data' => $dataUrl // passe l'URL sans l'encoder

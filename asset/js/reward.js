@@ -18,18 +18,17 @@ function revealElements() {
     });
 }
 
-// Événements au scroll et au chargement de la page
+// evénements au scroll et au chargement de la page
 window.addEventListener('scroll', revealElements);
 window.addEventListener('load', revealElements);
 
-// Exemple d'interaction pour le bouton 'Ajouter au panier'
+// interaction pour le bouton 'Ajouter au panier'
 document.addEventListener('DOMContentLoaded', function() {
     let addToCartButtons = document.querySelectorAll('.action-button');
 
     addToCartButtons.forEach(function(button) {
         button.addEventListener('click', function(event) {
-            // Vous pouvez ajouter ici une logique supplémentaire si nécessaire
-            alert('Récompense ajoutée au panier !');
+            // logique à venir
         });
     });
 });
