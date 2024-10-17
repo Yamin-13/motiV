@@ -19,6 +19,7 @@ $isLoggedIn = !is_null($loggedInUser);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="MotiV est une plateforme qui récompense les jeunes pour leurs efforts scolaires et sociaux, en les motivant à s'engager activement dans leur communauté.">
+    <link rel="icon" type="image/x-icon" href="/asset/img/iconV.png">
     <link rel="stylesheet" href="/asset/css/style.css">
     <!-- icon Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -27,12 +28,10 @@ $isLoggedIn = !is_null($loggedInUser);
 
 <body>
     <header>
-        <!-- logo et nom du site -->
+        <!-- nom du site -->
         <div class="logo-points-container">
             <a href="/ctrl/home/display.php" class="logo-container">
-                <h1>
-                    <img src="/asset/img/motiV-logo-blanc.png" alt="MotiV">
-                </h1>
+                <h1>Moti<span>V</span></h1>
             </a>
             <!-- Affichage des points utilisateur sur mobile -->
             <?php if ($isLoggedIn && isset($loggedInUser['points']) && $loggedInUser['idRole'] == 60) : ?>

@@ -1,11 +1,11 @@
 <main class="home-page">
     <!-- Section Héros -->
     <section class="hero">
-        <div class="hero-content">
+        <!-- <div class="hero-content"> -->
             <h2 class="home-title">Gagne des récompenses en faisant la différence</h2>
             <p>Engage-toi dans des missions, accumule des points, et sois récompensé pour ton engagement.</p>
             <a href="/ctrl/login/register.php" class="cta-button">Rejoins-nous</a>
-        </div>
+        <!-- </div> -->
     </section>
 
     <!-- Présentation brève avec un scroll reveal -->

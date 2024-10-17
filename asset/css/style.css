@@ -28,6 +28,13 @@
     --transition-speed: 0.3s;
 }
 
+@font-face {
+    font-family: 'Blanka';
+    src: url('/asset/font/Blanka.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* Style général pour tout le site */
 
 * {
