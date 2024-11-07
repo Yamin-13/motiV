@@ -44,13 +44,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $userId = $user['idUser'];
-        // Par défaut l'utilisateur est marqué comme absent
-        $status = $_POST['status'][$userId] ?? 'absent'; 
+
+        // Vérifie si l'utilisateur a été marqué présent ou absent
+        $status = $_POST['status'][$userId] ?? ($user['marked_absent'] == 1 ? 'absent' : 'present'); 
+
         if ($status === 'present') {
             // Marque le jeune comme présent et attribue les points
             completeMissionForUser($missionId, $userId, $mission['point_award'], $dbConnection);
         } else {
-            // Marque le jeune comme absent et retire les points
+            // Marque le jeune comme absent
             cancelMissionForUser($missionId, $userId, $dbConnection);
         }
     }

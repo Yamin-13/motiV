@@ -1,0 +1,222 @@
+/* Classe principale pour tout isoler */
+.profile-association, .establishment-info-section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Titre du profil */
+.profile-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+/* Section Avatar */
+.profile-avatar-section {
+    text-align: center;
+}
+
+.profile-avatar-figure {
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.profile-avatar-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ddd;
+}
+
+.profile-avatar-caption {
+    margin-top: 10px;
+    font-style: italic;
+    color: #666;
+}
+
+/* Informations de profil */
+.profile-detail {
+    font-size: 1.1rem;
+    margin: 5px 0;
+}
+
+.association-info span {
+    color: var(--color-secondary); /* Utilise la variable pour la couleur */
+    font-weight: bold; /* Applique le gras */
+}
+
+
+/* Sections avec des titres et du contenu */
+.section-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.actions-section,
+.validation-section,
+.admin-section,
+.members-section,
+.messages-received-section,
+.association-info-section,
+.messages-sent-section,
+.profile-update-section {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* Listes et boutons */
+.actions-list,
+.mission-list,
+.members-list {
+    list-style: none;
+    padding: 0;
+}
+
+.action-link,
+.mission-link,
+.admin-button,
+.delete-member-button,
+.update-button-entity,
+.logout-link-entity {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #ff8c00;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.action-link:hover,
+.mission-link:hover,
+.admin-button:hover,
+.delete-member-button:hover,
+.update-button-entity:hover,
+.logout-link-entity:hover {
+    background-color: #e67e00;
+}
+
+/* Messages */
+.message-list-entity .message-item-entity {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.message-subject-entity {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.message-body-entity {
+    margin-bottom: 10px;
+}
+
+.message-date-entity {
+    font-size: 0.85rem;
+    color: #999;
+}
+
+/* Formulaire */
+.update-form .form-group-entity {
+    margin-bottom: 15px;
+}
+
+.update-form .form-group-entity label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.update-form .form-group-entity input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.logout-link-entity {
+    display: block;
+    padding: 0.5rem 0.5rem;
+    background-color: var(--button-bg);
+    color: var(--color-white);
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    transition: background-color var(--transition-speed);
+    text-align: center;
+    width: 280px;
+    margin: 20px auto;
+}
+
+@media (min-width: 768px) {
+
+    /* Alignement des boutons pour desktop */
+    .actions-list {
+        display: flex;
+        justify-content: space-evenly;
+        /* Distribution des boutons sur toute la largeur */
+        gap: 20px;
+        /* Espacement entre les boutons */
+    }
+
+    /* Les boutons de l'admin-section en ligne */
+    .admin-section a {
+        display: inline-block;
+        margin: 10px;
+    }
+
+    /* Pour une meilleure répartition en grand écran */
+    .admin-section {
+        text-align: center;
+    }
+
+    /* Pour le titre */
+    .admin-section .section-title {
+        margin-bottom: 20px;
+        font-size: 1.8rem;
+        text-align: center;
+    }
+
+    /* Liste des boutons en ligne */
+    .admin-section .admin-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        /* Espacement entre les boutons */
+        flex-wrap: wrap;
+        /* Permet de gérer les petits écrans */
+    }
+
+    /* Ajustement des avatars pour desktop */
+    .profile-avatar-img {
+        width: 200px;
+        height: 200px;
+    }
+
+    /* Boutons de l'administration */
+    .admin-section .admin-button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #ff8c00;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        transition: background-color 0.3s;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .admin-section .admin-button:hover {
+        background-color: #e67e00;
+    }
+
+}

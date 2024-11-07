@@ -109,6 +109,14 @@ body {
     animation: fadeInUp 1s ease forwards;
 }
 
+.reward-title {
+    text-align: center;
+    font-size: 2rem;
+    color: var(--color-secondary);
+    margin-top: 20px;
+}
+
+
 @keyframes fadeInUp {
     0% {
         opacity: 0;

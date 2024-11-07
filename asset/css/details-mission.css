@@ -1,0 +1,114 @@
+/* Mobile-first */
+/* Conteneur global */
+.details-mission-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Titre de la mission */
+.details-mission-title {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+}
+
+/* Informations principales */
+.details-mission-info {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Image */
+.details-mission-image img {
+    width: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+/* Boutons */
+.details-mission-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.details-mission-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Messages de succès ou d'erreur */
+.details-mission-success-message, .details-mission-error-message {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.details-mission-success-message {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.details-mission-error-message {
+    background-color: #F44336;
+    color: white;
+}
+
+/* Liste des jeunes inscrits */
+.details-mission-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.details-mission-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Pour les retours */
+.details-mission-back {
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+    .details-mission-container {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .details-mission-info {
+        width: 60%;
+    }
+
+    .details-mission-image {
+        width: 35%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .details-mission-title {
+        font-size: 2.5rem;
+    }
+
+    .details-mission-btn {
+        padding: 12px 20px;
+    }
+
+    .details-mission-image img {
+        max-width: 100%;
+        height: auto;
+    }
+}

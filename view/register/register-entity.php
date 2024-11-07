@@ -1,3 +1,4 @@
+<main class="main-content">
 <h2>Inscription de l'utilisateur</h2>
 <form action="" method="post">
     <input type="hidden" name="role" value="<?=($_GET['role']) ?>">
@@ -38,3 +39,4 @@
     }
     ?>
 </div>
+</main>

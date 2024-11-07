@@ -72,7 +72,7 @@
             <div class="carousel" id="missions-carousel">
                 <?php if (!empty($latestMissions)) : ?>
                     <?php foreach ($latestMissions as $mission) : ?>
-                        <div class="carousel-item">
+                        <div class="carousel-item" onclick="window.location.href='/ctrl/mission/details-mission.php?id=<?= ($mission['id']) ?>'">
                             <?php if (!empty($mission['image_filename'])) : ?>
                                 <img src="/upload/<?= ($mission['image_filename']) ?>" alt="<?= ($mission['title']) ?>">
                             <?php else : ?>
@@ -80,7 +80,6 @@
                             <?php endif; ?>
                             <h3><?= ($mission['title']) ?></h3>
                             <p><strong>Points :</strong> <?= ($mission['point_award']) ?></p>
-                            <a href="/ctrl/mission/details-mission.php?id=<?= ($mission['id']) ?>" class="cta-button">Détails</a>
                         </div>
                     <?php endforeach; ?>
                 <?php else : ?>

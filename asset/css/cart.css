@@ -1,0 +1,138 @@
+/* Mobile-first styles */
+
+/* Titre du panier */
+.cart-title {
+    text-align: center;
+    font-size: 1.8rem;
+    margin: 20px 0;
+    color: #333;
+}
+
+/* Liste des items du panier */
+.cart-items {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.cart-item {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.cart-item-title {
+    font-size: 1.2rem;
+    margin: 0;
+    color: #333;
+}
+
+.cart-item-description {
+    font-size: 1rem;
+    color: #666;
+    margin: 10px 0;
+}
+
+.cart-item-price {
+    font-size: 1rem;
+    color: #000;
+    font-weight: bold;
+}
+
+/* Boutons d'action */
+.cart-btn-remove,
+.cart-btn-checkout,
+.cart-btn-rewards,
+.cart-btn-login,
+.cart-btn-register {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #ff8c00;
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.cart-btn-remove:hover,
+.cart-btn-checkout:hover,
+.cart-btn-rewards:hover,
+.cart-btn-login:hover,
+.cart-btn-register:hover {
+    background-color: #e67e00;
+}
+
+/* Sous-total */
+.cart-subtotal {
+    text-align: center;
+    font-size: 1.2rem;
+    margin: 20px 0;
+}
+
+/* Message si le panier est vide */
+.cart-empty-message {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+    margin: 20px 0;
+}
+
+/* Responsive - Tablette */
+@media (min-width: 768px) {
+    .cart-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .cart-item-title {
+        font-size: 1.4rem;
+    }
+
+    .cart-item-price {
+        font-size: 1.2rem;
+    }
+
+    .cart-btn-remove {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+
+    .cart-subtotal {
+        font-size: 1.3rem;
+    }
+}
+
+/* Responsive - Desktop */
+@media (min-width: 1024px) {
+    .cart-items {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .cart-item {
+        flex-direction: row;
+        padding: 20px;
+    }
+
+    .cart-btn-remove,
+    .cart-btn-checkout,
+    .cart-btn-rewards,
+    .cart-btn-login,
+    .cart-btn-register {
+        width: auto;
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+
+    .cart-subtotal {
+        font-size: 1.4rem;
+    }
+}

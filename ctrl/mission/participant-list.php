@@ -9,6 +9,12 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/association.php';
 $dbConnection = getConnection($dbConfig);
 $titrePage = "MotiV";
 
+if (!isset($_SESSION['user']['idAssociation'])) {
+    $idAssociation = getAssociationIdByUserId($_SESSION['user']['id'], $dbConnection);
+    $_SESSION['user']['idAssociation'] = $idAssociation;
+}
+
+
 // Vérification du rôle de l'utilisateur pour s'assurer qu'il s'agit bien d'une association
 $idRole = $_SESSION['user']['idRole'];
 if ($idRole != 50 && $idRole != 55) {

@@ -74,7 +74,7 @@
 
 <!-- Messages -->
 <section class="messages-section">
-    <h2>Messages</h2>
+    <h2>Notifications</h2>
     <?php
     $messages = getMessagesByidUser($user['id'], $dbConnection);
     if ($messages) :
@@ -93,9 +93,27 @@
     <?php endif; ?>
 </section>
 
+<!-- Messages Reçus de l'Admin -->
+<section class="received-messages-section">
+    <h2>Messages reçus</h2>
+    <?php if (!empty($receivedMessages)) : ?>
+        <div class="message-list">
+            <?php foreach ($receivedMessages as $message) : ?>
+                <div class="message-item">
+                    <h4 class="message-subject"><?= ($message['subject']) ?></h4>
+                    <p class="message-body"><?= nl2br(($message['body'])) ?></p>
+                    <small class="message-date"><?= date('d/m/Y H:i', strtotime($message['sent_at'])) ?></small>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php else : ?>
+        <p>Vous n'avez reçu aucun message de l'admin.</p>
+    <?php endif; ?>
+</section>
+
 <!-- Messages Envoyés à l'Admin -->
 <section class="sent-messages-section">
-    <h2>Vos messages envoyés à l'admin</h2>
+    <h2>Messages envoyés</h2>
     <?php if (!empty($sentMessages)) : ?>
         <div class="message-list">
             <?php foreach ($sentMessages as $message) : ?>
@@ -114,24 +132,6 @@
         </div>
     <?php else : ?>
         <p>Vous n'avez envoyé aucun message à l'admin.</p>
-    <?php endif; ?>
-</section>
-
-<!-- Messages Reçus de l'Admin -->
-<section class="received-messages-section">
-    <h2>Messages reçus de l'admin</h2>
-    <?php if (!empty($receivedMessages)) : ?>
-        <div class="message-list">
-            <?php foreach ($receivedMessages as $message) : ?>
-                <div class="message-item">
-                    <h4 class="message-subject"><?= ($message['subject']) ?></h4>
-                    <p class="message-body"><?= nl2br(($message['body'])) ?></p>
-                    <small class="message-date"><?= date('d/m/Y H:i', strtotime($message['sent_at'])) ?></small>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    <?php else : ?>
-        <p>Vous n'avez reçu aucun message de l'admin.</p>
     <?php endif; ?>
 </section>
 

@@ -1,4 +1,3 @@
-
 <h1>Liste des Jeunes ayant Participé aux Missions</h1>
 
 <?php if ($participants && count($participants) > 0) : ?>
@@ -19,7 +18,22 @@
                     <td><?= ($participant['email']) ?></td>
                     <td><?= ($participant['mission_title']) ?></td>
                     <td><?= date('d/m/Y H:i', strtotime($participant['start_date_mission'])) ?></td>
-                    <td><?= ($participant['status'] === 'completed' ? 'Présent' : 'Absent') ?></td>
+                    <td>
+                        <?php 
+                            // Si la mission est marquée comme "completed" ET le participant n'est pas marqué absent
+                            if ($participant['status'] === 'completed' && $participant['marked_absent'] == 0) {
+                                echo 'Présent';
+                            } 
+                            // Si la mission est marquée comme "completed" MAIS le participant est marqué absent
+                            elseif ($participant['status'] === 'completed' && $participant['marked_absent'] == 1) {
+                                echo 'Absent';
+                            } 
+                            // Si la mission est encore "registered" ou non complétée
+                            else {
+                                echo 'En attente de validation';
+                            }
+                        ?>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

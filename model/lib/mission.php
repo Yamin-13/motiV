@@ -1,11 +1,23 @@
 <?php
 
 // permet de créer une nouvelle mission
-function createMission($title, $description, $pointsPerHour, $startDate, $endDate, $imageFilename, $numberOfPlaces, $idUser, $idAssociation, $dbConnection)
-{
+function createMission(
+    $title,
+    $description,
+    $pointsPerHour,
+    $startDate,
+    $endDate,
+    $imageFilename,
+    $numberOfPlaces,
+    $idUser,
+    $idAssociation,
+    $dbConnection
+) {
     // Prépare la requête pour insérer une mission dans la base de données
-    $query = "INSERT INTO mission (title, description, point_award, start_date_mission, end_date_mission, image_filename, number_of_places, idUser, idAssociation) 
-              VALUES (:title, :description, :point_award, :start_date_mission, :end_date_mission, :image_filename, :number_of_places, :idUser, :idAssociation)";
+    $query = "INSERT INTO mission (title, description, point_award, start_date_mission, end_date_mission,
+                          image_filename, number_of_places, idUser, idAssociation) 
+              VALUES (:title, :description, :point_award, :start_date_mission, :end_date_mission, 
+                      :image_filename, :number_of_places, :idUser, :idAssociation)";
     $statement = $dbConnection->prepare($query);
     // Lie les paramètres aux valeurs fournies
     $statement->bindParam(':title', $title);
@@ -127,23 +139,25 @@ function getAllMissions($dbConnection)
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function updateMission($idMission, $title, $description, $start_date, $start_time, $end_date, $end_time, $number_of_places, $image_filename, $dbConnection)
+function updateMission($idMission, $title, $description, $start_date, $start_time, $end_date, $end_time, $number_of_places, 
+                       $image_filename, $dbConnection)
 {
-    // Combine la date et l'heure de début et de fin
-    $start_date_time = DateTime::createFromFormat('Y-m-d H:i', "$start_date $start_time")->format('Y-m-d H:i:s');
-    $end_date_time = DateTime::createFromFormat('Y-m-d H:i', "$end_date $end_time")->format('Y-m-d H:i:s');
+    // combine la date et l'heure en un seul objet DateTime
+    $start_date_time = DateTime::createFromFormat('Y-m-d H:i', "$start_date $start_time");
+    $end_date_time = DateTime::createFromFormat('Y-m-d H:i', "$end_date $end_time");
 
-    // Met à jour les informations de la mission
     $query = "UPDATE mission 
               SET title = :title, description = :description, start_date_mission = :start_date_time, 
                   end_date_mission = :end_date_time, number_of_places = :number_of_places, image_filename = :image_filename 
               WHERE id = :idMission";
 
     $statement = $dbConnection->prepare($query);
+
+   // lie les valeurs des variables aux paramètres dans la requete SQL
     $statement->bindParam(':title', $title);
     $statement->bindParam(':description', $description);
-    $statement->bindParam(':start_date_time', $start_date_time);
-    $statement->bindParam(':end_date_time', $end_date_time);
+    $statement->bindParam(':start_date_time', $start_date_time); // lie la date et l'heure de début formatée
+    $statement->bindParam(':end_date_time', $end_date_time); // lie la date et l'heure de fin formatée
     $statement->bindParam(':number_of_places', $number_of_places, PDO::PARAM_INT);
     $statement->bindParam(':image_filename', $image_filename);
     $statement->bindParam(':idMission', $idMission, PDO::PARAM_INT);
@@ -151,13 +165,15 @@ function updateMission($idMission, $title, $description, $start_date, $start_tim
     return $statement->execute();
 }
 
+
 function getRegisteredUsersByMission($idMission, $dbConnection)
 {
-    // Récupère les utilisateurs inscrits à une mission
-    $query = "SELECT mr.idUser, u.first_name, u.name, u.email 
+    // Récupère les utilisateurs inscrits à une mission, avec leur statut de présence (marked_absent)
+    $query = "SELECT mr.idUser, u.first_name, u.name, u.email, mr.marked_absent 
               FROM mission_registration mr
               JOIN user u ON mr.idUser = u.id
-              WHERE mr.idMission = :idMission AND mr.status = 'registered'";
+              WHERE mr.idMission = :idMission 
+              AND mr.status = 'registered'";
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':idMission', $idMission, PDO::PARAM_INT);
     $statement->execute();
@@ -398,17 +414,20 @@ function getAllCompletedMissions($dbConnection)
 function getParticipantsByAssociation($idAssociation, $dbConnection)
 {
     // Récupère les participants pour toutes les missions d'une association
-    $query = "SELECT u.first_name, u.name, u.email, m.title AS mission_title, mr.status, m.start_date_mission
-            FROM  mission_registration mr
+    $query = "SELECT u.first_name, u.name, u.email, m.title AS mission_title, mr.status, m.start_date_mission, mr.marked_absent
+            FROM mission_registration mr
             JOIN user u ON mr.idUser = u.id
             JOIN mission m ON mr.idMission = m.id
             WHERE m.idAssociation = :idAssociation
             ORDER BY m.start_date_mission DESC";
+
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':idAssociation', $idAssociation, PDO::PARAM_INT);
     $statement->execute();
+
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
+
 
 function getCompletedMissionsByUser($idUser, $dbConnection)
 {
@@ -441,7 +460,8 @@ function getLatestMissions($dbConnection, $limit = 5)
 }
 
 // Marque la mission comme accomplie
-function markMissionAsAccomplished($missionId, $dbConnection) {
+function markMissionAsAccomplished($missionId, $dbConnection)
+{
     $query = "UPDATE mission SET status = 'accomplished' WHERE id = :idMission";
     $statement = $dbConnection->prepare($query);
     $statement->bindParam(':idMission', $missionId, PDO::PARAM_INT);
@@ -449,7 +469,8 @@ function markMissionAsAccomplished($missionId, $dbConnection) {
 }
 
 // Marque la mission comme accomplie pour un utilisateur et attribue des points
-function completeMissionForUser($missionId, $userId, $points, $dbConnection) {
+function completeMissionForUser($missionId, $userId, $points, $dbConnection)
+{
     $query = "UPDATE mission_registration SET status = 'completed' 
               WHERE idMission = :idMission AND idUser = :idUser";
     $statement = $dbConnection->prepare($query);
@@ -465,7 +486,8 @@ function completeMissionForUser($missionId, $userId, $points, $dbConnection) {
 }
 
 // Marque la mission comme annulée pour un utilisateur et retire des points
-function cancelMissionForUser($missionId, $userId, $dbConnection) {
+function cancelMissionForUser($missionId, $userId, $dbConnection)
+{
     $query = "UPDATE mission_registration SET status = 'canceled', marked_absent = 1 
               WHERE idMission = :idMission AND idUser = :idUser";
     $statement = $dbConnection->prepare($query);
@@ -479,4 +501,19 @@ function cancelMissionForUser($missionId, $userId, $dbConnection) {
 
     // Envoie un message au jeune
     sendMessage($userId, 'Absence à la mission', 'Vous avez perdu ' . $pointsToRemove . ' points pour absence à la mission.', $dbConnection);
+}
+
+function getPendingMissionsForAssociation($idAssociation, $dbConnection)
+{
+    $query = "SELECT DISTINCT m.id, m.title 
+              FROM mission m
+              JOIN mission_registration mr ON m.id = mr.idMission
+              WHERE m.idAssociation = :idAssociation 
+              AND mr.status = 'registered'"; // Seules les missions non encore validées
+
+    $statement = $dbConnection->prepare($query);
+    $statement->bindParam(':idAssociation', $idAssociation, PDO::PARAM_INT);
+    $statement->execute();
+
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
 }

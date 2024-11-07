@@ -7,8 +7,6 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/reward.php';
 
 $dbConnection = getConnection($dbConfig); // Connexion à la base de données
 
-
-
 $code = $_GET['code'] ?? null; // Récupère le code depuis l'URL
 
 if ($code) {

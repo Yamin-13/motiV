@@ -1,3 +1,4 @@
+<main class="main-content">
 <h1>Inscription Professeur</h1>
 <form action="/ctrl/professor/verify-establishment.php" method="POST">
     <label for="rne_number">Numéro RNE de l'Établissement:</label>
@@ -6,3 +7,4 @@
     <input type="text" id="unique_code" name="unique_code" required><br>
     <button type="submit">Vérifier</button>
 </form>
+</main>

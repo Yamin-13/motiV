@@ -60,7 +60,7 @@ header h1 span {
     font-family: 'Blanka';
 }
 
-/* Style pour l'affichage des points ----------------*/
+/* Style pour l'affichage des points -----*/
 .points-display {
     display: flex;
     align-items: center;

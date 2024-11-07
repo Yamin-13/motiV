@@ -4,13 +4,13 @@
     --section-padding: 1rem;
     --avatar-size: 100px;
     --button-bg: var(--color-primary);
-    --button-hover-bg: darken(var(--color-primary), 10%);
+    --button-hover-bg: var(--color-secondary);
     --link-color: var(--color-verdigris);
     --border-radius: 8px;
     --transition-speed: 0.3s;
 }
 
-/*  flexbox pour la mise en page */
+/*  Flexbox pour la mise en page */
 .profile-section {
     background-color: var(--profile-bg);
     padding: var(--section-padding);
@@ -65,29 +65,61 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.rewards-links,
-.missions-list,
-.point-logs,
-.message-list,
-.profile-info-list {
+.rewards-links {
     display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+    justify-content: center; /* Centre les boutons */
+    gap: 15px; /* Espace entre les boutons */
+}
+
+.history-link {
+    display: block; /* Le bouton prendra toute la largeur possible */
+    background-color: var(--button-bg);
+    color: var(--color-white);
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    padding: 0.5rem 1rem;
+    transition: background-color var(--transition-speed);
+    text-align: center;
+    width: 280px; /* Ajuste la largeur du bouton */
+    margin: 0 auto; /* Centre horizontalement le bouton */
+    margin: 20px auto;
 }
 
 .reward-link,
-.history-link,
-.logout-link,
 .update-button,
 .cancel-mission-button {
     display: inline-block;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 0.5rem;
     background-color: var(--button-bg);
     color: var(--color-white);
     text-decoration: none;
     border-radius: var(--border-radius);
     transition: background-color var(--transition-speed);
     text-align: center;
+    width: 280px; 
+}
+
+.logout-link {
+    display: block;
+    padding: 0.5rem 0.5rem;
+    background-color: var(--button-bg);
+    color: var(--color-white);
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    transition: background-color var(--transition-speed);
+    text-align: center;
+    width: 280px;
+    margin: 20px auto; 
+}
+
+
+.cancel-mission-button {
+    width: 100%; /* Prend toute la largeur de l'écran */
+    text-align: center;
+    display: block;
+    margin: 10px auto; /* Ajoute un peu d'espace autour du bouton et le centre */
+    width: 280px; 
+    
 }
 
 .reward-link:hover,
@@ -225,6 +257,24 @@
 }
 
 /* Responsive Design */
+/* Limiter la largeur maximale pour les grands écrans */
+.container {
+    max-width: 1200px;
+    margin: 0 auto; /* Centrer la section */
+    padding: 0 15px; /* Ajouter un padding pour éviter que ça touche les bords */
+}
+
+.rewards-section,
+.points-section,
+.missions-section,
+.messages-section,
+.sent-messages-section,
+.received-messages-section,
+.profile-info-section,
+.update-profile-section {
+    max-width: 1200px;
+    margin: 0 auto;
+}
 
 /* Tablette et au-dessus */
 @media (min-width: 768px) {
@@ -257,20 +307,38 @@
     .profile-section {
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        text-align: left;
+        justify-content: center; /* Centre les éléments en ligne sur desktop */
+        flex-direction: column;  /* Garde les éléments empilés */
+        text-align: center; /* Centre le texte */
+        padding: 20px;
     }
 
     .profile-title {
-        font-size: 2rem;
+        font-size: 1.8rem; /* Réduire légèrement le titre */
     }
 
     .profile-avatar img {
-        width: 150px;
+        width: 150px; /* Taille réduite pour éviter que l'image soit trop large */
         height: 150px;
     }
 
     .profile-info-list {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, 1fr); /* Afficher en 3 colonnes */
     }
+
+    .point-logs,
+    .missions-list,
+    .message-list {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .mission-item,
+    .point-log-item,
+    .message-item {
+        flex: 1 1 45%; /* Pour que les items s'adaptent mieux à la largeur */
+        margin: 10px;
+    }
+
+   
 }

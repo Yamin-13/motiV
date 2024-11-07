@@ -7,6 +7,13 @@
 @import url(./comment.css);
 @import url(./login-register.css);
 @import url(./young-profile.css);
+@import url(./association-display.css);
+@import url(./admin-profil.css);
+@import url(./footer.css);
+@import url(./cart.css);
+@import url(./details-reward.css);
+@import url(./details-mission.css);
+@import url(./myUniqueCode.css);
 
 /* Importation des polices et des icone */
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');

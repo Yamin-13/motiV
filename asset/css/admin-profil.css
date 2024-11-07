@@ -1,0 +1,288 @@
+/* Mobile-first styles */
+
+/* Titre principal pour l'admin */
+.profile-admin-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+/* Message de succès ou d'erreur */
+.profile-admin-message {
+    text-align: center;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    margin: 20px auto;
+    border-radius: 5px;
+    width: 90%;
+    /* Largeur adaptée pour mobile */
+}
+
+/* Sections */
+.profile-admin-section {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px auto;
+    width: 95%;
+    /* Largeur mobile */
+}
+
+/* Table */
+.profile-admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.profile-admin-table th,
+.profile-admin-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.profile-admin-table th {
+    background-color: #f4f4f4;
+    color: #333;
+    font-size: 1rem;
+}
+
+.profile-admin-table td {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.profile-admin-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Boutons d'actions */
+
+.profile-admin-link {
+    display: inline-block;
+    padding: 10px 12px;
+    background-color: #ff8c00;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    text-align: center;
+    margin: 5px 0;
+    width: 100px;
+    transition: background-color 0.3s;
+}
+
+
+.profile-admin-link:hover {
+    background-color: #e67e00;
+}
+
+/* Alignement des boutons d'actions */
+.profile-admin-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+}
+
+/* Styles des boutons d'action */
+.profile-admin-btn {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #ff8c00;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    text-align: center;
+    transition: background-color 0.3s;
+    min-width: 80px;
+    /* Fixe une largeur minimale pour tous les boutons */
+}
+
+.profile-admin-btn:hover {
+    background-color: #e67e00;
+}
+
+/* Approve Button */
+.profile-admin-approve-btn {
+    background-color: #4CAF50;
+}
+
+.profile-admin-approve-btn:hover {
+    background-color: #45a049;
+}
+
+/* Reject Link */
+.profile-admin-reject-link {
+    background-color: #f44336;
+}
+
+.profile-admin-reject-link:hover {
+    background-color: #e53935;
+}
+
+/* Alignement spécifique des boutons dans la table */
+.profile-admin-actions-form {
+    display: flex;
+    gap: 10px;
+}
+
+/* Liens d'action */
+.profile-admin-list-link {
+    display: block;
+    background-color: #ff8c00;
+    color: var(--color-secondary);
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s;
+    text-align: center;
+}
+
+.profile-admin-list-link:hover {
+    background-color: #e67e00;
+}
+
+/* Messages reçus */
+.profile-admin-reply-form {
+    margin-top: 10px;
+}
+
+.profile-admin-textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.profile-admin-reply-btn {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 6px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.profile-admin-reply-btn:hover {
+    background-color: #45a049;
+}
+
+/* No messages */
+.profile-admin-no-messages {
+    text-align: center;
+    color: #999;
+    margin-top: 20px;
+}
+
+/* Bouton déconnexion */
+.profile-admin-logout-btn {
+    display: block;
+    text-align: center;
+    background-color: #ff8c00;
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+    text-decoration: none;
+    margin: 20px auto;
+    width: 200px;
+    transition: background-color 0.3s;
+}
+
+.profile-admin-logout-btn:hover {
+    background-color: #e67e00;
+}
+
+/* Tablette - à partir de 768px */
+@media (min-width: 768px) {
+    .profile-admin-section {
+        width: 80%;
+        /* Largeur adaptée pour tablette */
+    }
+
+    .profile-admin-btn,
+    .profile-admin-link {
+        width: 48%;
+        /* Deux boutons par ligne */
+    }
+
+    .profile-admin-table th,
+    .profile-admin-table td {
+        padding: 12px;
+        font-size: 1rem;
+    }
+
+    .profile-admin-reply-btn {
+        padding: 12px 20px;
+    }
+}
+
+/* Desktop - à partir de 1024px */
+@media (min-width: 1024px) {
+    .profile-admin-section {
+        width: 70%;
+
+    }
+
+    .profile-admin-title {
+        font-size: 2.5rem;
+    }
+
+    .profile-admin-table th,
+    .profile-admin-table td {
+        padding: 15px;
+        font-size: 1.1rem;
+    }
+
+    .profile-admin-btn,
+    .profile-admin-link {
+        width: auto;
+
+    }
+
+    .profile-admin-message {
+        width: 60%;
+        /* Plus centré et compact */
+    }
+
+    .profile-admin-reply-btn {
+        padding: 15px 25px;
+    }
+
+    .profile-admin-list-link {
+        width: 413px;
+        background-color: #ff8c00;
+        color: var(--color-secondary);
+        text-decoration: none;
+        padding: 10px 15px;
+        border-radius: 6px;
+        margin-bottom: 10px;
+        transition: background-color 0.3s;
+        width: 413px;
+        text-align: center;
+        font-weight: 400;
+    }
+
+    /* Conteneur de la section avec flexbox */
+    .profile-admin-section {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin: 20px auto;
+        width: 95%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    /* Centrer le texte et ajuster la couleur au survol */
+    .profile-admin-list-link:hover {
+        background-color: #e67e00;
+    }
+
+}

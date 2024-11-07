@@ -31,10 +31,10 @@
                         <td><?= ($user['email']) ?></td>
                         <td>
                             <label>
-                                <input type="radio" name="status[<?= ($user['idUser']) ?>]" value="present"> Présent
+                                <input type="radio" name="status[<?= ($user['idUser']) ?>]" value="present" <?= ($user['marked_absent'] == 0 ? 'checked' : '') ?>> Présent
                             </label>
                             <label>
-                                <input type="radio" name="status[<?= ($user['idUser']) ?>]" value="absent" checked> Absent
+                                <input type="radio" name="status[<?= ($user['idUser']) ?>]" value="absent" <?= ($user['marked_absent'] == 1 ? 'checked' : '') ?>> Absent
                             </label>
                         </td>
                     </tr>

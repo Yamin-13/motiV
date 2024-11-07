@@ -53,6 +53,8 @@ $students = [];
 if ($idRole == 50 || $idRole == 55) {
     $association = ($idRole == 50) ? getAssociationByidUser($user['id'], $dbConnection) : getAssociationByidMember($user['id'], $dbConnection);
     $members = $association ? getMembersByAssociationId($association['id'], $dbConnection) : [];
+    // pour récupérer les missions en attente de validation
+    $missions = getPendingMissionsForAssociation($association['id'], $dbConnection);
     include $_SERVER['DOCUMENT_ROOT'] . '/view/profile/association-display.php';
 } elseif ($idRole == 40 || $idRole == 45) {
     $partner = ($idRole == 40) ? getPartnerByidUser($user['id'], $dbConnection) : getPartnerByidMember($user['id'], $dbConnection);

@@ -1,3 +1,4 @@
+<main class="main-content">
 <div class="contact-form">
     <h1>Contactez l'Administrateur</h1>
 
@@ -29,3 +30,4 @@
         <?php endif; ?>
     </form>
 </div>
+</main>

@@ -26,7 +26,7 @@
 </div>
 
 <!-- Catégories -->
-<h2 class="scroll-reveal">Catégories</h2>
+<h2 class="reward-title scroll-reveal">Catégories</h2>
 <section class="reward-categories">
     <!-- Toutes les catégories -->
     <div class="reward-category-card scroll-reveal">
@@ -58,7 +58,7 @@
     ?>
 
     <?php foreach ($rewardsByCategory as $categoryName => $categoryRewards) : ?>
-        <h3 class="scroll-reveal"><?= $categoryName ?></h3>
+        <h3 class="reward-title scroll-reveal"><?= $categoryName ?></h3>
         <section class="rewards-grid">
             <?php foreach ($categoryRewards as $reward) : ?>
                 <?php
