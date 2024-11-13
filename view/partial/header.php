@@ -18,12 +18,12 @@ $isLoggedIn = !is_null($loggedInUser);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="MotiV est une plateforme qui récompense les jeunes pour leurs efforts scolaires et sociaux, en les motivant à s'engager activement dans leur communauté.">
+    <meta name="description" content="MotiV est une plateforme dédiée aux jeunes, qui les récompense pour leurs efforts scolaires et leur engagement social par des points échangeables. Motiv Encourage l'investissement personnel au profit de la société.">
     <link rel="icon" type="image/x-icon" href="/asset/img/iconV.png">
     <link rel="stylesheet" href="/asset/css/style.css">
     <!-- icon Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <title><?= ($titrePage) ?></title>
+    <title>Accueil | MotiV – Récompenses pour Jeunes</title>
 </head>
 
 <body>
@@ -43,7 +43,7 @@ $isLoggedIn = !is_null($loggedInUser);
         </div>
 
         <!-- Menu burger pour mobile -->
-        <div class="burger">
+        <div class="burger" aria-label="Menu de navigation mobile">
             <div></div>
             <div></div>
             <div></div>
@@ -52,10 +52,10 @@ $isLoggedIn = !is_null($loggedInUser);
         <!-- Navigation principale -->
         <nav class="nav-principale">
             <ul>
-                <li><a href="/ctrl/home/display.php"><i class="fas fa-home"></i><span>Accueil</span></a></li>
-                <li><a href="/ctrl/mission/mission-list-public.php"><i class="fas fa-tasks"></i><span>Missions</span></a></li>
-                <li><a href="/ctrl/reward/rewards.php"><i class="fas fa-gift"></i><span>Récompenses</span></a></li>
-                <li><a href="/ctrl/cart/view-cart.php"><i class="fas fa-shopping-cart"></i><span>Mon Panier</span></a></li>
+                <li><a href="/ctrl/home/display.php"><i class="fas fa-home" aria-hidden="true"></i><span>Accueil</span></a></li>
+                <li><a href="/ctrl/mission/mission-list-public.php"><i class="fas fa-tasks" aria-hidden="true"></i><span>Missions</span></a></li>
+                <li><a href="/ctrl/reward/rewards.php"><i class="fas fa-gift" aria-hidden="true"></i><span>Récompenses</span></a></li>
+                <li><a href="/ctrl/cart/view-cart.php"><i class="fas fa-shopping-cart" aria-hidden="true"></i><span>Mon Panier</span></a></li>
 
                 <!-- Menu déroulant pour Acteurs -->
                 <li class="dropdown">
@@ -81,10 +81,10 @@ $isLoggedIn = !is_null($loggedInUser);
                 <!-- Avatar de l'utilisateur dans la barre de navigation mobile -->
                 <?php if ($isLoggedIn) : ?>
                     <li><a href="<?= (getProfileLink($loggedInUser['idRole'])) ?>" class="image-avatar-nav">
-                            <img class="image-avatar-nav" src="/upload/<?= ($loggedInUser['avatar_filename']) ?>" alt="Avatar">
+                            <img class="image-avatar-nav" src="/upload/<?= ($loggedInUser['avatar_filename']) ?>" alt="Avatar de l'utilisateur">
                         </a></li>
                 <?php else : ?>
-                    <li><a href="/ctrl/login/login-display.php"><i class="fas fa-sign-in-alt"></i><span>Se connecter</span></a></li>
+                    <li><a href="/ctrl/login/login-display.php"><i class="fas fa-sign-in-alt" aria-hidden="true"></i><span>Se connecter</span></a></li>
                 <?php endif; ?>
             </ul>
         </nav>
@@ -101,5 +101,4 @@ $isLoggedIn = !is_null($loggedInUser);
     </header>
     <!-- Script JS -->
     <script src="/asset/js/header.js"></script>
-</body>
-</html>
+

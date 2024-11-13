@@ -26,7 +26,7 @@
             <div class="step">
                 <i class="fas fa-tasks"></i>
                 <h3>2. Participe</h3>
-                <p>Accomplis des missions et engage-toi dans ta communauté.</p>
+                <p>Accomplis des missions et engage-toi pour les autres.</p>
             </div>
             <div class="step">
                 <i class="fas fa-gift"></i>
@@ -39,6 +39,7 @@
     <!-- Carrousel des récompenses -->
     <section class="rewards scroll-reveal">
         <h2>Récompenses à découvrir</h2>
+        <p class="paragraph-explore-reward">Explore les différentes récompenses disponibles en échangeant les points accumulés.</p>
         <div class="carousel-container">
             <div class="carousel" id="rewards-carousel">
                 <?php if (!empty($randomRewards)) : ?>
@@ -68,6 +69,7 @@
     <!-- Carrousel des missions -->
     <section class="missions scroll-reveal">
         <h2>Les dernières missions</h2>
+        <p class="paragraph-explore-mission">Découvre les missions disponibles et engage-toi pour faire la différence autour de toi.</p>
         <div class="carousel-container">
             <div class="carousel" id="missions-carousel">
                 <?php if (!empty($latestMissions)) : ?>
@@ -87,8 +89,8 @@
                 <?php endif; ?>
             </div>
             <!-- flèche de navigation des missions -->
-            <button class="carousel-btn prev" id="missions-prev"><i class="fas fa-chevron-left"></i></button>
-            <button class="carousel-btn next" id="missions-next"><i class="fas fa-chevron-right"></i></button>
+            <button class="carousel-btn prev" id="missions-prev"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
+            <button class="carousel-btn next" id="missions-next"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
         </div>
         <a href="/ctrl/mission/mission-list-public.php" class="cta-button-mission">Voir toutes les missions</a>
     </section>
@@ -98,7 +100,7 @@
         <h2>Ils parlent de nous</h2>
         <div class="testimonials-container">
             <div class="testimonial">
-                <p>"Grâce à MotiV, je me suis impliqué dans ma communauté et j'ai pu échanger mes points contre des places de cinéma&nbsp;!"</p>
+                <p>"Grâce à MotiV, je me suis impliqué dans ma ville et j'ai pu échanger mes points contre des places de cinéma&nbsp;!"</p>
                 <h4>- Lucas, 16 ans</h4>
             </div>
             <div class="testimonial">
@@ -113,12 +115,12 @@
         <h2>Ta Moti'V,Tes partenaires</h2>
         <div class="scroll-container">
             <div class="partners-container scroll-content">
-                <img src="/asset/img/logo-ville-de-marseille.webp" alt="Ville de Marseille">
-                <img src="/asset/img/unisCitéLogo.png" alt="Unis Cité">
-                <img src="/asset/img/region-sud-logo.webp" alt="Région sud PACA">
-                <img src="/asset/img/fondationDeMarseilleLogo.webp" alt="Fondation de Marseille">
-                <img src="/asset/img/apprentisDauteuil.png" alt="Apprentis d'Auteuil">
-                <img src="/asset/img/marseilleSolution.webp" alt="Marseille Solutions">
+                <img src="/asset/img/logo-ville-de-marseille.webp" alt="Partenaire : Ville de Marseille">
+                <img src="/asset/img/unisCitéLogo.png" alt="Partenaire : Unis Cité">
+                <img src="/asset/img/region-sud-logo.webp" alt="Partenaire : Région sud PACA">
+                <img src="/asset/img/fondationDeMarseilleLogo.webp" alt="Partenaire : Fondation de Marseille">
+                <img src="/asset/img/apprentisDauteuil.png" alt="Partenaire : Apprentis d'Auteuil">
+                <img src="/asset/img/marseilleSolution.webp" alt="Partenaire : Marseille Solutions">
             </div>
         </div>
     </section>
@@ -129,8 +131,3 @@
         <a href="/ctrl/login/register-display.php" class="cta-button">Inscris-toi dès maintenant</a>
     </section>
 </main>
-
-<!-- inclusion des scripts JS -->
-<script src="/asset/js/scrollreveal.js"></script>
-<script src="/asset/js/caroussel.js"></script>
-<script src="/asset/js/home.js"></script>

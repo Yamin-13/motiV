@@ -208,6 +208,11 @@
     color: var(--color-white);
 }
 
+.paragraph-explore-reward, .paragraph-explore-mission{
+    font-size: 25px;
+}
+
+
 /* section témoignage ------------------------------ */
 .testimonials {
     background-color: var(--color-grey);

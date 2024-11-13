@@ -1,3 +1,4 @@
+<script src="/asset/js/home.js"></script>
 <script src="/asset/js/calculate.js"></script>
 <script src="/asset/js/caroussel.js"></script>
 <script src="/asset/js/comment.js"></script>
