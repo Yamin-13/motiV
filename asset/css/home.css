@@ -208,7 +208,8 @@
     color: var(--color-white);
 }
 
-.paragraph-explore-reward, .paragraph-explore-mission{
+.paragraph-explore-reward,
+.paragraph-explore-mission {
     font-size: 25px;
 }
 
@@ -263,12 +264,49 @@
     display: flex;
     justify-content: center;
     flex-wrap: nowrap;
+    /*ca masque la partie en dehors du contenu*/
     overflow: hidden;
+    align-items: center;
 }
 
 .partners-container img {
     max-width: 150px;
     margin: 10px;
+}
+
+/* partenaires avec défilement continu -------------------*/
+.scroll-container {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    position: relative;
+}
+
+.scroll-content {
+    display: inline-flex;
+    flex-shrink: 0;
+    animation: scrollLeft 60s linear infinite;
+}
+
+.partners-container img {
+    max-width: 150px;
+    margin: 0 20px;
+}
+
+.scroll-content img {
+    max-width: 150px;
+    margin: 0 20px;
+    flex-shrink: 0;
+}
+
+/* Animation CSS pour le défilement continu */
+@keyframes scrollLeft {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
 }
 
 /*  section appel à l'Action  ----------------------------*/
@@ -294,36 +332,6 @@
 .scroll-reveal.active {
     opacity: 1;
     transform: translateY(0);
-}
-
-/* partenaires avec défilement continu */
-.scroll-container {
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-}
-
-.partners-container {
-    display: flex;
-    animation: scroll 30s linear infinite;
-    align-items: center;
-    justify-content: center;
-}
-
-.partners-container img {
-    max-width: 150px;
-    margin: 0 20px;
-}
-
-/* Animation du défilement continu des logos des partenaires */
-@keyframes scroll {
-    0% {
-        transform: translateX(0);
-    }
-
-    100% {
-        transform: translateX(-50%);
-    }
 }
 
 /* Responsive Design  */
@@ -392,6 +400,10 @@
         transform: translateY(-15px);
         box-shadow: 0 10px 20px var(--color-verdigris);
         /* z-index: 10; */
+    }
+
+    .carousel-item span {
+        font-weight: 700;
     }
 
     /* Flèches de navigation */

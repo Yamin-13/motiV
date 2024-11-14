@@ -21,17 +21,17 @@
             <div class="step">
                 <i class="fas fa-user-plus"></i>
                 <h3>1. Inscris-toi</h3>
-                <p>Crée ton compte gratuitement en quelques clics.</p>
+                <p>Crée ton compte <strong>gratuitement</strong> en quelques clics.</p>
             </div>
             <div class="step">
                 <i class="fas fa-tasks"></i>
                 <h3>2. Participe</h3>
-                <p>Accomplis des missions et engage-toi pour les autres.</p>
+                <p>Fais des <strong>efforts</strong> en cours, Accomplis des <strong>missions</strong> et <strong>Engage-toi</strong> pour les autres.</p>
             </div>
             <div class="step">
                 <i class="fas fa-gift"></i>
                 <h3>3. Sois récompensé</h3>
-                <p>Échange tes points contre des cadeaux et des avantages.</p>
+                <p>Échange tes points contre des <strong>cadeaux</strong> et des <strong>avantages</strong>.</p>
             </div>
         </div>
     </section>
@@ -51,7 +51,7 @@
                                 <img src="/upload/default-reward.jpg" alt="Récompense par défaut">
                             <?php endif; ?>
                             <h3><?= ($reward['title']) ?></h3>
-                            <p><strong>Prix :</strong> <?= ($reward['reward_price']) ?> points</p>
+                            <p><span>Prix :</span> <?= ($reward['reward_price']) ?> points</p>
                         </div>
                     <?php endforeach; ?>
                 <?php else : ?>
@@ -81,7 +81,7 @@
                                 <img src="/upload/default-mission.jpg" alt="Mission par défaut">
                             <?php endif; ?>
                             <h3><?= ($mission['title']) ?></h3>
-                            <p><strong>Points :</strong> <?= ($mission['point_award']) ?></p>
+                            <p><span>Points :</span> <?= ($mission['point_award']) ?></p>
                         </div>
                     <?php endforeach; ?>
                 <?php else : ?>
