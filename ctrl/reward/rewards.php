@@ -8,7 +8,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/user.php';
 
 // Connexion à la base de donnée
 $dbConnection = getConnection($dbConfig);
-$titrePage = "motiV";
+$titrePage = "Récompenses | MotiV – La plateforme qui valorise l'effort";
 
 // Vérifie si un category_id est passé dans l'URL
 $categoryId = isset($_GET['category_id']) ? intval($_GET['category_id']) : null;

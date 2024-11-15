@@ -8,7 +8,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/user.php';
 
 // Connexion à la base de données
 $dbConnection = getConnection($dbConfig);
-$titrePage = "motiV";
+$titrePage = "Détails de la Récompense | MotiV – La plateforme qui valorise l'effort";
 
 // Vérifie que l'ID de la récompense est présent
 if (!isset($_GET['idReward'])) {

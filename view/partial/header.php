@@ -23,7 +23,7 @@ $isLoggedIn = !is_null($loggedInUser);
     <link rel="stylesheet" href="/asset/css/style.css">
     <!-- icon Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <title>Accueil | MotiV – Récompenses pour Jeunes</title>
+    <title><?= $titrePage ?></title>
 </head>
 
 <body>

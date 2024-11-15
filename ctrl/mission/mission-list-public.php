@@ -5,7 +5,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/db.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/mission.php';
 
 $dbConnection = getConnection($dbConfig);
-$titrePage = "motiV";
+$titrePage = "Mission | MotiV – La plateforme qui valorise l'effort";
 
 // Récupère toutes les mission disponibles
 $missions = getAllMissions($dbConnection);

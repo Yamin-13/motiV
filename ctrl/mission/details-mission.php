@@ -5,7 +5,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/db.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/mission.php';
 
 $dbConnection = getConnection($dbConfig);
-$titrePage = "motiV";
+$titrePage = "Détails de la mission | MotiV – La plateforme qui valorise l'effort";
 
 // Vérifie que l'ID de la mission est fourni dans l'URL
 if (!isset($_GET['id'])) {
