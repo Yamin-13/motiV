@@ -9,7 +9,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/model/lib/contact.php';
 
 // Connexion à la base de données
 $dbConnection = getConnection($dbConfig);
-$titrePage = "motiV";
+$titrePage = "Contact | MotiV – La plateforme qui valorise l'effort";
 
 // Vérifie si l'utilisateur est connecté
 $isUserLoggedIn = isset($_SESSION['user']);

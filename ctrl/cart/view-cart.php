@@ -6,7 +6,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/cart.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/reward.php';
 
 $dbConnection = getConnection($dbConfig); // connexion à la base de données
-$titrePage = "motiV";
+$titrePage = "Mon Panier | MotiV – La plateforme qui valorise l'effort";
 
 $cartItems = getCartItems(); // récupére les item du panier
 $rewards = []; // tableau pour stocké les récompenses
