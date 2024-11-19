@@ -10,7 +10,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/city-hall.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/educational-establishment.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/contact.php';
 
-$titrePage = "motiV";
+$titrePage = "Profil administrateur | MotiV – La plateforme qui valorise l'effort";
 
 // Vérification du rôle de l'utilisateur
 $idRole = $_SESSION['user']['idRole'];

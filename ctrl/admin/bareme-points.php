@@ -4,7 +4,8 @@ include $_SERVER['DOCUMENT_ROOT'] . '/cfg/db-dev.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/db.php';
 
 $dbConnection = getConnection($dbConfig);
-$titrePage = "motiV";
+$titrePage = "Barême de points | MotiV – La plateforme qui valorise l'effort";
+
 
 
 $idRole = $_SESSION['user']['idRole'];
