@@ -7,7 +7,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/reward.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/transaction.php';
 
 $dbConnection = getConnection($dbConfig);
-$titrePage = "motiV";
+$titrePage = "Liste des échanges | MotiV – La plateforme qui valorise l'effort";
 
 // Vérifie que l'utilisateur est connecté et est un admin
 if (!isset($_SESSION['user']) || $_SESSION['user']['idRole'] != 10) {

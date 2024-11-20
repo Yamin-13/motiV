@@ -4,10 +4,10 @@ session_start();
 include $_SERVER['DOCUMENT_ROOT'] . '/cfg/db-dev.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/db.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/reward.php';
-include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/transaction.php'; 
+include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/transaction.php';
 
 $dbConnection = getConnection($dbConfig);
-$titrePage = "motiV";
+$titrePage = "Détails de la Transaction | MotiV – La plateforme qui valorise l'effort";
 
 // Vérifie que l'utilisateur est connecté et est un admin
 if (!isset($_SESSION['user']) || $_SESSION['user']['idRole'] != 10) {
