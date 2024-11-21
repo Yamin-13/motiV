@@ -5,7 +5,8 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/db.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/city-hall.php';
 
 $dbConnection = getConnection($dbConfig);
-$titrePage = "motiV";
+$titrePage = "Détails de l'association | MotiV – La plateforme qui valorise l'effort";
+
 
 $id = $_GET['id'];
 $cityHall = getCityHallById($id, $dbConnection);

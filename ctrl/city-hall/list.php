@@ -5,7 +5,8 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/db.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/city-hall.php';
 
 $dbConnection = getConnection($dbConfig);
-$titrePage = "motiV";
+$titrePage = "Liste des Mairies | MotiV – La plateforme qui valorise l'effort";
+
 
 // Vérification du rôle de l'utilisateur
 $idRole = $_SESSION['user']['idRole'];

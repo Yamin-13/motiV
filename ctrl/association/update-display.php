@@ -5,7 +5,8 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/db.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/association.php';
 
 $dbConnection = getConnection($dbConfig);
-$titrePage = "motiV";
+$titrePage = "Mise à Jour de L'association | MotiV – La plateforme qui valorise l'effort";
+
 
 // Vérification de l'ID
 if (!isset($_GET['id'])) {
