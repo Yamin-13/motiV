@@ -1,6 +1,6 @@
 <?php
 session_start();
-$titrePage = "motiV";
+$titrePage = "Ajouter un Etablissement Scolaire | MotiV – La plateforme qui valorise l'effort";
 
 $idRole = $_SESSION['user']['idRole'];
 if ($idRole == [20, 25]){

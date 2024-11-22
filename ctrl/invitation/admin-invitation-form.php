@@ -1,7 +1,8 @@
 <?php
 session_start();
 
-$titrePage = "motiV";
+$titrePage = "Invitation d'entité | MotiV – La plateforme qui valorise l'effort";
+
 
 // Vérification du rôle de l'utilisateur
 $idRole = $_SESSION['user']['idRole'];

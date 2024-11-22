@@ -7,7 +7,8 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/professor.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/educational-establishment.php';
 
 $dbConnection = getConnection($dbConfig);
-$titrePage = "motiV";
+$titrePage = "Liste des Etudiants | MotiV – La plateforme qui valorise l'effort";
+
 
 // Vérification du role de l'utilisateur
 $idRole = $_SESSION['user']['idRole'];
