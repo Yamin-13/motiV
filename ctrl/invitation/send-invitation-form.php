@@ -7,7 +7,8 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/partner.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/educational-establishment.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/city-hall.php';
 
-$titrePage = "motiV";
+$titrePage = "Formulaire d'Invitation | MotiV – La plateforme qui valorise l'effort";
+
 $dbConnection = getConnection($dbConfig);
 
 $user = $_SESSION['user'];

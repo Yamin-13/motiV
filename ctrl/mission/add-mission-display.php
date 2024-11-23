@@ -5,7 +5,8 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/db.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/mission.php';
 
 $dbConnection = getConnection($dbConfig);
-$titrePage = "motiV";
+$titrePage = "Formulaire d'ajout de mission | MotiV – La plateforme qui valorise l'effort";
+
 
 // Vérifie que l'utilisateur est un admin ou un membre de l'association
 $idRole = $_SESSION['user']['idRole'];

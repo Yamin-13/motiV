@@ -4,7 +4,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/cfg/db-dev.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/db.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/user.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/invitation.php';
-$titrePage = "motiV";
+$titrePage = "Inscription D'entité | MotiV – La plateforme qui valorise l'effort";
 
 $dbConnection = getConnection($dbConfig);
 
