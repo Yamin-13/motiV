@@ -6,7 +6,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/mission.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/association.php';
 
 $dbConnection = getConnection($dbConfig);
-$titrePage = "motiV";
+$titrePage = "Liste des missions | MotiV – La plateforme qui valorise l'effort";
 
 $idRole = $_SESSION['user']['idRole'];
 if ($idRole != 50 && $idRole != 55) {

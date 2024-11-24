@@ -7,7 +7,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/point.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/message.php';
 
 $dbConnection = getConnection($dbConfig);
-$titrePage = "MotiV";
+$titrePage = "Validation de Mission | MotiV – La plateforme qui valorise l'effort";
 
 // Vérifie que l'utilisateur est connecté et qu'il a le role correct
 if (!isset($_SESSION['user']) || !in_array($_SESSION['user']['idRole'], [50, 55])) {

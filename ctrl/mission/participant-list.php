@@ -7,7 +7,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/user.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/association.php';
 
 $dbConnection = getConnection($dbConfig);
-$titrePage = "MotiV";
+$titrePage = "Liste des participants | MotiV – La plateforme qui valorise l'effort";
 
 if (!isset($_SESSION['user']['idAssociation'])) {
     $idAssociation = getAssociationIdByUserId($_SESSION['user']['id'], $dbConnection);
