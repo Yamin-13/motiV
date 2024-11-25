@@ -4,7 +4,8 @@ include $_SERVER['DOCUMENT_ROOT'] . '/cfg/db-dev.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/db.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/student.php';
 
-$titrePage = "motiV";
+$titrePage = "Modification de l'etudiant | MotiV – La plateforme qui valorise l'effort";
+
 $dbConnection = getConnection($dbConfig);
 
 if (!isset($_GET['id'])) {
