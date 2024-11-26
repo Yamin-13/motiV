@@ -7,7 +7,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/user.php';
 // se connecte à la BDD
 $dbConnection = getConnection($dbConfig);
 
-$titrePage = "motiV";
+$titrePage = "Enregistrement de l'entité – La plateforme qui valorise l'effort";
 
 if (isset($_GET['role'])) {
     $role = $_GET['role'];

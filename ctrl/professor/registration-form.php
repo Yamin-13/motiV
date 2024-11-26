@@ -1,8 +1,7 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/cfg/db-dev.php';
 session_start();
-$titrePage = "motiV";
-
+$titrePage = "Eregistrement du Professeur | MotiV – La plateforme qui valorise l'effort";
 
 if (!isset($_SESSION['establishment_id'])) {
     header('Location: /ctrl/professor/register-form.php');
