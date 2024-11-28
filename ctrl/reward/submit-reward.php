@@ -8,7 +8,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/reward.php';
 
 // connexion à la base de données
 $dbConnection = getConnection($dbConfig);
-$titrePage = "motiV";
+$titrePage = "Soumission de récompense – La plateforme qui valorise l'effort";
 
 // Vérifie que l'utilisateur est connecté
 if (!isset($_SESSION['user'])) {

@@ -6,7 +6,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/db.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/reward.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/transaction.php';
 
-$titrePage = "motiV";
+$titrePage = "Mon code unique – La plateforme qui valorise l'effort";
 $dbConnection = getConnection($dbConfig); // Connexion à la base de données
 
 // Vérification que l'utilisateur est bien un jeune

@@ -8,7 +8,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/model/lib/user.php';
 
 // Connexion à la base de données
 $dbConnection = getConnection($dbConfig);
-$titrePage = "motiV";
+$titrePage = "Historique des récompenses – La plateforme qui valorise l'effort";
 
 // Vérifie que l'utilisateur est connecté et a le rôle jeune
 if (!isset($_SESSION['user']) || $_SESSION['user']['idRole'] != 60) {
