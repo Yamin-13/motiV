@@ -19,6 +19,16 @@ $isLoggedIn = !is_null($loggedInUser);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="MotiV est une plateforme dédiée aux jeunes, qui les récompense pour leurs efforts scolaires et leur engagement social par des points échangeables. Motiv Encourage l'investissement personnel au profit de la société.">
+    <!-- Open Graph meta tags -->
+    <meta property="og:title" content="MotiV – La plateforme qui valorise l'effort">
+    <meta property="og:description" content="MotiV est une plateforme dédiée à motiver les jeunes à travers des récompenses pour leurs efforts et leur engagement social et scolaire.">
+    <meta property="og:url" content="https://motiv.alwaysdata.net/ctrl/home/display.php">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://motiv.alwaysdata.net/asset/img/image-titre-motiV.png?v=<?= time(); ?>">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Logo du site MotiV">
+
     <link rel="icon" type="image/x-icon" href="/asset/img/iconV.png">
     <link rel="stylesheet" href="/asset/css/style.css">
     <!-- icon Font Awesome -->
@@ -101,4 +111,3 @@ $isLoggedIn = !is_null($loggedInUser);
     </header>
     <!-- Script JS -->
     <script src="/asset/js/header.js"></script>
-
